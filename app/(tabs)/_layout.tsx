@@ -1,17 +1,18 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable, useColorScheme } from 'react-native';
-
-import Colors from '../../constants/Colors';
-
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Link, Tabs } from "expo-router";
+import { Pressable } from "react-native";
+import useColorScheme from "../../hooks/useColorScheme";
+import Colors from "../../constants/Colors";
+import ProfilePicture from "../../components/ProfilePicture";
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
 function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
+  name: React.ComponentProps<typeof Ionicons>["name"];
   color: string;
 }) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+  return <Ionicons size={28} style={{ marginBottom: -3 }} {...props} />;
 }
 
 export default function TabLayout() {
@@ -19,35 +20,71 @@ export default function TabLayout() {
 
   return (
     <Tabs
+      initialRouteName="index"
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-      }}>
+        tabBarActiveTintColor: Colors[colorScheme].tint,
+        // tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarShowLabel: false,
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          // title: "index",
+          headerTitle: () => (
+            <Ionicons
+              name={"logo-twitter"}
+              size={30}
+              color={Colors.light.tint}
+            />
+          ),
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
+            <MaterialCommunityIcons
+              name={"star-four-points-outline"}
+              size={30}
+              color={Colors.light.tint}
+            />
+          ),
+          headerRightContainerStyle: {
+            marginRight: 15,
+          },
+          headerLeft: () => (
+            <ProfilePicture
+              image={
+                "https://media.licdn.com/dms/image/C4D03AQGi5O_7-EXcaQ/profile-displayphoto-shrink_400_400/0/1652770527289?e=1683158400&v=beta&t=2AHeZlzwep_1HN-fRqShypUVXiw1bB4rLq5-mAq1efg"
+              }
+            />
+          ),
+          headerLeftContainerStyle: {
+            marginLeft: 15,
+            marginRight: "28%",
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="Search"
+        options={{
+          title: "Search",
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="search-outline" color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="Notifications"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Notifications",
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="notifications-outline" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="Messages"
+        options={{
+          title: "Messages",
+          tabBarIcon: ({ color }) => <TabBarIcon name="mail" color={color} />,
         }}
       />
     </Tabs>
