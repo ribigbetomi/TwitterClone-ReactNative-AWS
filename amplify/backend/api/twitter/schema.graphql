@@ -1,0 +1,45 @@
+type User @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  username: String!
+  name: String!
+  email: String!
+  image: String
+  tweets: [Tweet] @hasMany(indexName: "byUser", fields: ["id"])
+  likes: [Like] @hasMany(indexName: "byUser", fields: ["id"])
+  following: [Following] @hasMany(indexName: "byUser", fields: ["id"])
+  followers: [Follower] @hasMany(indexName: "byUser", fields: ["id"])
+}
+
+type Tweet @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  createdAt: AWSDateTime!
+  content: String!
+  image: String
+  userID: ID! @index(name: "byUser")
+  user: User @belongsTo(fields: ["userID"])
+  likes: [Like] @hasMany(indexName: "byTweet", fields: ["id"])
+  followingID: ID @index(name: "byFollowing", sortKeyFields: ["createdAt"])
+}
+
+type Like @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  userID: ID! @index(name: "byUser")
+  tweetID: ID! @index(name: "byTweet")
+  user: User! @belongsTo(fields: ["userID"])
+  tweet: Tweet! @belongsTo(fields: ["tweetID"])
+}
+
+type Following @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  userID: ID! @index(name: "byUser")
+  user: User! @belongsTo(fields: ["userID"])
+  authUserID: ID!
+  tweets: [Tweet] @hasMany(indexName: "byFollowing", fields: ["userID"])
+}
+
+type Follower @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  userID: ID! @index(name: "byUser")
+  user: User! @belongsTo(fields: ["userID"])
+  authUser: ID!
+}

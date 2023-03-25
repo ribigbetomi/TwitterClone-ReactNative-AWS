@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 import EditScreenInfo from "../../components/EditScreenInfo";
-import Feed from "../../components/Feed";
+import Feed from "../../components/Feed/index";
 import NewTweetButton from "../../components/NewTweetButton";
 import { Text, View } from "../../components/Themed";
 
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    // justifyContent: "center",
   },
   title: {
     fontSize: 20,

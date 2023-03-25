@@ -5,6 +5,11 @@ import { Pressable } from "react-native";
 import useColorScheme from "../../hooks/useColorScheme";
 import Colors from "../../constants/Colors";
 import ProfilePicture from "../../components/ProfilePicture";
+import { API, Auth, graphqlOperation } from "aws-amplify";
+import { useEffect, useState } from "react";
+import { getUser } from "../../src/graphql/queries";
+import { View } from "../../components/Themed";
+import { GraphQLResult } from "@aws-amplify/api-graphql";
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
@@ -17,6 +22,32 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    // get the current user
+    const fetchUser = async () => {
+      const userInfo = await Auth.currentAuthenticatedUser({
+        bypassCache: true,
+      });
+      if (!userInfo) {
+        return;
+      }
+
+      try {
+        const userData: GraphQLResult<any> = await API.graphql(
+          graphqlOperation(getUser, { id: userInfo.attributes.sub })
+        );
+        if (userData) {
+          setUser(userData.data.getUser);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchUser();
+  }, []);
 
   return (
     <Tabs
@@ -38,28 +69,29 @@ export default function TabLayout() {
               color={Colors.light.tint}
             />
           ),
+          headerTitleAlign: "center",
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           headerRight: () => (
-            <MaterialCommunityIcons
-              name={"star-four-points-outline"}
-              size={30}
-              color={Colors.light.tint}
-            />
+            <View style={{ marginRight: 15 }}>
+              <MaterialCommunityIcons
+                name={"star-four-points-outline"}
+                size={30}
+                color={Colors.light.tint}
+              />
+            </View>
           ),
-          headerRightContainerStyle: {
-            marginRight: 15,
-          },
+          // headerRightContainerStyle: {
+          //   marginRight: 15,
+          // },
           headerLeft: () => (
-            <ProfilePicture
-              image={
-                "https://media.licdn.com/dms/image/C4D03AQGi5O_7-EXcaQ/profile-displayphoto-shrink_400_400/0/1652770527289?e=1683158400&v=beta&t=2AHeZlzwep_1HN-fRqShypUVXiw1bB4rLq5-mAq1efg"
-              }
-            />
+            <View style={{ marginLeft: 15 }}>
+              <ProfilePicture image={user?.image} />
+            </View>
           ),
-          headerLeftContainerStyle: {
-            marginLeft: 15,
-            marginRight: "28%",
-          },
+          // headerLeftContainerStyle: {
+          //   marginLeft: 15,
+          //   // marginRight: "28%",
+          // },
         }}
       />
       <Tabs.Screen

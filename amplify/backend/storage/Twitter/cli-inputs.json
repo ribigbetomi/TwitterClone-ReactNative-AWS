@@ -1,0 +1,13 @@
+{
+  "resourceName": "Twitter",
+  "policyUUID": "4bc67a69",
+  "bucketName": "twittercloneadet",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

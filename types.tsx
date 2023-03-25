@@ -1,3 +1,5 @@
+import { Like } from "./src/API";
+
 export type RootStackParamList = {
   Root: undefined;
   NewTweet: undefined;
@@ -36,6 +38,7 @@ export type TweetType = {
   numberOfComments?: number;
   numberOfRetweets?: number;
   numberOfLikes?: number;
+  likes?: any;
 };
 
 export type FleetType = {
