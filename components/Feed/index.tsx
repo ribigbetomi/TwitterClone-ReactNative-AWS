@@ -9,6 +9,7 @@ import { listTweets } from "./query";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
 import { Tweet as Tweett } from "../../src/API";
 import { TweetType } from "../../types";
+import UserFleetsList from "../UserFleetsList";
 // import UserFleetsList from "../UserFleetsList";
 // import tweets from "../data/tweets";
 
@@ -42,7 +43,7 @@ const Feed = () => {
         keyExtractor={(item: TweetType) => item.id}
         refreshing={loading}
         onRefresh={fetchTweets}
-        // ListHeaderComponent={UserFleetsList}
+        ListHeaderComponent={UserFleetsList}
       />
     </View>
   );

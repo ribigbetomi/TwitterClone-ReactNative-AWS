@@ -27,6 +27,7 @@ export type UserType = {
   name: string;
   username: string;
   image?: string;
+  fleets?: any;
 };
 
 export type TweetType = {
