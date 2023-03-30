@@ -8,6 +8,10 @@ type User @model @auth(rules: [{ allow: public }]) {
   likes: [Like] @hasMany(indexName: "byUser", fields: ["id"])
   following: [Following] @hasMany(indexName: "byUser", fields: ["id"])
   followers: [Follower] @hasMany(indexName: "byUser", fields: ["id"])
+  fleets: [Fleet] @hasMany(indexName: "byUser", fields: ["id"])
+  comments: [Comment] @hasMany(indexName: "byUser", fields: ["id"])
+  retweets: [Retweet] @hasMany(indexName: "byUser", fields: ["id"])
+  views: [View] @hasMany(indexName: "byUser", fields: ["id"])
 }
 
 type Tweet @model @auth(rules: [{ allow: public }]) {
@@ -15,31 +19,76 @@ type Tweet @model @auth(rules: [{ allow: public }]) {
   createdAt: AWSDateTime!
   content: String!
   image: String
-  userID: ID! @index(name: "byUser")
-  user: User @belongsTo(fields: ["userID"])
+  userID: ID! @index(name: "byUser", sortKeyFields: ["createdAt"])
+  user: User! @belongsTo(fields: ["userID"])
   likes: [Like] @hasMany(indexName: "byTweet", fields: ["id"])
   followingID: ID @index(name: "byFollowing", sortKeyFields: ["createdAt"])
+  comments: [Comment] @hasMany(indexName: "byTweet", fields: ["id"])
+  retweets: [Retweet] @hasMany(indexName: "byTweet", fields: ["id"])
+}
+
+type Fleet @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  createdAt: AWSDateTime!
+  type: String!
+  text: String
+  image: String
+  userID: ID! @index(name: "byUser", sortKeyFields: ["createdAt"])
+  user: User! @belongsTo(fields: ["userID"])
+  views: [View] @hasMany(indexName: "byFleet", fields: ["id"])
 }
 
 type Like @model @auth(rules: [{ allow: public }]) {
   id: ID!
   userID: ID! @index(name: "byUser")
-  tweetID: ID! @index(name: "byTweet")
+  tweetID: ID @index(name: "byTweet")
   user: User! @belongsTo(fields: ["userID"])
-  tweet: Tweet! @belongsTo(fields: ["tweetID"])
+  tweet: Tweet @belongsTo(fields: ["tweetID"])
+  comment: ID @index(name: "byComment")
 }
 
 type Following @model @auth(rules: [{ allow: public }]) {
   id: ID!
-  userID: ID! @index(name: "byUser")
-  user: User! @belongsTo(fields: ["userID"])
-  authUserID: ID!
-  tweets: [Tweet] @hasMany(indexName: "byFollowing", fields: ["userID"])
+  userID: ID!
+  user: User! @hasOne(fields: ["userID"])
+  authUserID: ID! @index(name: "byUser")
+  authUser: User! @belongsTo(fields: ["authUserID"])
+  tweets: [Tweet] @hasMany(indexName: "byFollowing", fields: ["id"])
 }
 
 type Follower @model @auth(rules: [{ allow: public }]) {
   id: ID!
+  userID: ID!
+  user: User! @hasOne(fields: ["userID"])
+  authUserID: ID! @index(name: "byUser")
+  authUser: User! @belongsTo(fields: ["authUserID"])
+}
+
+type Comment @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  createdAt: AWSDateTime!
   userID: ID! @index(name: "byUser")
   user: User! @belongsTo(fields: ["userID"])
-  authUser: ID!
+  tweetID: ID! @index(name: "byTweet", sortKeyFields: ["createdAt"])
+  tweet: Tweet! @belongsTo(fields: ["tweetID"])
+  content: String
+  image: String
+  comments: [Comment] @hasMany
+  likes: [Like] @hasMany(indexName: "byComment", fields: ["id"])
+}
+
+type Retweet @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  userID: ID! @index(name: "byUser")
+  user: User! @belongsTo(fields: ["userID"])
+  tweetID: ID! @index(name: "byTweet")
+  tweet: Tweet! @belongsTo(fields: ["tweetID"])
+}
+
+type View @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  userID: ID! @index(name: "byUser")
+  user: User! @belongsTo(fields: ["userID"])
+  fleetID: ID! @index(name: "byFleet")
+  fleet: Fleet! @belongsTo(fields: ["fleetID"])
 }

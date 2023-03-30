@@ -29,6 +29,16 @@ export const listTweets = /* GraphQL */ `
           }
           nextToken
         }
+        comments {
+          items {
+            content
+            createdAt
+            id
+            image
+            userID
+            tweetID
+          }
+        }
         createdAt
         updatedAt
       }

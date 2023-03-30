@@ -6,6 +6,8 @@ import { GraphQLResult } from "@aws-amplify/api-graphql";
 import { TweetType } from "../../../types";
 import { Like, User } from "../../../src/API";
 import { createLike, deleteLike } from "../../../src/graphql/mutations";
+import { useLinkProps } from "@react-navigation/native";
+import { commentsByTweetIDAndCreatedAt } from "../../../src/graphql/queries";
 
 export type FooterContainerProps = {
   tweet: TweetType;
@@ -17,6 +19,26 @@ const Footer = ({ tweet }: FooterContainerProps) => {
   const [user, setUser] = useState<any>(null);
   const [myLike, setMyLike] = useState<any>(null);
   const [likesCount, setLikesCount] = useState(tweet.likes?.items?.length);
+  const [tweetComments, setTweetComments] = useState<number>();
+  // const [tweetComments, setTweetComments] = useState(
+  //   tweet.comments?.items?.length
+  // );
+  // console.log(likesCount, "likesCount");
+
+  useEffect(() => {
+    if (tweet.comments.items) {
+      // console.log("yooo");
+      const filtered = tweet.comments?.items?.filter(
+        (item: any) => item.content !== "" && !item.image
+      );
+      setTweetComments(filtered.length);
+    } else {
+      setTweetComments(0);
+    }
+  }, [JSON.stringify(tweet.comments.items)]);
+
+  // console.log(JSON.stringify(tweetComments, null, 2), "tweetComments");
+
   // console.log(JSON.stringify(myLike, null, 2), "mylike");
   useEffect(() => {
     const fetchUser = async () => {
@@ -73,11 +95,21 @@ const Footer = ({ tweet }: FooterContainerProps) => {
     }
   };
 
+  const linkProps = useLinkProps({
+    to: {
+      screen: "NewComment",
+      params: { tweetID: tweet.id, tweetUser: tweet.user.username },
+    },
+  });
+
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
-        <Feather name={"message-circle"} size={20} color={"grey"} />
-        <Text style={styles.number}>{tweet.numberOfComments}</Text>
+        <TouchableOpacity {...linkProps}>
+          <Feather name={"message-circle"} size={20} color={"grey"} />
+        </TouchableOpacity>
+        <Text style={styles.number}>{tweetComments}</Text>
+        {/* <Text style={styles.number}>{tweet.numberOfComments}</Text> */}
       </View>
       <View style={styles.iconContainer}>
         <EvilIcons name={"retweet"} size={28} color={"grey"} />

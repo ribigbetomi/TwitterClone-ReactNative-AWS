@@ -13,6 +13,7 @@ export default [
           createdAt: "2020-11-04T12:05:39.955Z",
           image:
             "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/vertical-images/1.jpg",
+          text: "Really interesting !!",
         },
         {
           id: "1",

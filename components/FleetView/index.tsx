@@ -12,6 +12,7 @@ import { UserType, FleetType } from "../../types";
 import ProfilePicture from "../ProfilePicture";
 
 import moment from "moment";
+import { S3Image } from "aws-amplify-react-native";
 
 export type FleetViewProps = {
   user: UserType;
@@ -24,10 +25,8 @@ const FleetView = (props: FleetViewProps) => {
   const { user, fleet, goToNextFleet, goToPrevFleet } = props;
   return (
     <View style={styles.container}>
-      {fleet.image && (
-        <Image source={{ uri: fleet.image }} style={styles.image} />
-      )}
-      <Text style={styles.text}>{fleet.text}</Text>
+      {fleet.image && <S3Image style={styles.image} imgKey={fleet.image} />}
+      {fleet.text && <Text style={styles.text}>{fleet.text}</Text>}
 
       <View style={styles.userHeaderContainer}>
         <ProfilePicture image={user.image} size={70} />
@@ -56,17 +55,23 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1,
     backgroundColor: "#152d48",
+    // width: "100%",
+    // height: "100%",
   },
   text: {
     color: "#eaeaea",
+    // backgroundColor: "red",
+    // color: "#fff",
     fontSize: 30,
     fontWeight: "bold",
     textAlign: "center",
     margin: 20,
+    // flex: 1,
   },
   image: {
     width: "100%",
     height: "100%",
+    flex: 1,
     resizeMode: "cover",
   },
   userHeaderContainer: {

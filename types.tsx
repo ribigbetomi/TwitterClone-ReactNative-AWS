@@ -40,6 +40,7 @@ export type TweetType = {
   numberOfRetweets?: number;
   numberOfLikes?: number;
   likes?: any;
+  comments?: any;
 };
 
 export type FleetType = {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import { Stack } from "expo-router";
 import {
   StyleSheet,
@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { useNavigation } from "@react-navigation/native";
-import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
@@ -21,7 +20,7 @@ import { Text, View } from "../components/Themed";
 import { AntDesign } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import ProfilePicture from "../components/ProfilePicture";
-import { createTweet } from "../src/graphql/mutations";
+import { createFleet } from "../src/graphql/mutations";
 import { getUser } from "../src/graphql/queries";
 import { UserType } from "../types";
 
@@ -30,17 +29,18 @@ interface MyObject {
   // add index signature here, with a parameter of type 'string' and a return type of 'any'
 }
 
-export default function NewTweetScreen() {
-  const [tweet, setTweet] = useState("");
+export default function NewFleetScreen() {
+  const [text, setText] = useState("");
   const [imageUrl, setImageUrl] = useState<string>("");
   const [user, setUser] = useState<any>(null);
   const [progresses, setProgresses] = useState<MyObject>({});
-  // console.log(JSON.stringify(progresses, null, 2), "progresses");
-
-  // console.log(imageUrl, "imgUrl");
 
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({ headerShown: false });
+  }, []);
 
   useEffect(() => {
     // get the current user
@@ -130,7 +130,7 @@ export default function NewTweetScreen() {
     // return "";
   };
 
-  const onPostTweet = async () => {
+  const onPostFleet = async () => {
     let image;
     if (imageUrl) {
       image = await uploadImage();
@@ -143,13 +143,14 @@ export default function NewTweetScreen() {
       });
       // console.log(currentUser, "currentUser");
 
-      const newTweet = {
-        content: tweet,
+      const newFleet = {
+        text,
+        type: image ? "IMAGE" : "TEXT",
         image,
         userID: currentUser.attributes.sub,
       };
       // console.log(JSON.stringify(newTweet, null, 2), "newTweet");
-      await API.graphql(graphqlOperation(createTweet, { input: newTweet }));
+      await API.graphql(graphqlOperation(createFleet, { input: newFleet }));
       navigation.goBack();
     } catch (e) {
       console.log(e);
@@ -173,16 +174,16 @@ export default function NewTweetScreen() {
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <AntDesign name="close" size={30} color={Colors.light.tint} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={onPostTweet}>
-            <Text style={styles.buttonText}>Tweet</Text>
+          <TouchableOpacity style={styles.button} onPress={onPostFleet}>
+            <Text style={styles.buttonText}>Post</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.newTweetContainer}>
           <ProfilePicture image={user?.image} />
           <View style={styles.inputsContainer}>
             <TextInput
-              value={tweet}
-              onChangeText={(value) => setTweet(value)}
+              value={text}
+              onChangeText={(value) => setText(value)}
               multiline={true}
               numberOfLines={3}
               style={[styles.tweetInput, { color: Colors[colorScheme].text }]}

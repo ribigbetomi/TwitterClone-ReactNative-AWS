@@ -27,6 +27,7 @@ export const getUser = /* GraphQL */ `
           id
           userID
           tweetID
+          comment
           createdAt
           updatedAt
         }
@@ -46,7 +47,52 @@ export const getUser = /* GraphQL */ `
         items {
           id
           userID
-          authUser
+          authUserID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      fleets {
+        items {
+          id
+          createdAt
+          type
+          text
+          image
+          userID
+          updatedAt
+        }
+        nextToken
+      }
+      comments {
+        items {
+          id
+          createdAt
+          userID
+          tweetID
+          content
+          image
+          updatedAt
+          commentCommentsId
+        }
+        nextToken
+      }
+      retweets {
+        items {
+          id
+          userID
+          tweetID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      views {
+        items {
+          id
+          userID
+          fleetID
           createdAt
           updatedAt
         }
@@ -82,6 +128,18 @@ export const listUsers = /* GraphQL */ `
         followers {
           nextToken
         }
+        fleets {
+          nextToken
+        }
+        comments {
+          nextToken
+        }
+        retweets {
+          nextToken
+        }
+        views {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -115,10 +173,47 @@ export const getTweet = /* GraphQL */ `
         followers {
           nextToken
         }
+        fleets {
+          nextToken
+        }
+        comments {
+          nextToken
+        }
+        retweets {
+          nextToken
+        }
+        views {
+          nextToken
+        }
         createdAt
         updatedAt
       }
       likes {
+        items {
+          id
+          userID
+          tweetID
+          comment
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      followingID
+      comments {
+        items {
+          id
+          createdAt
+          userID
+          tweetID
+          content
+          image
+          updatedAt
+          commentCommentsId
+        }
+        nextToken
+      }
+      retweets {
         items {
           id
           userID
@@ -128,7 +223,6 @@ export const getTweet = /* GraphQL */ `
         }
         nextToken
       }
-      followingID
       updatedAt
     }
   }
@@ -159,22 +253,30 @@ export const listTweets = /* GraphQL */ `
           nextToken
         }
         followingID
+        comments {
+          nextToken
+        }
+        retweets {
+          nextToken
+        }
         updatedAt
       }
       nextToken
     }
   }
 `;
-export const tweetsByUserID = /* GraphQL */ `
-  query TweetsByUserID(
+export const tweetsByUserIDAndCreatedAt = /* GraphQL */ `
+  query TweetsByUserIDAndCreatedAt(
     $userID: ID!
+    $createdAt: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelTweetFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    tweetsByUserID(
+    tweetsByUserIDAndCreatedAt(
       userID: $userID
+      createdAt: $createdAt
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -199,6 +301,12 @@ export const tweetsByUserID = /* GraphQL */ `
           nextToken
         }
         followingID
+        comments {
+          nextToken
+        }
+        retweets {
+          nextToken
+        }
         updatedAt
       }
       nextToken
@@ -241,6 +349,142 @@ export const tweetsByFollowingIDAndCreatedAt = /* GraphQL */ `
           nextToken
         }
         followingID
+        comments {
+          nextToken
+        }
+        retweets {
+          nextToken
+        }
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getFleet = /* GraphQL */ `
+  query GetFleet($id: ID!) {
+    getFleet(id: $id) {
+      id
+      createdAt
+      type
+      text
+      image
+      userID
+      user {
+        id
+        username
+        name
+        email
+        image
+        tweets {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+        fleets {
+          nextToken
+        }
+        comments {
+          nextToken
+        }
+        retweets {
+          nextToken
+        }
+        views {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      views {
+        items {
+          id
+          userID
+          fleetID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      updatedAt
+    }
+  }
+`;
+export const listFleets = /* GraphQL */ `
+  query ListFleets(
+    $filter: ModelFleetFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listFleets(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        createdAt
+        type
+        text
+        image
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+        }
+        views {
+          nextToken
+        }
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const fleetsByUserIDAndCreatedAt = /* GraphQL */ `
+  query FleetsByUserIDAndCreatedAt(
+    $userID: ID!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelFleetFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    fleetsByUserIDAndCreatedAt(
+      userID: $userID
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        createdAt
+        type
+        text
+        image
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+        }
+        views {
+          nextToken
+        }
         updatedAt
       }
       nextToken
@@ -271,6 +515,18 @@ export const getLike = /* GraphQL */ `
         followers {
           nextToken
         }
+        fleets {
+          nextToken
+        }
+        comments {
+          nextToken
+        }
+        retweets {
+          nextToken
+        }
+        views {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -293,8 +549,15 @@ export const getLike = /* GraphQL */ `
           nextToken
         }
         followingID
+        comments {
+          nextToken
+        }
+        retweets {
+          nextToken
+        }
         updatedAt
       }
+      comment
       createdAt
       updatedAt
     }
@@ -329,6 +592,7 @@ export const listLikes = /* GraphQL */ `
           followingID
           updatedAt
         }
+        comment
         createdAt
         updatedAt
       }
@@ -373,6 +637,7 @@ export const likesByUserID = /* GraphQL */ `
           followingID
           updatedAt
         }
+        comment
         createdAt
         updatedAt
       }
@@ -417,6 +682,52 @@ export const likesByTweetID = /* GraphQL */ `
           followingID
           updatedAt
         }
+        comment
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const likesByComment = /* GraphQL */ `
+  query LikesByComment(
+    $comment: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelLikeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    likesByComment(
+      comment: $comment
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userID
+        tweetID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+        }
+        tweet {
+          id
+          createdAt
+          content
+          image
+          userID
+          followingID
+          updatedAt
+        }
+        comment
         createdAt
         updatedAt
       }
@@ -447,10 +758,55 @@ export const getFollowing = /* GraphQL */ `
         followers {
           nextToken
         }
+        fleets {
+          nextToken
+        }
+        comments {
+          nextToken
+        }
+        retweets {
+          nextToken
+        }
+        views {
+          nextToken
+        }
         createdAt
         updatedAt
       }
       authUserID
+      authUser {
+        id
+        username
+        name
+        email
+        image
+        tweets {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+        fleets {
+          nextToken
+        }
+        comments {
+          nextToken
+        }
+        retweets {
+          nextToken
+        }
+        views {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       tweets {
         items {
           id
@@ -488,6 +844,15 @@ export const listFollowings = /* GraphQL */ `
           updatedAt
         }
         authUserID
+        authUser {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+        }
         tweets {
           nextToken
         }
@@ -498,16 +863,16 @@ export const listFollowings = /* GraphQL */ `
     }
   }
 `;
-export const followingsByUserID = /* GraphQL */ `
-  query FollowingsByUserID(
-    $userID: ID!
+export const followingsByAuthUserID = /* GraphQL */ `
+  query FollowingsByAuthUserID(
+    $authUserID: ID!
     $sortDirection: ModelSortDirection
     $filter: ModelFollowingFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    followingsByUserID(
-      userID: $userID
+    followingsByAuthUserID(
+      authUserID: $authUserID
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -526,6 +891,15 @@ export const followingsByUserID = /* GraphQL */ `
           updatedAt
         }
         authUserID
+        authUser {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+        }
         tweets {
           nextToken
         }
@@ -559,10 +933,55 @@ export const getFollower = /* GraphQL */ `
         followers {
           nextToken
         }
+        fleets {
+          nextToken
+        }
+        comments {
+          nextToken
+        }
+        retweets {
+          nextToken
+        }
+        views {
+          nextToken
+        }
         createdAt
         updatedAt
       }
-      authUser
+      authUserID
+      authUser {
+        id
+        username
+        name
+        email
+        image
+        tweets {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+        fleets {
+          nextToken
+        }
+        comments {
+          nextToken
+        }
+        retweets {
+          nextToken
+        }
+        views {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -587,7 +1006,16 @@ export const listFollowers = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        authUser
+        authUserID
+        authUser {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -595,15 +1023,417 @@ export const listFollowers = /* GraphQL */ `
     }
   }
 `;
-export const followersByUserID = /* GraphQL */ `
-  query FollowersByUserID(
-    $userID: ID!
+export const followersByAuthUserID = /* GraphQL */ `
+  query FollowersByAuthUserID(
+    $authUserID: ID!
     $sortDirection: ModelSortDirection
     $filter: ModelFollowerFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    followersByUserID(
+    followersByAuthUserID(
+      authUserID: $authUserID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+        }
+        authUserID
+        authUser {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getComment = /* GraphQL */ `
+  query GetComment($id: ID!) {
+    getComment(id: $id) {
+      id
+      createdAt
+      userID
+      user {
+        id
+        username
+        name
+        email
+        image
+        tweets {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+        fleets {
+          nextToken
+        }
+        comments {
+          nextToken
+        }
+        retweets {
+          nextToken
+        }
+        views {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      tweetID
+      tweet {
+        id
+        createdAt
+        content
+        image
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+        }
+        likes {
+          nextToken
+        }
+        followingID
+        comments {
+          nextToken
+        }
+        retweets {
+          nextToken
+        }
+        updatedAt
+      }
+      content
+      image
+      comments {
+        items {
+          id
+          createdAt
+          userID
+          tweetID
+          content
+          image
+          updatedAt
+          commentCommentsId
+        }
+        nextToken
+      }
+      likes {
+        items {
+          id
+          userID
+          tweetID
+          comment
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      updatedAt
+      commentCommentsId
+    }
+  }
+`;
+export const listComments = /* GraphQL */ `
+  query ListComments(
+    $filter: ModelCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        createdAt
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+        }
+        tweetID
+        tweet {
+          id
+          createdAt
+          content
+          image
+          userID
+          followingID
+          updatedAt
+        }
+        content
+        image
+        comments {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+        updatedAt
+        commentCommentsId
+      }
+      nextToken
+    }
+  }
+`;
+export const commentsByUserID = /* GraphQL */ `
+  query CommentsByUserID(
+    $userID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    commentsByUserID(
+      userID: $userID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        createdAt
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+        }
+        tweetID
+        tweet {
+          id
+          createdAt
+          content
+          image
+          userID
+          followingID
+          updatedAt
+        }
+        content
+        image
+        comments {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+        updatedAt
+        commentCommentsId
+      }
+      nextToken
+    }
+  }
+`;
+export const commentsByTweetIDAndCreatedAt = /* GraphQL */ `
+  query CommentsByTweetIDAndCreatedAt(
+    $tweetID: ID!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    commentsByTweetIDAndCreatedAt(
+      tweetID: $tweetID
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        createdAt
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+        }
+        tweetID
+        tweet {
+          id
+          createdAt
+          content
+          image
+          userID
+          followingID
+          updatedAt
+        }
+        content
+        image
+        comments {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+        updatedAt
+        commentCommentsId
+      }
+      nextToken
+    }
+  }
+`;
+export const getRetweet = /* GraphQL */ `
+  query GetRetweet($id: ID!) {
+    getRetweet(id: $id) {
+      id
+      userID
+      user {
+        id
+        username
+        name
+        email
+        image
+        tweets {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+        fleets {
+          nextToken
+        }
+        comments {
+          nextToken
+        }
+        retweets {
+          nextToken
+        }
+        views {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      tweetID
+      tweet {
+        id
+        createdAt
+        content
+        image
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+        }
+        likes {
+          nextToken
+        }
+        followingID
+        comments {
+          nextToken
+        }
+        retweets {
+          nextToken
+        }
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listRetweets = /* GraphQL */ `
+  query ListRetweets(
+    $filter: ModelRetweetFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRetweets(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+        }
+        tweetID
+        tweet {
+          id
+          createdAt
+          content
+          image
+          userID
+          followingID
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const retweetsByUserID = /* GraphQL */ `
+  query RetweetsByUserID(
+    $userID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelRetweetFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    retweetsByUserID(
       userID: $userID
       sortDirection: $sortDirection
       filter: $filter
@@ -622,7 +1452,249 @@ export const followersByUserID = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        authUser
+        tweetID
+        tweet {
+          id
+          createdAt
+          content
+          image
+          userID
+          followingID
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const retweetsByTweetID = /* GraphQL */ `
+  query RetweetsByTweetID(
+    $tweetID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelRetweetFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    retweetsByTweetID(
+      tweetID: $tweetID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+        }
+        tweetID
+        tweet {
+          id
+          createdAt
+          content
+          image
+          userID
+          followingID
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getView = /* GraphQL */ `
+  query GetView($id: ID!) {
+    getView(id: $id) {
+      id
+      userID
+      user {
+        id
+        username
+        name
+        email
+        image
+        tweets {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+        fleets {
+          nextToken
+        }
+        comments {
+          nextToken
+        }
+        retweets {
+          nextToken
+        }
+        views {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      fleetID
+      fleet {
+        id
+        createdAt
+        type
+        text
+        image
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+        }
+        views {
+          nextToken
+        }
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listViews = /* GraphQL */ `
+  query ListViews(
+    $filter: ModelViewFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listViews(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+        }
+        fleetID
+        fleet {
+          id
+          createdAt
+          type
+          text
+          image
+          userID
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const viewsByUserID = /* GraphQL */ `
+  query ViewsByUserID(
+    $userID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelViewFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    viewsByUserID(
+      userID: $userID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+        }
+        fleetID
+        fleet {
+          id
+          createdAt
+          type
+          text
+          image
+          userID
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const viewsByFleetID = /* GraphQL */ `
+  query ViewsByFleetID(
+    $fleetID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelViewFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    viewsByFleetID(
+      fleetID: $fleetID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+        }
+        fleetID
+        fleet {
+          id
+          createdAt
+          type
+          text
+          image
+          userID
+          updatedAt
+        }
         createdAt
         updatedAt
       }

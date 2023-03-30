@@ -8,6 +8,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { FleetType, UserType } from "../types";
 import { listUsers } from "../components/UserFleetsList/queries";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
+import userss from "../data/usersWithFleets";
 
 const FleetScreen = () => {
   const route = useRoute();
@@ -16,6 +17,7 @@ const FleetScreen = () => {
   const { userId }: any = route.params;
 
   const [users, setUsers] = useState<any>([]);
+  // const [users, setUsers] = useState<any>(userss);
   const [user, setUser] = useState<any>(null);
   const [fleetIndex, setFleetIndex] = useState(-1);
   const [fleet, setFleet] = useState<null | FleetType>(null);

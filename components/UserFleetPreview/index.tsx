@@ -37,14 +37,12 @@ const UserFleetPreview = (props: UserFleetPreviewProps) => {
       {...linkProps}
       // onPress={onPress}
     >
-      {/* <Link to={{screen: 'Details', params: {userId: id}}}> */}
       <View style={styles.container}>
         <View style={styles.image}>
           <ProfilePicture image={image} size={60} />
         </View>
         <Text style={styles.username}>{username}</Text>
       </View>
-      {/* </Link> */}
     </TouchableWithoutFeedback>
   );
 };
