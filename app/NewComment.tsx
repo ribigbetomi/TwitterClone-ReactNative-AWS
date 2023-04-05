@@ -12,17 +12,19 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import Colors from "../constants/Colors";
 import useColorScheme from "./../hooks/useColorScheme";
 import ProfilePicture from "../components/ProfilePicture";
-import { getUser } from "../src/graphql/queries";
+
 import { GraphQLResult } from "@aws-amplify/api-graphql";
 import { UserType } from "../types";
+import { getUser } from "../src/queries/getUserQuery";
 
 const NewComment = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const colorScheme = useColorScheme();
   const [comment, setComment] = useState<any>();
-  console.log(comment);
-  const { tweetID, tweetUser }: any = route.params;
+  // console.log(comment);
+  const { tweetOrComment, tweetUser }: any = route.params;
+  // console.log(JSON.stringify(tweetOrComment, null, 2), "tweetOrComment");
 
   const [user, setUser] = useState<UserType | null>();
   //   console.log(user);
@@ -40,10 +42,10 @@ const NewComment = () => {
       ),
       headerRight: () => (
         <TouchableOpacity
-          onPress={postComment}
+          onPress={comment && postComment}
           style={{
             marginLeft: 15,
-            backgroundColor: Colors.light.tint,
+            backgroundColor: comment ? Colors.light.tint : "gray",
             paddingVertical: 5,
             paddingHorizontal: 13,
             borderRadius: 15,
@@ -58,14 +60,33 @@ const NewComment = () => {
   const postComment = async () => {
     // console.log(comment, "comment");
     const authUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+    let commentToAdd;
 
-    const commentToAdd = {
-      userID: authUser.attributes.sub,
-      tweetID,
-      content: comment,
-    };
+    if (tweetOrComment.commentID) {
+      commentToAdd = {
+        userID: authUser.attributes.sub,
+        content: comment,
+        commentID: tweetOrComment.id,
+      };
+    } else if (tweetOrComment.tweetID) {
+      commentToAdd = {
+        userID: authUser.attributes.sub,
+        content: comment,
+        commentID: tweetOrComment.id,
+      };
+      // console.log(JSON.stringify(commentToAdd, null, 2), "COMMENTTOADD");
+    } else {
+      commentToAdd = {
+        userID: authUser.attributes.sub,
+        tweetID: tweetOrComment.id,
+        content: comment,
+      };
+      // console.log(JSON.stringify(commentToAdd, null, 2), "commentToAdd");
+    }
 
-    await API.graphql(graphqlOperation(createComment, { input: commentToAdd }));
+    const newnew = await API.graphql(
+      graphqlOperation(createComment, { input: commentToAdd })
+    );
     // console.log(JSON.stringify(newnew, null, 2), "newnew");
     navigation.goBack();
   };

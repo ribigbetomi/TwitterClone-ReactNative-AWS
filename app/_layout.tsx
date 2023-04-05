@@ -14,9 +14,9 @@ import { Amplify, API, Auth, graphqlOperation } from "aws-amplify";
 import config from "../src/aws-exports";
 import { withAuthenticator } from "aws-amplify-react-native";
 import { createUser } from "../src/graphql/mutations";
-import { getUser } from "../src/graphql/queries";
 import { User, CreateUserInput } from "../src/API";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
+import { getUser } from "../src/queries/getUserQuery";
 
 Amplify.configure({ ...config, Analytics: { disabled: true } });
 

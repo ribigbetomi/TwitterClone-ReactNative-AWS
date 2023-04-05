@@ -19,19 +19,27 @@ export const getUser = /* GraphQL */ `
           userID
           followingID
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       likes {
         items {
           id
           userID
           tweetID
-          comment
+          commentID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       following {
         items {
@@ -40,8 +48,12 @@ export const getUser = /* GraphQL */ `
           authUserID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       followers {
         items {
@@ -50,8 +62,12 @@ export const getUser = /* GraphQL */ `
           authUserID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       fleets {
         items {
@@ -62,8 +78,12 @@ export const getUser = /* GraphQL */ `
           image
           userID
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       comments {
         items {
@@ -73,20 +93,59 @@ export const getUser = /* GraphQL */ `
           tweetID
           content
           image
+          commentID
           updatedAt
-          commentCommentsId
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       retweets {
         items {
           id
           userID
           tweetID
+          commentID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
+      }
+      messages {
+        items {
+          id
+          createdAt
+          text
+          chatroomID
+          userID
+          images
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      chatRooms {
+        items {
+          id
+          userId
+          chatRoomId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
       }
       views {
         items {
@@ -95,11 +154,18 @@ export const getUser = /* GraphQL */ `
           fleetID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -118,32 +184,122 @@ export const listUsers = /* GraphQL */ `
         image
         tweets {
           nextToken
+          startedAt
         }
         likes {
           nextToken
+          startedAt
         }
         following {
           nextToken
+          startedAt
         }
         followers {
           nextToken
+          startedAt
         }
         fleets {
           nextToken
+          startedAt
         }
         comments {
           nextToken
+          startedAt
         }
         retweets {
           nextToken
+          startedAt
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        chatRooms {
+          nextToken
+          startedAt
         }
         views {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const syncUsers = /* GraphQL */ `
+  query SyncUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncUsers(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        username
+        name
+        email
+        image
+        tweets {
+          nextToken
+          startedAt
+        }
+        likes {
+          nextToken
+          startedAt
+        }
+        following {
+          nextToken
+          startedAt
+        }
+        followers {
+          nextToken
+          startedAt
+        }
+        fleets {
+          nextToken
+          startedAt
+        }
+        comments {
+          nextToken
+          startedAt
+        }
+        retweets {
+          nextToken
+          startedAt
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        chatRooms {
+          nextToken
+          startedAt
+        }
+        views {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -163,41 +319,64 @@ export const getTweet = /* GraphQL */ `
         image
         tweets {
           nextToken
+          startedAt
         }
         likes {
           nextToken
+          startedAt
         }
         following {
           nextToken
+          startedAt
         }
         followers {
           nextToken
+          startedAt
         }
         fleets {
           nextToken
+          startedAt
         }
         comments {
           nextToken
+          startedAt
         }
         retweets {
           nextToken
+          startedAt
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        chatRooms {
+          nextToken
+          startedAt
         }
         views {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       likes {
         items {
           id
           userID
           tweetID
-          comment
+          commentID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       followingID
       comments {
@@ -208,22 +387,34 @@ export const getTweet = /* GraphQL */ `
           tweetID
           content
           image
+          commentID
           updatedAt
-          commentCommentsId
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       retweets {
         items {
           id
           userID
           tweetID
+          commentID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -248,20 +439,84 @@ export const listTweets = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         likes {
           nextToken
+          startedAt
         }
         followingID
         comments {
           nextToken
+          startedAt
         }
         retweets {
           nextToken
+          startedAt
         }
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const syncTweets = /* GraphQL */ `
+  query SyncTweets(
+    $filter: ModelTweetFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncTweets(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        createdAt
+        content
+        image
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        likes {
+          nextToken
+          startedAt
+        }
+        followingID
+        comments {
+          nextToken
+          startedAt
+        }
+        retweets {
+          nextToken
+          startedAt
+        }
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -296,20 +551,30 @@ export const tweetsByUserIDAndCreatedAt = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         likes {
           nextToken
+          startedAt
         }
         followingID
         comments {
           nextToken
+          startedAt
         }
         retweets {
           nextToken
+          startedAt
         }
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
     }
   }
 `;
@@ -344,20 +609,30 @@ export const tweetsByFollowingIDAndCreatedAt = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         likes {
           nextToken
+          startedAt
         }
         followingID
         comments {
           nextToken
+          startedAt
         }
         retweets {
           nextToken
+          startedAt
         }
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
     }
   }
 `;
@@ -378,30 +653,49 @@ export const getFleet = /* GraphQL */ `
         image
         tweets {
           nextToken
+          startedAt
         }
         likes {
           nextToken
+          startedAt
         }
         following {
           nextToken
+          startedAt
         }
         followers {
           nextToken
+          startedAt
         }
         fleets {
           nextToken
+          startedAt
         }
         comments {
           nextToken
+          startedAt
         }
         retweets {
           nextToken
+          startedAt
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        chatRooms {
+          nextToken
+          startedAt
         }
         views {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       views {
         items {
@@ -410,10 +704,17 @@ export const getFleet = /* GraphQL */ `
           fleetID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -439,13 +740,67 @@ export const listFleets = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         views {
           nextToken
+          startedAt
         }
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const syncFleets = /* GraphQL */ `
+  query SyncFleets(
+    $filter: ModelFleetFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncFleets(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        createdAt
+        type
+        text
+        image
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        views {
+          nextToken
+          startedAt
+        }
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -481,13 +836,21 @@ export const fleetsByUserIDAndCreatedAt = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         views {
           nextToken
+          startedAt
         }
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
     }
   }
 `;
@@ -505,30 +868,49 @@ export const getLike = /* GraphQL */ `
         image
         tweets {
           nextToken
+          startedAt
         }
         likes {
           nextToken
+          startedAt
         }
         following {
           nextToken
+          startedAt
         }
         followers {
           nextToken
+          startedAt
         }
         fleets {
           nextToken
+          startedAt
         }
         comments {
           nextToken
+          startedAt
         }
         retweets {
           nextToken
+          startedAt
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        chatRooms {
+          nextToken
+          startedAt
         }
         views {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       tweet {
         id
@@ -544,22 +926,83 @@ export const getLike = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         likes {
           nextToken
+          startedAt
         }
         followingID
         comments {
           nextToken
+          startedAt
         }
         retweets {
           nextToken
+          startedAt
         }
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
-      comment
+      commentID
+      comment {
+        id
+        createdAt
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        tweetID
+        tweet {
+          id
+          createdAt
+          content
+          image
+          userID
+          followingID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        content
+        image
+        commentID
+        comments {
+          nextToken
+          startedAt
+        }
+        likes {
+          nextToken
+          startedAt
+        }
+        retweets {
+          nextToken
+          startedAt
+        }
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -582,6 +1025,9 @@ export const listLikes = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         tweet {
           id
@@ -591,12 +1037,98 @@ export const listLikes = /* GraphQL */ `
           userID
           followingID
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
-        comment
+        commentID
+        comment {
+          id
+          createdAt
+          userID
+          tweetID
+          content
+          image
+          commentID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const syncLikes = /* GraphQL */ `
+  query SyncLikes(
+    $filter: ModelLikeFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncLikes(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        userID
+        tweetID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        tweet {
+          id
+          createdAt
+          content
+          image
+          userID
+          followingID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        commentID
+        comment {
+          id
+          createdAt
+          userID
+          tweetID
+          content
+          image
+          commentID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -627,6 +1159,9 @@ export const likesByUserID = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         tweet {
           id
@@ -636,12 +1171,32 @@ export const likesByUserID = /* GraphQL */ `
           userID
           followingID
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
-        comment
+        commentID
+        comment {
+          id
+          createdAt
+          userID
+          tweetID
+          content
+          image
+          commentID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
     }
   }
 `;
@@ -672,6 +1227,9 @@ export const likesByTweetID = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         tweet {
           id
@@ -681,25 +1239,45 @@ export const likesByTweetID = /* GraphQL */ `
           userID
           followingID
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
-        comment
+        commentID
+        comment {
+          id
+          createdAt
+          userID
+          tweetID
+          content
+          image
+          commentID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
     }
   }
 `;
-export const likesByComment = /* GraphQL */ `
-  query LikesByComment(
-    $comment: ID!
+export const likesByCommentID = /* GraphQL */ `
+  query LikesByCommentID(
+    $commentID: ID!
     $sortDirection: ModelSortDirection
     $filter: ModelLikeFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    likesByComment(
-      comment: $comment
+    likesByCommentID(
+      commentID: $commentID
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -717,6 +1295,9 @@ export const likesByComment = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         tweet {
           id
@@ -726,12 +1307,32 @@ export const likesByComment = /* GraphQL */ `
           userID
           followingID
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
-        comment
+        commentID
+        comment {
+          id
+          createdAt
+          userID
+          tweetID
+          content
+          image
+          commentID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
     }
   }
 `;
@@ -748,30 +1349,49 @@ export const getFollowing = /* GraphQL */ `
         image
         tweets {
           nextToken
+          startedAt
         }
         likes {
           nextToken
+          startedAt
         }
         following {
           nextToken
+          startedAt
         }
         followers {
           nextToken
+          startedAt
         }
         fleets {
           nextToken
+          startedAt
         }
         comments {
           nextToken
+          startedAt
         }
         retweets {
           nextToken
+          startedAt
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        chatRooms {
+          nextToken
+          startedAt
         }
         views {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       authUserID
       authUser {
@@ -782,30 +1402,49 @@ export const getFollowing = /* GraphQL */ `
         image
         tweets {
           nextToken
+          startedAt
         }
         likes {
           nextToken
+          startedAt
         }
         following {
           nextToken
+          startedAt
         }
         followers {
           nextToken
+          startedAt
         }
         fleets {
           nextToken
+          startedAt
         }
         comments {
           nextToken
+          startedAt
         }
         retweets {
           nextToken
+          startedAt
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        chatRooms {
+          nextToken
+          startedAt
         }
         views {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       tweets {
         items {
@@ -816,11 +1455,18 @@ export const getFollowing = /* GraphQL */ `
           userID
           followingID
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -842,6 +1488,9 @@ export const listFollowings = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         authUserID
         authUser {
@@ -852,14 +1501,78 @@ export const listFollowings = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         tweets {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const syncFollowings = /* GraphQL */ `
+  query SyncFollowings(
+    $filter: ModelFollowingFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncFollowings(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        authUserID
+        authUser {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        tweets {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -889,6 +1602,9 @@ export const followingsByAuthUserID = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         authUserID
         authUser {
@@ -899,14 +1615,22 @@ export const followingsByAuthUserID = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         tweets {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
     }
   }
 `;
@@ -923,30 +1647,49 @@ export const getFollower = /* GraphQL */ `
         image
         tweets {
           nextToken
+          startedAt
         }
         likes {
           nextToken
+          startedAt
         }
         following {
           nextToken
+          startedAt
         }
         followers {
           nextToken
+          startedAt
         }
         fleets {
           nextToken
+          startedAt
         }
         comments {
           nextToken
+          startedAt
         }
         retweets {
           nextToken
+          startedAt
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        chatRooms {
+          nextToken
+          startedAt
         }
         views {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       authUserID
       authUser {
@@ -957,33 +1700,55 @@ export const getFollower = /* GraphQL */ `
         image
         tweets {
           nextToken
+          startedAt
         }
         likes {
           nextToken
+          startedAt
         }
         following {
           nextToken
+          startedAt
         }
         followers {
           nextToken
+          startedAt
         }
         fleets {
           nextToken
+          startedAt
         }
         comments {
           nextToken
+          startedAt
         }
         retweets {
           nextToken
+          startedAt
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        chatRooms {
+          nextToken
+          startedAt
         }
         views {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -1005,6 +1770,9 @@ export const listFollowers = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         authUserID
         authUser {
@@ -1015,11 +1783,70 @@ export const listFollowers = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const syncFollowers = /* GraphQL */ `
+  query SyncFollowers(
+    $filter: ModelFollowerFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncFollowers(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        authUserID
+        authUser {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -1049,6 +1876,9 @@ export const followersByAuthUserID = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         authUserID
         authUser {
@@ -1059,11 +1889,18 @@ export const followersByAuthUserID = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
     }
   }
 `;
@@ -1081,30 +1918,49 @@ export const getComment = /* GraphQL */ `
         image
         tweets {
           nextToken
+          startedAt
         }
         likes {
           nextToken
+          startedAt
         }
         following {
           nextToken
+          startedAt
         }
         followers {
           nextToken
+          startedAt
         }
         fleets {
           nextToken
+          startedAt
         }
         comments {
           nextToken
+          startedAt
         }
         retweets {
           nextToken
+          startedAt
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        chatRooms {
+          nextToken
+          startedAt
         }
         views {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       tweetID
       tweet {
@@ -1121,21 +1977,31 @@ export const getComment = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         likes {
           nextToken
+          startedAt
         }
         followingID
         comments {
           nextToken
+          startedAt
         }
         retweets {
           nextToken
+          startedAt
         }
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       content
       image
+      commentID
       comments {
         items {
           id
@@ -1144,24 +2010,49 @@ export const getComment = /* GraphQL */ `
           tweetID
           content
           image
+          commentID
           updatedAt
-          commentCommentsId
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       likes {
         items {
           id
           userID
           tweetID
-          comment
+          commentID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
+      }
+      retweets {
+        items {
+          id
+          userID
+          tweetID
+          commentID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
       }
       updatedAt
-      commentCommentsId
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -1184,6 +2075,9 @@ export const listComments = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         tweetID
         tweet {
@@ -1194,19 +2088,99 @@ export const listComments = /* GraphQL */ `
           userID
           followingID
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         content
         image
+        commentID
         comments {
           nextToken
+          startedAt
         }
         likes {
           nextToken
+          startedAt
+        }
+        retweets {
+          nextToken
+          startedAt
         }
         updatedAt
-        commentCommentsId
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const syncComments = /* GraphQL */ `
+  query SyncComments(
+    $filter: ModelCommentFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncComments(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        createdAt
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        tweetID
+        tweet {
+          id
+          createdAt
+          content
+          image
+          userID
+          followingID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        content
+        image
+        commentID
+        comments {
+          nextToken
+          startedAt
+        }
+        likes {
+          nextToken
+          startedAt
+        }
+        retweets {
+          nextToken
+          startedAt
+        }
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -1237,6 +2211,9 @@ export const commentsByUserID = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         tweetID
         tweet {
@@ -1247,19 +2224,32 @@ export const commentsByUserID = /* GraphQL */ `
           userID
           followingID
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         content
         image
+        commentID
         comments {
           nextToken
+          startedAt
         }
         likes {
           nextToken
+          startedAt
+        }
+        retweets {
+          nextToken
+          startedAt
         }
         updatedAt
-        commentCommentsId
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
     }
   }
 `;
@@ -1292,6 +2282,9 @@ export const commentsByTweetIDAndCreatedAt = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         tweetID
         tweet {
@@ -1302,19 +2295,101 @@ export const commentsByTweetIDAndCreatedAt = /* GraphQL */ `
           userID
           followingID
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         content
         image
+        commentID
         comments {
           nextToken
+          startedAt
         }
         likes {
           nextToken
+          startedAt
+        }
+        retweets {
+          nextToken
+          startedAt
         }
         updatedAt
-        commentCommentsId
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const commentsByCommentID = /* GraphQL */ `
+  query CommentsByCommentID(
+    $commentID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    commentsByCommentID(
+      commentID: $commentID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        createdAt
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        tweetID
+        tweet {
+          id
+          createdAt
+          content
+          image
+          userID
+          followingID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        content
+        image
+        commentID
+        comments {
+          nextToken
+          startedAt
+        }
+        likes {
+          nextToken
+          startedAt
+        }
+        retweets {
+          nextToken
+          startedAt
+        }
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -1331,30 +2406,49 @@ export const getRetweet = /* GraphQL */ `
         image
         tweets {
           nextToken
+          startedAt
         }
         likes {
           nextToken
+          startedAt
         }
         following {
           nextToken
+          startedAt
         }
         followers {
           nextToken
+          startedAt
         }
         fleets {
           nextToken
+          startedAt
         }
         comments {
           nextToken
+          startedAt
         }
         retweets {
           nextToken
+          startedAt
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        chatRooms {
+          nextToken
+          startedAt
         }
         views {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       tweetID
       tweet {
@@ -1371,21 +2465,83 @@ export const getRetweet = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         likes {
           nextToken
+          startedAt
         }
         followingID
         comments {
           nextToken
+          startedAt
         }
         retweets {
           nextToken
+          startedAt
         }
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      commentID
+      comment {
+        id
+        createdAt
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        tweetID
+        tweet {
+          id
+          createdAt
+          content
+          image
+          userID
+          followingID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        content
+        image
+        commentID
+        comments {
+          nextToken
+          startedAt
+        }
+        likes {
+          nextToken
+          startedAt
+        }
+        retweets {
+          nextToken
+          startedAt
+        }
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -1407,6 +2563,9 @@ export const listRetweets = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         tweetID
         tweet {
@@ -1417,11 +2576,98 @@ export const listRetweets = /* GraphQL */ `
           userID
           followingID
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        commentID
+        comment {
+          id
+          createdAt
+          userID
+          tweetID
+          content
+          image
+          commentID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const syncRetweets = /* GraphQL */ `
+  query SyncRetweets(
+    $filter: ModelRetweetFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncRetweets(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        tweetID
+        tweet {
+          id
+          createdAt
+          content
+          image
+          userID
+          followingID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        commentID
+        comment {
+          id
+          createdAt
+          userID
+          tweetID
+          content
+          image
+          commentID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -1451,6 +2697,9 @@ export const retweetsByUserID = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         tweetID
         tweet {
@@ -1461,11 +2710,32 @@ export const retweetsByUserID = /* GraphQL */ `
           userID
           followingID
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        commentID
+        comment {
+          id
+          createdAt
+          userID
+          tweetID
+          content
+          image
+          commentID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
     }
   }
 `;
@@ -1495,6 +2765,9 @@ export const retweetsByTweetID = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         tweetID
         tweet {
@@ -1505,11 +2778,100 @@ export const retweetsByTweetID = /* GraphQL */ `
           userID
           followingID
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        commentID
+        comment {
+          id
+          createdAt
+          userID
+          tweetID
+          content
+          image
+          commentID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const retweetsByCommentID = /* GraphQL */ `
+  query RetweetsByCommentID(
+    $commentID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelRetweetFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    retweetsByCommentID(
+      commentID: $commentID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        tweetID
+        tweet {
+          id
+          createdAt
+          content
+          image
+          userID
+          followingID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        commentID
+        comment {
+          id
+          createdAt
+          userID
+          tweetID
+          content
+          image
+          commentID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -1526,30 +2888,49 @@ export const getView = /* GraphQL */ `
         image
         tweets {
           nextToken
+          startedAt
         }
         likes {
           nextToken
+          startedAt
         }
         following {
           nextToken
+          startedAt
         }
         followers {
           nextToken
+          startedAt
         }
         fleets {
           nextToken
+          startedAt
         }
         comments {
           nextToken
+          startedAt
         }
         retweets {
           nextToken
+          startedAt
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        chatRooms {
+          nextToken
+          startedAt
         }
         views {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       fleetID
       fleet {
@@ -1567,14 +2948,24 @@ export const getView = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         views {
           nextToken
+          startedAt
         }
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -1596,6 +2987,9 @@ export const listViews = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         fleetID
         fleet {
@@ -1606,11 +3000,70 @@ export const listViews = /* GraphQL */ `
           image
           userID
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const syncViews = /* GraphQL */ `
+  query SyncViews(
+    $filter: ModelViewFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncViews(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        userID
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        fleetID
+        fleet {
+          id
+          createdAt
+          type
+          text
+          image
+          userID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -1640,6 +3093,9 @@ export const viewsByUserID = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         fleetID
         fleet {
@@ -1650,11 +3106,18 @@ export const viewsByUserID = /* GraphQL */ `
           image
           userID
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
     }
   }
 `;
@@ -1684,6 +3147,9 @@ export const viewsByFleetID = /* GraphQL */ `
           image
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         fleetID
         fleet {
@@ -1694,11 +3160,821 @@ export const viewsByFleetID = /* GraphQL */ `
           image
           userID
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const getAttachment = /* GraphQL */ `
+  query GetAttachment($id: ID!) {
+    getAttachment(id: $id) {
+      id
+      storageKey
+      type
+      width
+      height
+      duration
+      messageID
+      chatroomID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listAttachments = /* GraphQL */ `
+  query ListAttachments(
+    $filter: ModelAttachmentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listAttachments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        storageKey
+        type
+        width
+        height
+        duration
+        messageID
+        chatroomID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncAttachments = /* GraphQL */ `
+  query SyncAttachments(
+    $filter: ModelAttachmentFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncAttachments(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        storageKey
+        type
+        width
+        height
+        duration
+        messageID
+        chatroomID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const attachmentsByMessageID = /* GraphQL */ `
+  query AttachmentsByMessageID(
+    $messageID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelAttachmentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    attachmentsByMessageID(
+      messageID: $messageID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        storageKey
+        type
+        width
+        height
+        duration
+        messageID
+        chatroomID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const attachmentsByChatroomID = /* GraphQL */ `
+  query AttachmentsByChatroomID(
+    $chatroomID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelAttachmentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    attachmentsByChatroomID(
+      chatroomID: $chatroomID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        storageKey
+        type
+        width
+        height
+        duration
+        messageID
+        chatroomID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getMessage = /* GraphQL */ `
+  query GetMessage($id: ID!) {
+    getMessage(id: $id) {
+      id
+      createdAt
+      text
+      chatroomID
+      userID
+      images
+      attachments {
+        items {
+          id
+          storageKey
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listMessages = /* GraphQL */ `
+  query ListMessages(
+    $filter: ModelMessageFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMessages(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        createdAt
+        text
+        chatroomID
+        userID
+        images
+        attachments {
+          nextToken
+          startedAt
+        }
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncMessages = /* GraphQL */ `
+  query SyncMessages(
+    $filter: ModelMessageFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncMessages(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        createdAt
+        text
+        chatroomID
+        userID
+        images
+        attachments {
+          nextToken
+          startedAt
+        }
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const listMessagesByChatRoom = /* GraphQL */ `
+  query ListMessagesByChatRoom(
+    $chatroomID: ID!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelMessageFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMessagesByChatRoom(
+      chatroomID: $chatroomID
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        createdAt
+        text
+        chatroomID
+        userID
+        images
+        attachments {
+          nextToken
+          startedAt
+        }
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const messagesByUserID = /* GraphQL */ `
+  query MessagesByUserID(
+    $userID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelMessageFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    messagesByUserID(
+      userID: $userID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        createdAt
+        text
+        chatroomID
+        userID
+        images
+        attachments {
+          nextToken
+          startedAt
+        }
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getChatRoom = /* GraphQL */ `
+  query GetChatRoom($id: ID!) {
+    getChatRoom(id: $id) {
+      id
+      name
+      image
+      messages {
+        items {
+          id
+          createdAt
+          text
+          chatroomID
+          userID
+          images
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      users {
+        items {
+          id
+          userId
+          chatRoomId
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      lastMessage {
+        id
+        createdAt
+        text
+        chatroomID
+        userID
+        images
+        attachments {
+          nextToken
+          startedAt
+        }
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      attachments {
+        items {
+          id
+          storageKey
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      chatRoomLastMessageId
+    }
+  }
+`;
+export const listChatRooms = /* GraphQL */ `
+  query ListChatRooms(
+    $filter: ModelChatRoomFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listChatRooms(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        image
+        messages {
+          nextToken
+          startedAt
+        }
+        users {
+          nextToken
+          startedAt
+        }
+        lastMessage {
+          id
+          createdAt
+          text
+          chatroomID
+          userID
+          images
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        attachments {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        chatRoomLastMessageId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncChatRooms = /* GraphQL */ `
+  query SyncChatRooms(
+    $filter: ModelChatRoomFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncChatRooms(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        name
+        image
+        messages {
+          nextToken
+          startedAt
+        }
+        users {
+          nextToken
+          startedAt
+        }
+        lastMessage {
+          id
+          createdAt
+          text
+          chatroomID
+          userID
+          images
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        attachments {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        chatRoomLastMessageId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getUserChatRoom = /* GraphQL */ `
+  query GetUserChatRoom($id: ID!) {
+    getUserChatRoom(id: $id) {
+      id
+      userId
+      chatRoomId
+      user {
+        id
+        username
+        name
+        email
+        image
+        tweets {
+          nextToken
+          startedAt
+        }
+        likes {
+          nextToken
+          startedAt
+        }
+        following {
+          nextToken
+          startedAt
+        }
+        followers {
+          nextToken
+          startedAt
+        }
+        fleets {
+          nextToken
+          startedAt
+        }
+        comments {
+          nextToken
+          startedAt
+        }
+        retweets {
+          nextToken
+          startedAt
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        chatRooms {
+          nextToken
+          startedAt
+        }
+        views {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      chatRoom {
+        id
+        name
+        image
+        messages {
+          nextToken
+          startedAt
+        }
+        users {
+          nextToken
+          startedAt
+        }
+        lastMessage {
+          id
+          createdAt
+          text
+          chatroomID
+          userID
+          images
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        attachments {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        chatRoomLastMessageId
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listUserChatRooms = /* GraphQL */ `
+  query ListUserChatRooms(
+    $filter: ModelUserChatRoomFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUserChatRooms(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userId
+        chatRoomId
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        chatRoom {
+          id
+          name
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          chatRoomLastMessageId
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncUserChatRooms = /* GraphQL */ `
+  query SyncUserChatRooms(
+    $filter: ModelUserChatRoomFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncUserChatRooms(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        userId
+        chatRoomId
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        chatRoom {
+          id
+          name
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          chatRoomLastMessageId
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const userChatRoomsByUserId = /* GraphQL */ `
+  query UserChatRoomsByUserId(
+    $userId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserChatRoomFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    userChatRoomsByUserId(
+      userId: $userId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userId
+        chatRoomId
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        chatRoom {
+          id
+          name
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          chatRoomLastMessageId
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const userChatRoomsByChatRoomId = /* GraphQL */ `
+  query UserChatRoomsByChatRoomId(
+    $chatRoomId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserChatRoomFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    userChatRoomsByChatRoomId(
+      chatRoomId: $chatRoomId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userId
+        chatRoomId
+        user {
+          id
+          username
+          name
+          email
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        chatRoom {
+          id
+          name
+          image
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          chatRoomLastMessageId
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
     }
   }
 `;

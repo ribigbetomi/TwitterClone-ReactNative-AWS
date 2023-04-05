@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useWindowDimensions, StyleSheet, Text } from "react-native";
 import { SceneMap, TabBar, TabView } from "react-native-tab-view";
 import TweetTab from "./TweetsTab";
-import RepliesTab from "./RepliesTab";
+import RepliesTab from "./RepliesTab/RepliesTab";
 import MediaTab from "./MediaTab";
-import LikesTab from "./LikesTab";
+import LikesTab from "./LikesTab/LikesTab";
 import useColorScheme from "./../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 
@@ -36,12 +36,13 @@ const Tabs = (userID: any) => {
     { key: "fourth", title: "Likes" },
   ]);
   //   console.log(user, "userrr");
+  // console.log(userID, "userID");
 
   const renderScene = SceneMap({
     first: () => <TweetTab userID={userID} />,
-    second: () => <RepliesTab userID={userID} />,
-    third: () => <MediaTab userID={userID} />,
-    fourth: () => <LikesTab userID={userID} />,
+    second: () => <RepliesTab user={userID} />,
+    third: () => <MediaTab user={userID} />,
+    fourth: () => <LikesTab user={userID} />,
   });
 
   const renderTabBar = (props: any) => (

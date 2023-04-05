@@ -1,15 +1,13 @@
-export const commentsByTweetIDAndCreatedAt = /* GraphQL */ `
-  query CommentsByTweetIDAndCreatedAt(
-    $tweetID: ID!
-    $createdAt: ModelStringKeyConditionInput
+export const commentsByUserID = /* GraphQL */ `
+  query CommentsByUserID(
+    $userID: ID!
     $sortDirection: ModelSortDirection
     $filter: ModelCommentFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    commentsByTweetIDAndCreatedAt(
-      tweetID: $tweetID
-      createdAt: $createdAt
+    commentsByUserID(
+      userID: $userID
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -19,9 +17,6 @@ export const commentsByTweetIDAndCreatedAt = /* GraphQL */ `
         id
         createdAt
         userID
-        content
-        image
-        updatedAt
         user {
           id
           username
@@ -41,37 +36,40 @@ export const commentsByTweetIDAndCreatedAt = /* GraphQL */ `
           followingID
           updatedAt
         }
+        content
+        image
         comments {
           items {
-            content
-            createdAt
             id
-            image
-            likes {
-              items {
-                user {
-                  id
-                  name
-                  username
-                  image
-                }
-                userID
-                tweetID
-              }
-            }
+            userID
           }
+          nextToken
         }
         likes {
           items {
-            tweetID
+            id
+            userID
+          }
+          nextToken
+        }
+        retweets {
+          items {
+            id
+            userID
             user {
               id
-              image
               name
               username
+              image
             }
+            tweetID
+            commentID
+            createdAt
+            updatedAt
           }
+          nextToken
         }
+        updatedAt
       }
       nextToken
     }

@@ -7,9 +7,11 @@ import Colors from "../../constants/Colors";
 import ProfilePicture from "../../components/ProfilePicture";
 import { API, Auth, graphqlOperation } from "aws-amplify";
 import { useEffect, useState } from "react";
-import { getUser } from "../../src/graphql/queries";
+
 import { View } from "../../components/Themed";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
+import { TextInput } from "react-native";
+import { getUser } from "../../src/queries/getUserQuery";
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
@@ -117,6 +119,22 @@ export default function TabLayout() {
         options={{
           title: "Messages",
           tabBarIcon: ({ color }) => <TabBarIcon name="mail" color={color} />,
+          headerTitle: "Messages",
+          headerTitleAlign: "center",
+          headerLeft: () => (
+            <View style={{ marginLeft: 15 }}>
+              <ProfilePicture image={user?.image} size={30} />
+            </View>
+          ),
+          headerRight: () => (
+            <View style={{ marginRight: 15 }}>
+              <Ionicons name={"settings-outline"} size={25} color={"#E9E9E9"} />
+            </View>
+          ),
+          headerStyle: {
+            backgroundColor: Colors[colorScheme].background,
+            shadowOpacity: 0,
+          },
         }}
       />
     </Tabs>

@@ -16,6 +16,12 @@ export const listTweets = /* GraphQL */ `
           name
           email
           image
+          followers {
+            items {
+              id
+              userID
+            }
+          }
           createdAt
           updatedAt
         }
@@ -24,6 +30,23 @@ export const listTweets = /* GraphQL */ `
             id
             userID
             tweetID
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        retweets {
+          items {
+            id
+            userID
+            user {
+              id
+              name
+              username
+              image
+            }
+            tweetID
+            commentID
             createdAt
             updatedAt
           }

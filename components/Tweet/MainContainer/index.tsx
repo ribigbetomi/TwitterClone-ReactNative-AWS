@@ -10,17 +10,17 @@ import Colors from "../../../constants/Colors";
 import Footer from "./Footer";
 import useColorScheme from "../../../hooks/useColorScheme";
 
-export type MainContainerProps = {
-  tweet: TweetType;
-};
+// export type MainContainerProps = {
+//   tweet: TweetType;
+// };
 
-const MainContainer = ({ tweet }: MainContainerProps) => {
+const MainContainer = ({ tweet }: any) => {
   const [downloadedAttachments, setDownloadedAttachments] = useState<any>("");
   // console.log(downloadedAttachments, "attache");
   const [imageViewerVisible, setImageViewerVisible] = useState(false);
 
   const colorScheme = useColorScheme();
-  // console.log(tweet, "tweet");
+  // console.log(JSON.stringify(tweet, null, 2), "tweet");
 
   useEffect(() => {
     const downloadAttachments = async () => {
@@ -37,10 +37,22 @@ const MainContainer = ({ tweet }: MainContainerProps) => {
         // );
 
         setDownloadedAttachments(imageUrl);
+      } else if (tweet.tweet?.image && tweet.tweet?.likes) {
+        const imageUrl = await Storage.get(tweet.tweet.image);
+        //   .then((uri) => ({
+        //     ...attachment,
+        //     uri,
+        //   }))
+        // )
+        // );
+
+        setDownloadedAttachments(imageUrl);
+      } else {
+        setDownloadedAttachments(null);
       }
     };
     downloadAttachments();
-  }, [tweet.image]);
+  }, [tweet]);
 
   // console.log(JSON.stringify(tweet, null, 2), "tweet");
   return (
@@ -60,7 +72,11 @@ const MainContainer = ({ tweet }: MainContainerProps) => {
       </View>
       <View>
         <Text style={[styles.content, { color: Colors[colorScheme].text }]}>
-          {tweet.content && tweet.content}
+          {tweet.content
+            ? tweet.content
+            : tweet.tweet
+            ? tweet.tweet.content
+            : tweet.comment.content}
         </Text>
 
         {downloadedAttachments && (

@@ -22,8 +22,9 @@ import { AntDesign } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import ProfilePicture from "../components/ProfilePicture";
 import { createTweet } from "../src/graphql/mutations";
-import { getUser } from "../src/graphql/queries";
+
 import { UserType } from "../types";
+import { getUser } from "../src/queries/getUserQuery";
 
 interface MyObject {
   [key: string]: any;
@@ -131,28 +132,30 @@ export default function NewTweetScreen() {
   };
 
   const onPostTweet = async () => {
-    let image;
-    if (imageUrl) {
-      image = await uploadImage();
-    }
-    // console.log(image, "image");
+    if (imageUrl || tweet) {
+      let image;
+      if (imageUrl) {
+        image = await uploadImage();
+      }
+      // console.log(image, "image");
 
-    try {
-      const currentUser = await Auth.currentAuthenticatedUser({
-        bypassCache: true,
-      });
-      // console.log(currentUser, "currentUser");
+      try {
+        const currentUser = await Auth.currentAuthenticatedUser({
+          bypassCache: true,
+        });
+        // console.log(currentUser, "currentUser");
 
-      const newTweet = {
-        content: tweet,
-        image,
-        userID: currentUser.attributes.sub,
-      };
-      // console.log(JSON.stringify(newTweet, null, 2), "newTweet");
-      await API.graphql(graphqlOperation(createTweet, { input: newTweet }));
-      navigation.goBack();
-    } catch (e) {
-      console.log(e);
+        const newTweet = {
+          content: tweet,
+          image,
+          userID: currentUser.attributes.sub,
+        };
+        // console.log(JSON.stringify(newTweet, null, 2), "newTweet");
+        await API.graphql(graphqlOperation(createTweet, { input: newTweet }));
+        navigation.goBack();
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
@@ -173,7 +176,15 @@ export default function NewTweetScreen() {
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <AntDesign name="close" size={30} color={Colors.light.tint} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={onPostTweet}>
+          <TouchableOpacity
+            style={[
+              styles.button,
+              {
+                backgroundColor: imageUrl || tweet ? Colors.light.tint : "gray",
+              },
+            ]}
+            onPress={onPostTweet}
+          >
             <Text style={styles.buttonText}>Tweet</Text>
           </TouchableOpacity>
         </View>
@@ -234,7 +245,6 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   button: {
-    backgroundColor: Colors.light.tint,
     borderRadius: 30,
   },
   buttonText: {

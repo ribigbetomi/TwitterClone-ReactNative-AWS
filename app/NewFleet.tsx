@@ -21,8 +21,8 @@ import { AntDesign } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import ProfilePicture from "../components/ProfilePicture";
 import { createFleet } from "../src/graphql/mutations";
-import { getUser } from "../src/graphql/queries";
 import { UserType } from "../types";
+import { getUser } from "../src/queries/getUserQuery";
 
 interface MyObject {
   [key: string]: any;

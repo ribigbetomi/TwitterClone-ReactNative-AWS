@@ -7,13 +7,13 @@ import userss from "../../data/usersWithFleets";
 import UserFleetPreview from "../UserFleetPreview";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
 import ProfilePicture from "../ProfilePicture";
-import { getUser } from "../../src/graphql/queries";
 import { Link } from "expo-router";
+import { getUser } from "../../src/queries/getUserQuery";
 
 const UserFleetsList = () => {
   const [users, setUsers] = useState<any>([]);
   const [user, setUser] = useState<any>(null);
-  // console.log(JSON.stringify(user, null, 2), "user");
+  // console.log(JSON.stringify(user, null, 2), "userr");
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -45,7 +45,11 @@ const UserFleetsList = () => {
         const data: GraphQLResult<any> = await API.graphql(
           graphqlOperation(listUsers)
         );
-        setUsers(data.data.listUsers.items);
+        const fleeters = data.data.listUsers.items.filter(
+          (item: any) => item.fleets.items.length !== 0
+        );
+        // console.log(JSON.stringify(fleeters, null, 2), "fleeters");
+        setUsers(fleeters);
       } catch (e) {
         console.log(e);
       }
@@ -56,7 +60,7 @@ const UserFleetsList = () => {
   const renderAddButton = () => {
     return (
       // <TouchableOpacity>
-      <Link href="/NewFleet" style={{ padding: 10 }}>
+      <Link href="/NewFleet" style={{ padding: 10, marginTop: 15 }}>
         <ProfilePicture size={60} image={user?.image} />
       </Link>
 

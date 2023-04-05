@@ -11,6 +11,8 @@ type User @model @auth(rules: [{ allow: public }]) {
   fleets: [Fleet] @hasMany(indexName: "byUser", fields: ["id"])
   comments: [Comment] @hasMany(indexName: "byUser", fields: ["id"])
   retweets: [Retweet] @hasMany(indexName: "byUser", fields: ["id"])
+  messages: [Message] @hasMany(indexName: "byUser", fields: ["id"])
+  chatRooms: [ChatRoom] @manyToMany(relationName: "UserChatRoom")
   views: [View] @hasMany(indexName: "byUser", fields: ["id"])
 }
 
@@ -44,13 +46,14 @@ type Like @model @auth(rules: [{ allow: public }]) {
   tweetID: ID @index(name: "byTweet")
   user: User! @belongsTo(fields: ["userID"])
   tweet: Tweet @belongsTo(fields: ["tweetID"])
-  comment: ID @index(name: "byComment")
+  commentID: ID @index(name: "byComment")
+  comment: Comment @belongsTo(fields: ["commentID"])
 }
 
 type Following @model @auth(rules: [{ allow: public }]) {
   id: ID!
   userID: ID!
-  user: User! @hasOne(fields: ["userID"])
+  user: User! @belongsTo(fields: ["userID"])
   authUserID: ID! @index(name: "byUser")
   authUser: User! @belongsTo(fields: ["authUserID"])
   tweets: [Tweet] @hasMany(indexName: "byFollowing", fields: ["id"])
@@ -59,7 +62,7 @@ type Following @model @auth(rules: [{ allow: public }]) {
 type Follower @model @auth(rules: [{ allow: public }]) {
   id: ID!
   userID: ID!
-  user: User! @hasOne(fields: ["userID"])
+  user: User! @belongsTo(fields: ["userID"])
   authUserID: ID! @index(name: "byUser")
   authUser: User! @belongsTo(fields: ["authUserID"])
 }
@@ -69,20 +72,24 @@ type Comment @model @auth(rules: [{ allow: public }]) {
   createdAt: AWSDateTime!
   userID: ID! @index(name: "byUser")
   user: User! @belongsTo(fields: ["userID"])
-  tweetID: ID! @index(name: "byTweet", sortKeyFields: ["createdAt"])
-  tweet: Tweet! @belongsTo(fields: ["tweetID"])
+  tweetID: ID @index(name: "byTweet", sortKeyFields: ["createdAt"])
+  tweet: Tweet @belongsTo(fields: ["tweetID"])
   content: String
   image: String
-  comments: [Comment] @hasMany
+  commentID: ID @index(name: "byComment")
+  comments: [Comment] @hasMany(indexName: "byComment", fields: ["id"])
   likes: [Like] @hasMany(indexName: "byComment", fields: ["id"])
+  retweets: [Retweet] @hasMany(indexName: "byComment", fields: ["id"])
 }
 
 type Retweet @model @auth(rules: [{ allow: public }]) {
   id: ID!
   userID: ID! @index(name: "byUser")
   user: User! @belongsTo(fields: ["userID"])
-  tweetID: ID! @index(name: "byTweet")
-  tweet: Tweet! @belongsTo(fields: ["tweetID"])
+  tweetID: ID @index(name: "byTweet")
+  tweet: Tweet @belongsTo(fields: ["tweetID"])
+  commentID: ID @index(name: "byComment")
+  comment: Comment @belongsTo(fields: ["commentID"])
 }
 
 type View @model @auth(rules: [{ allow: public }]) {
@@ -91,4 +98,45 @@ type View @model @auth(rules: [{ allow: public }]) {
   user: User! @belongsTo(fields: ["userID"])
   fleetID: ID! @index(name: "byFleet")
   fleet: Fleet! @belongsTo(fields: ["fleetID"])
+}
+
+enum AttachmentType {
+  IMAGE
+  VIDEO
+}
+
+type Attachment @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  storageKey: String!
+  type: AttachmentType!
+  width: Int
+  height: Int
+  duration: Int
+  messageID: ID! @index(name: "byMessage")
+  chatroomID: ID! @index(name: "byChatRoom")
+}
+
+type Message @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  createdAt: AWSDateTime!
+  text: String!
+  chatroomID: ID!
+    @index(
+      name: "byChatRoom"
+      sortKeyFields: ["createdAt"]
+      queryField: "listMessagesByChatRoom"
+    )
+  userID: ID! @index(name: "byUser")
+  images: [String]
+  attachments: [Attachment] @hasMany(indexName: "byMessage", fields: ["id"])
+}
+
+type ChatRoom @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  name: String
+  image: String
+  messages: [Message] @hasMany(indexName: "byChatRoom", fields: ["id"])
+  users: [User] @manyToMany(relationName: "UserChatRoom")
+  lastMessage: Message @hasOne
+  attachments: [Attachment] @hasMany(indexName: "byChatRoom", fields: ["id"])
 }

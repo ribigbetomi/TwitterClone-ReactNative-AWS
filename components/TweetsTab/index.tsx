@@ -35,19 +35,22 @@ const TweetTab = ({ userID }: any) => {
   };
   useEffect(() => {
     fetchTweets();
-  }, [userID]);
+  }, []);
   //   console.log(user, "userrrr");
   return (
     <View style={{ width: "100%" }}>
-      <FlatList
-        data={userTweets}
-        renderItem={({ item }) => <Tweet tweet={item} />}
-        // style={{ backgroundColor: "blue" }}
-        keyExtractor={(item: TweetType) => item.id}
-        refreshing={loading}
-        onRefresh={fetchTweets}
-        // ListHeaderComponent={UserFleetsList}
-      />
+      {/* <Text>TweetsTab</Text> */}
+      {userTweets && (
+        <FlatList
+          data={userTweets}
+          renderItem={({ item }) => <Tweet tweet={item} />}
+          // style={{ backgroundColor: "blue" }}
+          keyExtractor={(item: TweetType) => item.id}
+          refreshing={loading}
+          onRefresh={fetchTweets}
+          // ListHeaderComponent={UserFleetsList}
+        />
+      )}
     </View>
   );
 };
