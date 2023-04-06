@@ -1,20 +1,18 @@
 import { API, Auth, graphqlOperation } from "aws-amplify";
-import { Button } from "react-native";
-import { StyleSheet } from "react-native";
-import { Text, View } from "../../components/Themed";
-import { useLayoutEffect } from "react";
+import { useEffect, useState } from "react";
+import { StyleSheet, FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import ProfilePicture from "../../components/ProfilePicture";
-import { useEffect } from "react";
-import { GraphQLResult } from "@aws-amplify/api-graphql";
-
-import { useState } from "react";
+import { Text, View } from "../../components/Themed";
 import { Ionicons } from "@expo/vector-icons";
 import { listUserChatRooms } from "../../src/queries/listUserChatRooms";
 import { getUser } from "../../src/queries/getUserQuery";
+import ChatListItem from "../../components/ChatListItem";
+import Colors from "../../constants/Colors";
+import useColorScheme from "./../../hooks/useColorScheme";
 
 export default function TabFourScreen() {
   const navigation = useNavigation();
+  const colorScheme = useColorScheme();
 
   const [authUser, setAuthUser] = useState({});
   const [loading, setLoading] = useState(false);
@@ -52,10 +50,11 @@ export default function TabFourScreen() {
     );
     // console.log(response, "res");
 
-    const rooms = response?.data?.getUser?.chatRooms?.items?.filter(
-      (item) => !item._deleted
-    );
-    const sortedRooms = rooms.sort(
+    // const rooms = response?.data?.getUser?.chatRooms?.items?.filter(
+    //   (item) => !item._deleted
+    // );
+
+    const sortedRooms = response.data.getUser.chatRooms.items.sort(
       (r1, r2) =>
         new Date(r2.chatRoom.updatedAt) - new Date(r1.chatRoom.updatedAt)
     );
@@ -70,12 +69,27 @@ export default function TabFourScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.head}>
+      <View
+        style={[
+          styles.head,
+          { backgroundColor: Colors[colorScheme].transparent },
+        ]}
+      >
         <View style={styles.header}>
           <Ionicons name={"search-outline"} color={"gray"} size={20} />
-          <Text>Search Direct Messages</Text>
+          <Text style={{ color: "gray", marginLeft: 5 }}>
+            Search Direct Messages
+          </Text>
         </View>
       </View>
+      <View style={styles.line} />
+      <FlatList
+        data={chatRooms}
+        renderItem={({ item }) => <ChatListItem chat={item.chatRoom} />}
+        style={{ backgroundColor: Colors[colorScheme].background }}
+        refreshing={loading}
+        onRefresh={fetchChatRooms}
+      />
     </View>
   );
 }
@@ -84,9 +98,20 @@ const styles = StyleSheet.create({
   container: {},
   header: {
     flexDirection: "row",
+    paddingVertical: 5,
+    backgroundColor: "transparent",
   },
-  head: { alignItems: "center", paddingVertical: 10 },
-
+  head: {
+    alignItems: "center",
+    paddingVertical: 5,
+    marginHorizontal: 20,
+    borderRadius: 30,
+  },
+  line: {
+    marginVertical: 10,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "#3E3E3E",
+  },
   title: {
     fontSize: 20,
     fontWeight: "bold",

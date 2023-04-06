@@ -23,6 +23,7 @@ export const listUserChatRooms = /* GraphQL */ `
               id
               createdAt
               text
+              userID
             }
           }
         }

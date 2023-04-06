@@ -31,7 +31,7 @@ const LikesTab = ({ user: { userID } }: any) => {
       <FlatList
         data={likes}
         keyExtractor={(item: any) => item.id}
-        renderItem={({ item }) => <Tweet tweet={item} />}
+        renderItem={({ item }) => <Tweet tweet={item} likey={true} />}
         refreshing={loading}
       />
     </View>

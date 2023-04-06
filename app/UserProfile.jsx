@@ -12,7 +12,7 @@ import { useRoute, useLinkProps } from "@react-navigation/native";
 import ProfilePicture from "../components/ProfilePicture";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
-import { followersByAuthUserID } from "../src/graphql/queries";
+
 // import { GraphQLResult } from "@aws-amplify/api-graphql";
 import Tabs from "../components/ProfileTabs";
 import {
@@ -29,7 +29,6 @@ import {
   onDeleteFollower,
   onDeleteFollowing,
 } from "../src/graphql/subscriptions";
-import { followingsByAuthUserID } from "../src/queries/userProfileQueries";
 // import { NextObserver, Observable, from, Subscription } from "rxjs";
 // import { ObservableInput } from "rxjs/internal/types";
 // import  {cast}  from "rxjs/operators";
@@ -38,6 +37,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
 import { getCommonChatRoomWithUser } from "../services/chatRoomService";
 import { getUser } from "../src/queries/getUserQuery";
+import { followingsByAuthUserID } from "../src/queries/userProfileQueries";
+import { followersByAuthUserID } from "../src/queries/FollowsByAuthUserID";
 
 const UserProfile = () => {
   const route = useRoute();
@@ -165,8 +166,6 @@ const UserProfile = () => {
       };
     }
     setLoading(false);
-    // };
-    // setFollowing();
   }, [JSON.stringify(authUser?.following?.items), user.id]);
 
   // console.log(JSON.stringify(user, null, 2), "user");

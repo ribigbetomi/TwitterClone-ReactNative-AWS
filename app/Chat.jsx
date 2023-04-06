@@ -13,7 +13,6 @@ import { API, graphqlOperation } from "aws-amplify";
 import { useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import Message from "../components/ChatListItem/Message";
-import { getChatRoom } from "../src/graphql/queries";
 import {
   onCreateAttachment,
   onCreateMessage,
@@ -24,6 +23,7 @@ import { listMessagesByChatRoom } from "../src/queries/ChatScreenQueries";
 import ProfilePicture from "../components/ProfilePicture";
 import Colors from "../constants/Colors";
 import useColorScheme from "./../hooks/useColorScheme";
+import { getChatRoom } from "../src/queries/getChatRoomQuery";
 
 const Chat = () => {
   const [chatRoom, setChatRoom] = useState(null);

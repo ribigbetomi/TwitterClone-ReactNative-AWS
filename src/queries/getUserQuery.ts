@@ -17,7 +17,6 @@ export const getUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
-        startedAt
       }
       likes {
         items {
@@ -29,7 +28,6 @@ export const getUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
-        startedAt
       }
       following {
         items {
@@ -40,7 +38,6 @@ export const getUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
-        startedAt
       }
       followers {
         items {
@@ -51,7 +48,6 @@ export const getUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
-        startedAt
       }
       fleets {
         items {
@@ -64,7 +60,6 @@ export const getUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
-        startedAt
       }
       comments {
         items {
@@ -78,7 +73,6 @@ export const getUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
-        startedAt
       }
       retweets {
         items {
@@ -90,7 +84,6 @@ export const getUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
-        startedAt
       }
       messages {
         items {
@@ -103,7 +96,6 @@ export const getUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
-        startedAt
       }
       chatRooms {
         items {
@@ -112,10 +104,8 @@ export const getUser = /* GraphQL */ `
           chatRoomId
           createdAt
           updatedAt
-          _deleted
         }
         nextToken
-        startedAt
       }
       views {
         items {
@@ -126,7 +116,6 @@ export const getUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
-        startedAt
       }
       createdAt
       updatedAt

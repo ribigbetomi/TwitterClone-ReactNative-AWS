@@ -15,11 +15,11 @@ export type TweetProps = {
   tweet: TweetType;
 };
 
-const Tweet = ({ tweet }: TweetProps) => {
+const Tweet = ({ tweet, likey = false }: any) => {
   const linkProps = useLinkProps({
     to: {
       screen: "CommentsScreen",
-      params: { tweet: tweet },
+      params: { tweet: tweet, likey: likey },
     },
   });
   // console.log(JSON.stringify(tweet, null, 2), "tweet");

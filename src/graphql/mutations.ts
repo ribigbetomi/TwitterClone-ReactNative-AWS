@@ -22,12 +22,8 @@ export const createUser = /* GraphQL */ `
           userID
           followingID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       likes {
         items {
@@ -37,12 +33,8 @@ export const createUser = /* GraphQL */ `
           commentID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       following {
         items {
@@ -51,12 +43,8 @@ export const createUser = /* GraphQL */ `
           authUserID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       followers {
         items {
@@ -65,12 +53,8 @@ export const createUser = /* GraphQL */ `
           authUserID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       fleets {
         items {
@@ -81,12 +65,8 @@ export const createUser = /* GraphQL */ `
           image
           userID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       comments {
         items {
@@ -98,12 +78,8 @@ export const createUser = /* GraphQL */ `
           image
           commentID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       retweets {
         items {
@@ -113,12 +89,8 @@ export const createUser = /* GraphQL */ `
           commentID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       messages {
         items {
@@ -129,12 +101,8 @@ export const createUser = /* GraphQL */ `
           userID
           images
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       chatRooms {
         items {
@@ -143,12 +111,8 @@ export const createUser = /* GraphQL */ `
           chatRoomId
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       views {
         items {
@@ -157,18 +121,11 @@ export const createUser = /* GraphQL */ `
           fleetID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -192,12 +149,8 @@ export const updateUser = /* GraphQL */ `
           userID
           followingID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       likes {
         items {
@@ -207,12 +160,8 @@ export const updateUser = /* GraphQL */ `
           commentID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       following {
         items {
@@ -221,12 +170,8 @@ export const updateUser = /* GraphQL */ `
           authUserID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       followers {
         items {
@@ -235,12 +180,8 @@ export const updateUser = /* GraphQL */ `
           authUserID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       fleets {
         items {
@@ -251,12 +192,8 @@ export const updateUser = /* GraphQL */ `
           image
           userID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       comments {
         items {
@@ -268,12 +205,8 @@ export const updateUser = /* GraphQL */ `
           image
           commentID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       retweets {
         items {
@@ -283,12 +216,8 @@ export const updateUser = /* GraphQL */ `
           commentID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       messages {
         items {
@@ -299,12 +228,8 @@ export const updateUser = /* GraphQL */ `
           userID
           images
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       chatRooms {
         items {
@@ -313,12 +238,8 @@ export const updateUser = /* GraphQL */ `
           chatRoomId
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       views {
         items {
@@ -327,18 +248,11 @@ export const updateUser = /* GraphQL */ `
           fleetID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -362,12 +276,8 @@ export const deleteUser = /* GraphQL */ `
           userID
           followingID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       likes {
         items {
@@ -377,12 +287,8 @@ export const deleteUser = /* GraphQL */ `
           commentID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       following {
         items {
@@ -391,12 +297,8 @@ export const deleteUser = /* GraphQL */ `
           authUserID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       followers {
         items {
@@ -405,12 +307,8 @@ export const deleteUser = /* GraphQL */ `
           authUserID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       fleets {
         items {
@@ -421,12 +319,8 @@ export const deleteUser = /* GraphQL */ `
           image
           userID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       comments {
         items {
@@ -438,12 +332,8 @@ export const deleteUser = /* GraphQL */ `
           image
           commentID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       retweets {
         items {
@@ -453,12 +343,8 @@ export const deleteUser = /* GraphQL */ `
           commentID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       messages {
         items {
@@ -469,12 +355,8 @@ export const deleteUser = /* GraphQL */ `
           userID
           images
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       chatRooms {
         items {
@@ -483,12 +365,8 @@ export const deleteUser = /* GraphQL */ `
           chatRoomId
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       views {
         items {
@@ -497,18 +375,11 @@ export const deleteUser = /* GraphQL */ `
           fleetID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -531,49 +402,36 @@ export const createTweet = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       likes {
         items {
@@ -583,12 +441,8 @@ export const createTweet = /* GraphQL */ `
           commentID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       followingID
       comments {
@@ -601,12 +455,8 @@ export const createTweet = /* GraphQL */ `
           image
           commentID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       retweets {
         items {
@@ -616,17 +466,10 @@ export const createTweet = /* GraphQL */ `
           commentID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -649,49 +492,36 @@ export const updateTweet = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       likes {
         items {
@@ -701,12 +531,8 @@ export const updateTweet = /* GraphQL */ `
           commentID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       followingID
       comments {
@@ -719,12 +545,8 @@ export const updateTweet = /* GraphQL */ `
           image
           commentID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       retweets {
         items {
@@ -734,17 +556,10 @@ export const updateTweet = /* GraphQL */ `
           commentID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -767,49 +582,36 @@ export const deleteTweet = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       likes {
         items {
@@ -819,12 +621,8 @@ export const deleteTweet = /* GraphQL */ `
           commentID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       followingID
       comments {
@@ -837,12 +635,8 @@ export const deleteTweet = /* GraphQL */ `
           image
           commentID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       retweets {
         items {
@@ -852,17 +646,10 @@ export const deleteTweet = /* GraphQL */ `
           commentID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -886,49 +673,36 @@ export const createFleet = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       views {
         items {
@@ -937,17 +711,10 @@ export const createFleet = /* GraphQL */ `
           fleetID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -971,49 +738,36 @@ export const updateFleet = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       views {
         items {
@@ -1022,17 +776,10 @@ export const updateFleet = /* GraphQL */ `
           fleetID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -1056,49 +803,36 @@ export const deleteFleet = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       views {
         items {
@@ -1107,17 +841,10 @@ export const deleteFleet = /* GraphQL */ `
           fleetID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -1138,49 +865,36 @@ export const createLike = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       tweet {
         id
@@ -1196,27 +910,18 @@ export const createLike = /* GraphQL */ `
           image
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         likes {
           nextToken
-          startedAt
         }
         followingID
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       commentID
       comment {
@@ -1231,9 +936,6 @@ export const createLike = /* GraphQL */ `
           image
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         tweetID
         tweet {
@@ -1244,35 +946,23 @@ export const createLike = /* GraphQL */ `
           userID
           followingID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         content
         image
         commentID
         comments {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -1293,49 +983,36 @@ export const updateLike = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       tweet {
         id
@@ -1351,27 +1028,18 @@ export const updateLike = /* GraphQL */ `
           image
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         likes {
           nextToken
-          startedAt
         }
         followingID
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       commentID
       comment {
@@ -1386,9 +1054,6 @@ export const updateLike = /* GraphQL */ `
           image
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         tweetID
         tweet {
@@ -1399,35 +1064,23 @@ export const updateLike = /* GraphQL */ `
           userID
           followingID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         content
         image
         commentID
         comments {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -1448,49 +1101,36 @@ export const deleteLike = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       tweet {
         id
@@ -1506,27 +1146,18 @@ export const deleteLike = /* GraphQL */ `
           image
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         likes {
           nextToken
-          startedAt
         }
         followingID
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       commentID
       comment {
@@ -1541,9 +1172,6 @@ export const deleteLike = /* GraphQL */ `
           image
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         tweetID
         tweet {
@@ -1554,35 +1182,23 @@ export const deleteLike = /* GraphQL */ `
           userID
           followingID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         content
         image
         commentID
         comments {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -1602,49 +1218,36 @@ export const createFollowing = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       authUserID
       authUser {
@@ -1655,49 +1258,36 @@ export const createFollowing = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       tweets {
         items {
@@ -1708,18 +1298,11 @@ export const createFollowing = /* GraphQL */ `
           userID
           followingID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -1739,49 +1322,36 @@ export const updateFollowing = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       authUserID
       authUser {
@@ -1792,49 +1362,36 @@ export const updateFollowing = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       tweets {
         items {
@@ -1845,18 +1402,11 @@ export const updateFollowing = /* GraphQL */ `
           userID
           followingID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -1876,49 +1426,36 @@ export const deleteFollowing = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       authUserID
       authUser {
@@ -1929,49 +1466,36 @@ export const deleteFollowing = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       tweets {
         items {
@@ -1982,18 +1506,11 @@ export const deleteFollowing = /* GraphQL */ `
           userID
           followingID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -2013,49 +1530,36 @@ export const createFollower = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       authUserID
       authUser {
@@ -2066,55 +1570,39 @@ export const createFollower = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -2134,49 +1622,36 @@ export const updateFollower = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       authUserID
       authUser {
@@ -2187,55 +1662,39 @@ export const updateFollower = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -2255,49 +1714,36 @@ export const deleteFollower = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       authUserID
       authUser {
@@ -2308,55 +1754,39 @@ export const deleteFollower = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -2377,49 +1807,36 @@ export const createComment = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       tweetID
       tweet {
@@ -2436,27 +1853,18 @@ export const createComment = /* GraphQL */ `
           image
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         likes {
           nextToken
-          startedAt
         }
         followingID
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       content
       image
@@ -2471,12 +1879,8 @@ export const createComment = /* GraphQL */ `
           image
           commentID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       likes {
         items {
@@ -2486,12 +1890,8 @@ export const createComment = /* GraphQL */ `
           commentID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       retweets {
         items {
@@ -2501,17 +1901,10 @@ export const createComment = /* GraphQL */ `
           commentID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -2532,49 +1925,36 @@ export const updateComment = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       tweetID
       tweet {
@@ -2591,27 +1971,18 @@ export const updateComment = /* GraphQL */ `
           image
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         likes {
           nextToken
-          startedAt
         }
         followingID
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       content
       image
@@ -2626,12 +1997,8 @@ export const updateComment = /* GraphQL */ `
           image
           commentID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       likes {
         items {
@@ -2641,12 +2008,8 @@ export const updateComment = /* GraphQL */ `
           commentID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       retweets {
         items {
@@ -2656,17 +2019,10 @@ export const updateComment = /* GraphQL */ `
           commentID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -2687,49 +2043,36 @@ export const deleteComment = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       tweetID
       tweet {
@@ -2746,27 +2089,18 @@ export const deleteComment = /* GraphQL */ `
           image
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         likes {
           nextToken
-          startedAt
         }
         followingID
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       content
       image
@@ -2781,12 +2115,8 @@ export const deleteComment = /* GraphQL */ `
           image
           commentID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       likes {
         items {
@@ -2796,12 +2126,8 @@ export const deleteComment = /* GraphQL */ `
           commentID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       retweets {
         items {
@@ -2811,17 +2137,10 @@ export const deleteComment = /* GraphQL */ `
           commentID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -2841,49 +2160,36 @@ export const createRetweet = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       tweetID
       tweet {
@@ -2900,27 +2206,18 @@ export const createRetweet = /* GraphQL */ `
           image
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         likes {
           nextToken
-          startedAt
         }
         followingID
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       commentID
       comment {
@@ -2935,9 +2232,6 @@ export const createRetweet = /* GraphQL */ `
           image
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         tweetID
         tweet {
@@ -2948,35 +2242,23 @@ export const createRetweet = /* GraphQL */ `
           userID
           followingID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         content
         image
         commentID
         comments {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -2996,49 +2278,36 @@ export const updateRetweet = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       tweetID
       tweet {
@@ -3055,27 +2324,18 @@ export const updateRetweet = /* GraphQL */ `
           image
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         likes {
           nextToken
-          startedAt
         }
         followingID
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       commentID
       comment {
@@ -3090,9 +2350,6 @@ export const updateRetweet = /* GraphQL */ `
           image
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         tweetID
         tweet {
@@ -3103,35 +2360,23 @@ export const updateRetweet = /* GraphQL */ `
           userID
           followingID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         content
         image
         commentID
         comments {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -3151,49 +2396,36 @@ export const deleteRetweet = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       tweetID
       tweet {
@@ -3210,27 +2442,18 @@ export const deleteRetweet = /* GraphQL */ `
           image
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         likes {
           nextToken
-          startedAt
         }
         followingID
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       commentID
       comment {
@@ -3245,9 +2468,6 @@ export const deleteRetweet = /* GraphQL */ `
           image
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         tweetID
         tweet {
@@ -3258,35 +2478,23 @@ export const deleteRetweet = /* GraphQL */ `
           userID
           followingID
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         content
         image
         commentID
         comments {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -3306,49 +2514,36 @@ export const createView = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       fleetID
       fleet {
@@ -3366,24 +2561,14 @@ export const createView = /* GraphQL */ `
           image
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         views {
           nextToken
-          startedAt
         }
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -3403,49 +2588,36 @@ export const updateView = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       fleetID
       fleet {
@@ -3463,24 +2635,14 @@ export const updateView = /* GraphQL */ `
           image
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         views {
           nextToken
-          startedAt
         }
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -3500,49 +2662,36 @@ export const deleteView = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       fleetID
       fleet {
@@ -3560,24 +2709,14 @@ export const deleteView = /* GraphQL */ `
           image
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         views {
           nextToken
-          startedAt
         }
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -3597,9 +2736,6 @@ export const createAttachment = /* GraphQL */ `
       chatroomID
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -3619,9 +2755,6 @@ export const updateAttachment = /* GraphQL */ `
       chatroomID
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -3641,9 +2774,6 @@ export const deleteAttachment = /* GraphQL */ `
       chatroomID
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -3671,17 +2801,10 @@ export const createMessage = /* GraphQL */ `
           chatroomID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -3709,17 +2832,10 @@ export const updateMessage = /* GraphQL */ `
           chatroomID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -3747,17 +2863,10 @@ export const deleteMessage = /* GraphQL */ `
           chatroomID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -3779,12 +2888,8 @@ export const createChatRoom = /* GraphQL */ `
           userID
           images
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       users {
         items {
@@ -3793,12 +2898,8 @@ export const createChatRoom = /* GraphQL */ `
           chatRoomId
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       lastMessage {
         id
@@ -3809,12 +2910,8 @@ export const createChatRoom = /* GraphQL */ `
         images
         attachments {
           nextToken
-          startedAt
         }
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       attachments {
         items {
@@ -3828,18 +2925,11 @@ export const createChatRoom = /* GraphQL */ `
           chatroomID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
       chatRoomLastMessageId
     }
   }
@@ -3862,12 +2952,8 @@ export const updateChatRoom = /* GraphQL */ `
           userID
           images
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       users {
         items {
@@ -3876,12 +2962,8 @@ export const updateChatRoom = /* GraphQL */ `
           chatRoomId
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       lastMessage {
         id
@@ -3892,12 +2974,8 @@ export const updateChatRoom = /* GraphQL */ `
         images
         attachments {
           nextToken
-          startedAt
         }
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       attachments {
         items {
@@ -3911,18 +2989,11 @@ export const updateChatRoom = /* GraphQL */ `
           chatroomID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
       chatRoomLastMessageId
     }
   }
@@ -3945,12 +3016,8 @@ export const deleteChatRoom = /* GraphQL */ `
           userID
           images
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       users {
         items {
@@ -3959,12 +3026,8 @@ export const deleteChatRoom = /* GraphQL */ `
           chatRoomId
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       lastMessage {
         id
@@ -3975,12 +3038,8 @@ export const deleteChatRoom = /* GraphQL */ `
         images
         attachments {
           nextToken
-          startedAt
         }
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       attachments {
         items {
@@ -3994,18 +3053,11 @@ export const deleteChatRoom = /* GraphQL */ `
           chatroomID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
       chatRoomLastMessageId
     }
   }
@@ -4027,49 +3079,36 @@ export const createUserChatRoom = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       chatRoom {
         id
@@ -4077,11 +3116,9 @@ export const createUserChatRoom = /* GraphQL */ `
         image
         messages {
           nextToken
-          startedAt
         }
         users {
           nextToken
-          startedAt
         }
         lastMessage {
           id
@@ -4091,26 +3128,16 @@ export const createUserChatRoom = /* GraphQL */ `
           userID
           images
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         attachments {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
         chatRoomLastMessageId
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -4131,49 +3158,36 @@ export const updateUserChatRoom = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       chatRoom {
         id
@@ -4181,11 +3195,9 @@ export const updateUserChatRoom = /* GraphQL */ `
         image
         messages {
           nextToken
-          startedAt
         }
         users {
           nextToken
-          startedAt
         }
         lastMessage {
           id
@@ -4195,26 +3207,16 @@ export const updateUserChatRoom = /* GraphQL */ `
           userID
           images
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         attachments {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
         chatRoomLastMessageId
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -4235,49 +3237,36 @@ export const deleteUserChatRoom = /* GraphQL */ `
         image
         tweets {
           nextToken
-          startedAt
         }
         likes {
           nextToken
-          startedAt
         }
         following {
           nextToken
-          startedAt
         }
         followers {
           nextToken
-          startedAt
         }
         fleets {
           nextToken
-          startedAt
         }
         comments {
           nextToken
-          startedAt
         }
         retweets {
           nextToken
-          startedAt
         }
         messages {
           nextToken
-          startedAt
         }
         chatRooms {
           nextToken
-          startedAt
         }
         views {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       chatRoom {
         id
@@ -4285,11 +3274,9 @@ export const deleteUserChatRoom = /* GraphQL */ `
         image
         messages {
           nextToken
-          startedAt
         }
         users {
           nextToken
-          startedAt
         }
         lastMessage {
           id
@@ -4299,26 +3286,16 @@ export const deleteUserChatRoom = /* GraphQL */ `
           userID
           images
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         attachments {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
         chatRoomLastMessageId
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
