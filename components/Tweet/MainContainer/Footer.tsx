@@ -13,15 +13,18 @@ import {
 } from "../../../src/graphql/mutations";
 import { useLinkProps } from "@react-navigation/native";
 import { commentsByTweetIDAndCreatedAt } from "../../../src/graphql/queries";
+import { useNavigation } from "expo-router";
 
 // export type FooterContainerProps = {
 //   tweet: TweetType;
 // };
 
 const Footer = ({ tweet }: any) => {
+  const navigation: any = useNavigation();
   // console.log(JSON.stringify(tweet.likes.items, null, 2), "tweetLikes");
 
   const [user, setUser] = useState<any>(null);
+  // console.log(user, "user");
 
   const [myLike, setMyLike] = useState<any>(null);
   // console.log(myLike, "myLikee");
@@ -39,89 +42,91 @@ const Footer = ({ tweet }: any) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const currentUser = await Auth.currentAuthenticatedUser({
-        bypassCache: true,
-      });
-      setLikesCount(
-        tweet.likes
-          ? tweet.likes.items.length
-          : tweet.comment
-          ? tweet.comment.likes.items.length
-          : tweet.tweet.likes.items.length || 0
-      );
-      setRetweetsCount(
-        tweet.retweets
-          ? tweet.retweets.items.length
-          : tweet.comment
-          ? tweet.comment.retweets.items.length
-          : tweet.tweet.retweets.items.length || 0
-      );
+      const currentUser = await Auth.currentAuthenticatedUser();
       // console.log(JSON.stringify(currentUser, null, 2), "currentUser");
-      setUser(currentUser);
-      if (currentUser) {
-        let searchedLike;
-        if (tweet.likes) {
-          //for normal tweet with likes
-          searchedLike = tweet.likes.items.find(
-            (like: any) => like.userID === currentUser.attributes.sub
-          );
-          // console.log(JSON.stringify(searchedLike, null, 2), "searchedLike");
-          setMyLike(searchedLike);
-        } else {
-          if (tweet.comment) {
-            //for likesTab that like retrieved from likesByUserID is for a comment
-            searchedLike = tweet.comment?.likes?.items.find(
-              (like: any) => like.userID === currentUser.attributes.sub
-            );
-
-            setMyLike(searchedLike);
-          } else if (tweet.tweet) {
-            //for likesTab that like retrieved from likesByUserID is for a tweet
-            searchedLike = tweet.tweet?.likes?.items.find(
-              (like: any) => like.userID === currentUser.attributes.sub
-            );
-            setMyLike(searchedLike);
-          }
-          // else if (tweet.comments.items) {
-          //   searchedLike = tweet.comment?.likes?.items.find(
-          //     (like: any) => like.userID === currentUser.attributes.sub
-          //   );
-          // }
-        }
-
-        let searchedRetweet;
-        if (tweet.retweets) {
-          //for normal tweet with retweets
-          searchedRetweet = tweet.retweets.items.find(
-            (retweet: any) => retweet.userID === currentUser.attributes.sub
-          );
-          // console.log(JSON.stringify(searchedLike, null, 2), "searchedLike");
-          setMyRetweet(searchedRetweet);
-        } else {
-          if (tweet.comment) {
-            //for likesTab that likes retrieved from likesByUserID is for a comment
-            searchedRetweet = tweet.comment?.retweets?.items.find(
-              (retweet: any) => retweet.userID === currentUser.attributes.sub
-            );
-
-            setMyRetweet(searchedRetweet);
-          } else if (tweet.tweet) {
-            //for likesTab that likes retrieved from likesByUserID is for a tweet
-            searchedRetweet = tweet.tweet?.retweets?.items.find(
-              (retweet: any) => retweet.userID === currentUser.attributes.sub
-            );
-            setMyRetweet(searchedRetweet);
-          }
-          // else if (tweet.comments.items) {
-          //   searchedLike = tweet.comment?.likes?.items.find(
-          //     (like: any) => like.userID === currentUser.attributes.sub
-          //   );
-          // }
-        }
-      }
+      setUser(currentUser.attributes.sub);
     };
     fetchUser();
-  }, [tweet]);
+  }, []);
+
+  useEffect(() => {
+    setLikesCount(
+      tweet.likes
+        ? tweet.likes.items.length
+        : tweet.comment
+        ? tweet.comment.likes.items.length
+        : tweet.tweet.likes.items.length || 0
+    );
+    setRetweetsCount(
+      tweet.retweets
+        ? tweet.retweets.items.length
+        : tweet.comment
+        ? tweet.comment.retweets.items.length
+        : tweet.tweet.retweets.items.length || 0
+    );
+    // console.log(JSON.stringify(currentUser, null, 2), "currentUser");
+    if (user) {
+      let searchedLike;
+      if (tweet.likes) {
+        //for normal tweet with likes
+        searchedLike = tweet.likes.items.find(
+          (like: any) => like.userID === user
+        );
+        // console.log(JSON.stringify(searchedLike, null, 2), "searchedLike");
+        setMyLike(searchedLike);
+      } else {
+        if (tweet.comment) {
+          //for likesTab that like retrieved from likesByUserID is for a comment
+          searchedLike = tweet.comment?.likes?.items.find(
+            (like: any) => like.userID === user
+          );
+
+          setMyLike(searchedLike);
+        } else if (tweet.tweet) {
+          //for likesTab that like retrieved from likesByUserID is for a tweet
+          searchedLike = tweet.tweet?.likes?.items.find(
+            (like: any) => like.userID === user
+          );
+          setMyLike(searchedLike);
+        }
+        // else if (tweet.comments.items) {
+        //   searchedLike = tweet.comment?.likes?.items.find(
+        //     (like: any) => like.userID === currentUser.attributes.sub
+        //   );
+        // }
+      }
+
+      let searchedRetweet;
+      if (tweet.retweets) {
+        //for normal tweet with retweets
+        searchedRetweet = tweet.retweets.items.find(
+          (retweet: any) => retweet.userID === user
+        );
+        // console.log(JSON.stringify(searchedLike, null, 2), "searchedLike");
+        setMyRetweet(searchedRetweet);
+      } else {
+        if (tweet.comment) {
+          //for likesTab that likes retrieved from likesByUserID is for a comment
+          searchedRetweet = tweet.comment?.retweets?.items.find(
+            (retweet: any) => retweet.userID === user
+          );
+
+          setMyRetweet(searchedRetweet);
+        } else if (tweet.tweet) {
+          //for likesTab that likes retrieved from likesByUserID is for a tweet
+          searchedRetweet = tweet.tweet?.retweets?.items.find(
+            (retweet: any) => retweet.userID === user
+          );
+          setMyRetweet(searchedRetweet);
+        }
+        // else if (tweet.comments.items) {
+        //   searchedLike = tweet.comment?.likes?.items.find(
+        //     (like: any) => like.userID === currentUser.attributes.sub
+        //   );
+        // }
+      }
+    }
+  }, [tweet, user]);
 
   // console.log(JSON.stringify(myLike, null, 2), "myLike");
   // console.log(JSON.stringify(user.attributes.sub, null, 2), "user.");
@@ -137,6 +142,8 @@ const Footer = ({ tweet }: any) => {
       // console.log(filtered.length, "filteredLength");
     } else if (tweet.comment) {
       setTweetComments(tweet.comment.comments.items.length);
+    } else if (tweet.tweetID) {
+      setTweetComments(tweet.tweet.comments.items.length);
     }
   }, [JSON.stringify(tweet)]);
 
@@ -148,17 +155,17 @@ const Footer = ({ tweet }: any) => {
     let like;
     if (tweet.tweetID) {
       like = {
-        userID: user.attributes.sub,
+        userID: user,
         commentID: tweet.id,
       };
     } else if (tweet.commentID) {
       like = {
-        userID: user.attributes.sub,
+        userID: user,
         commentID: tweet.id,
       };
     } else {
       like = {
-        userID: user.attributes.sub,
+        userID: user,
         tweetID: tweet.id,
       };
     }
@@ -203,28 +210,35 @@ const Footer = ({ tweet }: any) => {
     }
   };
 
-  const linkProps = useLinkProps({
-    to: {
-      screen: "NewComment",
-      params: { tweetOrComment: tweet, tweetUser: tweet.user.username },
-    },
-  });
+  // const linkProps = useLinkProps({
+  //   to: {
+  //     screen: "NewComment",
+  //     params: { tweetOrComment: tweet, tweetUser: tweet.user.username },
+  //   },
+  // });
+
+  const onPress = () => {
+    navigation.navigate("NewComment", {
+      tweetOrComment: tweet,
+      tweetUser: tweet.user.username,
+    });
+  };
 
   const submitRetweet = async () => {
     let retweet;
     if (tweet.tweetID) {
       retweet = {
-        userID: user.attributes.sub,
+        userID: user,
         commentID: tweet.id,
       };
     } else if (tweet.commentID) {
       retweet = {
-        userID: user.attributes.sub,
+        userID: user,
         commentID: tweet.id,
       };
     } else {
       retweet = {
-        userID: user.attributes.sub,
+        userID: user,
         tweetID: tweet.id,
       };
     }
@@ -274,7 +288,7 @@ const Footer = ({ tweet }: any) => {
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
-        <TouchableOpacity {...linkProps}>
+        <TouchableOpacity onPress={onPress}>
           <Feather name={"message-circle"} size={20} color={"grey"} />
         </TouchableOpacity>
         <Text style={styles.number}>{tweetComments ? tweetComments : ""}</Text>

@@ -4,20 +4,31 @@ import { StyleSheet, FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Text, View } from "../../components/Themed";
 import { Ionicons } from "@expo/vector-icons";
-import { listUserChatRooms } from "../../src/queries/listUserChatRooms";
 import { getUser } from "../../src/queries/getUserQuery";
 import ChatListItem from "../../components/ChatListItem";
 import Colors from "../../constants/Colors";
 import useColorScheme from "./../../hooks/useColorScheme";
+import { useDispatch, useSelector } from "react-redux";
+import { listUserChatRoomss } from "../../Redux/Actions/ChatRoomActions";
+import { ActivityIndicator } from "react-native";
 
 export default function TabFourScreen() {
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
+  const dispatch = useDispatch();
+
+  const { userInfo } = useSelector((state) => state.userDetails);
+  const { loading: loadingChatRooms, chatRooms } = useSelector(
+    (state) => state.listUserChatRooms
+  );
+  // console.log(JSON.stringify(userInfo.id), "userInfoID");
+  // console.log(JSON.stringify(chatRooms, null, 2), "chatRooms");
 
   const [authUser, setAuthUser] = useState({});
   const [loading, setLoading] = useState(false);
-  const [chatRooms, setChatRooms] = useState([]);
-  console.log(JSON.stringify(chatRooms, null, 2), "chatRooms");
+  // const [chatRooms, setChatRooms] = useState([]);
+
+  // console.log(JSON.stringify(chatRooms, null, 2), "chatRooms");
 
   // console.log(JSON.stringify(authUser, null, 2), "authUser");
 
@@ -28,47 +39,53 @@ export default function TabFourScreen() {
   //     // Do something with the header height
   //   }, []);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const userInfo = await Auth.currentAuthenticatedUser({
-        bypassCache: true,
-      });
-      const { data } = await API.graphql(
-        graphqlOperation(getUser, { id: userInfo.attributes.sub })
-      );
-      setAuthUser(data);
-    };
-    fetchUser();
-  }, []);
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const userInfo = await Auth.currentAuthenticatedUser({
+  //       bypassCache: true,
+  //     });
+  //     const { data } = await API.graphql(
+  //       graphqlOperation(getUser, { id: userInfo.attributes.sub })
+  //     );
+  //     setAuthUser(data);
+  //   };
+  //   fetchUser();
+  // }, []);
 
-  const fetchChatRooms = async () => {
+  // const fetchChatRooms = async () => {
+  //   setLoading(true);
+  //   // const authUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+
+  //   // const response = await API.graphql(
+  //   //   graphqlOperation(listUserChatRooms, { id: authUser.attributes.sub })
+  //   // );
+  //   // console.log(response, "res");
+
+  //   // const rooms = response?.data?.getUser?.chatRooms?.items?.filter(
+  //   //   (item) => !item._deleted
+  //   // );
+
+  //   // const sortedRooms = response.data.getUser.chatRooms.items.sort(
+  //   //   (r1, r2) =>
+  //   //     new Date(r2.chatRoom.updatedAt) - new Date(r1.chatRoom.updatedAt)
+  //   // );
+
+  //   // setChatRooms(sortedRooms);
+  //   setLoading(false);
+  // };
+  const fetch = () => {
     setLoading(true);
-    const authUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-
-    const response = await API.graphql(
-      graphqlOperation(listUserChatRooms, { id: authUser.attributes.sub })
-    );
-    // console.log(response, "res");
-
-    // const rooms = response?.data?.getUser?.chatRooms?.items?.filter(
-    //   (item) => !item._deleted
-    // );
-
-    const sortedRooms = response.data.getUser.chatRooms.items.sort(
-      (r1, r2) =>
-        new Date(r2.chatRoom.updatedAt) - new Date(r1.chatRoom.updatedAt)
-    );
-
-    setChatRooms(sortedRooms);
+    dispatch(listUserChatRoomss(userInfo.id));
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchChatRooms();
-  }, []);
+    fetch();
+  }, [userInfo]);
 
   return (
     <View style={styles.container}>
+      {loadingChatRooms && <ActivityIndicator />}
       <View
         style={[
           styles.head,
@@ -88,7 +105,7 @@ export default function TabFourScreen() {
         renderItem={({ item }) => <ChatListItem chat={item.chatRoom} />}
         style={{ backgroundColor: Colors[colorScheme].background }}
         refreshing={loading}
-        onRefresh={fetchChatRooms}
+        onRefresh={fetch}
       />
     </View>
   );

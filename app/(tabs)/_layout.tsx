@@ -12,6 +12,11 @@ import { View } from "../../components/Themed";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
 import { TextInput } from "react-native";
 import { getUser } from "../../src/queries/getUserQuery";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import TabOneScreen from "./index";
+import TabTwoScreen from "./Search";
+import TabThreeScreen from "./Notifications";
+import TabFourScreen from "./Messages";
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
@@ -21,6 +26,8 @@ function TabBarIcon(props: {
 }) {
   return <Ionicons size={28} style={{ marginBottom: -3 }} {...props} />;
 }
+
+const Tab = createBottomTabNavigator();
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -52,16 +59,18 @@ export default function TabLayout() {
   }, []);
 
   return (
-    <Tabs
+    <Tab.Navigator
       initialRouteName="index"
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-        // tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-        tabBarShowLabel: false,
+        tabBarStyle: { backgroundColor: Colors[colorScheme].background },
+        // headerShown: false,
+        tabBarActiveTintColor: Colors.light.tint,
+        // tabBarShowLabel: false,
       }}
     >
-      <Tabs.Screen
+      <Tab.Screen
         name="index"
+        component={TabOneScreen}
         options={{
           // title: "index",
           headerTitle: () => (
@@ -71,6 +80,7 @@ export default function TabLayout() {
               color={Colors.light.tint}
             />
           ),
+          headerStyle: { backgroundColor: Colors[colorScheme].background },
           headerTitleAlign: "center",
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           headerRight: () => (
@@ -96,8 +106,9 @@ export default function TabLayout() {
           // },
         }}
       />
-      <Tabs.Screen
+      <Tab.Screen
         name="Search"
+        component={TabTwoScreen}
         options={{
           title: "Search",
           tabBarIcon: ({ color }) => (
@@ -105,8 +116,9 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
+      <Tab.Screen
         name="Notifications"
+        component={TabThreeScreen}
         options={{
           title: "Notifications",
           tabBarIcon: ({ color }) => (
@@ -114,8 +126,9 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
+      <Tab.Screen
         name="Messages"
+        component={TabFourScreen}
         options={{
           title: "Messages",
           tabBarIcon: ({ color }) => <TabBarIcon name="mail" color={color} />,
@@ -137,6 +150,6 @@ export default function TabLayout() {
           },
         }}
       />
-    </Tabs>
+    </Tab.Navigator>
   );
 }

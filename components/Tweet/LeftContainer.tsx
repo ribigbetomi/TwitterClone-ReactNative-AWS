@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { Link, useNavigation } from "expo-router";
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
 import { UserType } from "../../types";
@@ -11,17 +11,22 @@ export type LeftContainerProps = {
 };
 
 const LeftContainer = ({ user }: LeftContainerProps) => {
+  const navigation: any = useNavigation();
   // console.log(JSON.stringify(user, null, 2), "userrr");
-  const linkProps = useLinkProps({
-    to: {
-      screen: "UserProfile",
-      params: {
-        user: user,
-      },
-    },
-  });
+  // const linkProps = useLinkProps({
+  //   to: {
+  //     screen: "UserProfile",
+  //     params: {
+  //       user: user,
+  //     },
+  //   },
+  // });
+
+  const onPress = () => {
+    navigation.navigate("UserProfile", { user: user });
+  };
   return (
-    <TouchableOpacity style={{ height: 70 }} {...linkProps}>
+    <TouchableOpacity style={{ height: 70 }} onPress={onPress}>
       {/* <Text>Good</Text> */}
       <ProfilePicture image={user.image} size={75} />
     </TouchableOpacity>

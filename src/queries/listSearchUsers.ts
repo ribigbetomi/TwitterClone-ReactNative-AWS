@@ -21,6 +21,10 @@ export const listUsers = /* GraphQL */ `
           nextToken
         }
         followers {
+          items {
+            id
+            userID
+          }
           nextToken
         }
         fleets {

@@ -24,7 +24,7 @@ import useColorScheme from "./../../../hooks/useColorScheme";
 // dayjs.extend(relativeTime);
 
 const Message = ({ message }: any) => {
-  console.log(JSON.stringify(message, null, 2), "message");
+  // console.log(JSON.stringify(message, null, 2), "message");
   const [isMe, setIsMe] = useState(false);
   const [imageSources, setImageSources] = useState([]);
   const [imageViewerVisible, setImageViewerVisible] = useState(false);

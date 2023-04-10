@@ -10,21 +10,27 @@ import MainContainer from "./MainContainer";
 
 import { TweetType } from "../../types";
 import { useLinkProps } from "@react-navigation/native";
+import { useNavigation } from "expo-router";
 
 export type TweetProps = {
   tweet: TweetType;
 };
 
 const Tweet = ({ tweet, likey = false }: any) => {
-  const linkProps = useLinkProps({
-    to: {
-      screen: "CommentsScreen",
-      params: { tweet: tweet, likey: likey },
-    },
-  });
+  const navigation: any = useNavigation();
+  // console.log(JSON.stringify(tweet, null, 2), "tweee");
+  // const linkProps = useLinkProps({
+  //   to: {
+  //     screen: "CommentsScreen",
+  //     params: { tweet: tweet, likey: likey },
+  //   },
+  // });
+  const onPress = () => {
+    navigation.navigate("CommentsScreen", { tweet: tweet, likey: likey });
+  };
   // console.log(JSON.stringify(tweet, null, 2), "tweet");
   return (
-    <Pressable {...linkProps} style={styles.container}>
+    <Pressable onPress={onPress} style={styles.container}>
       {/* <TouchableWithoutFeedback {...linkProps}> */}
       <LeftContainer user={tweet.user} />
       <MainContainer tweet={tweet} />

@@ -6,13 +6,16 @@
 // import { createStackNavigator } from "@react-navigation/stack";
 // import * as React from "react";
 // import { ColorSchemeName } from "react-native";
+// import NewTweetScreen from "../app/NewTweet";
+// import _layout from "../app/_layout";
 
 // // import NotFoundScreen from "../screens/NotFoundScreen";
 // import { RootStackParamList } from "../types";
-// import BottomTabNavigator from "./BottomTabNavigator";
-// import LinkingConfiguration from "./LinkingConfiguration";
+// // import BottomTabNavigator from "./BottomTabNavigator";
+// // import LinkingConfiguration from "./LinkingConfiguration";
 // // import NewTweetScreen from "../screens/NewTweetScreen";
 // // import Index from "../screens/FleetScreen";
+// import NewComment from "./../app/NewComment";
 
 // // If you are not familiar with React Navigation, we recommend going through the
 // // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -38,14 +41,15 @@
 // function RootNavigator() {
 //   return (
 //     <Stack.Navigator screenOptions={{ headerShown: false }}>
-//       <Stack.Screen name="Root" component={BottomTabNavigator} />
-//       {/* <Stack.Screen name="NewTweet" component={NewTweetScreen} />
-//       <Stack.Screen name="Fleet" component={Index} /> */}
-//       {/* <Stack.Screen
-//         name="NotFound"
-//         component={NotFoundScreen}
-//         options={{ title: "Oops!" }}
-//       /> */}
+//       <Stack.Screen name="Root" component={_layout} />
+//       <Stack.Screen name="NewTweet" component={NewTweetScreen} />
+//       <Stack.Screen name="CommentsScreen" component={NewTweetScreen} />
+//       {/* <Stack.Screen name="Fleet" component={Index} />  */}
+//       <Stack.Screen
+//         name="NewComment"
+//         component={NewComment}
+//         // options={{ title: "Oops!" }}
+//       />
 //     </Stack.Navigator>
 //   );
 // }

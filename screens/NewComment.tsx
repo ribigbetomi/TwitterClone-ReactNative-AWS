@@ -10,7 +10,7 @@ import { API, Auth, graphqlOperation } from "aws-amplify";
 import { createComment } from "../src/graphql/mutations";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Colors from "../constants/Colors";
-import useColorScheme from "./../hooks/useColorScheme";
+import useColorScheme from "../hooks/useColorScheme";
 import ProfilePicture from "../components/ProfilePicture";
 
 import { GraphQLResult } from "@aws-amplify/api-graphql";

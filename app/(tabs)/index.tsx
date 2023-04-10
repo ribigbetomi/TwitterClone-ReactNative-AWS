@@ -1,35 +1,38 @@
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StyleSheet } from "react-native";
-
-import EditScreenInfo from "../../components/EditScreenInfo";
 import Feed from "../../components/Feed/index";
 import NewTweetButton from "../../components/NewTweetButton";
 import { Text, View } from "../../components/Themed";
 import UserFleetPreview from "../../components/UserFleetPreview";
+import CommentsScreen from "../../screens/CommentsScreen";
+import FleetScreen from "../../screens/Fleet";
+import HomeScreen from "../../screens/HomeScreen";
+import UserProfile from "../../screens/UserProfile";
+import FollowTabs from "./../../screens/FollowTabs";
+
+const Stack = createNativeStackNavigator();
 
 export default function TabOneScreen() {
   return (
-    <View style={styles.container}>
-      {/* <UserFleetPreview
-        user={{
-          id: "1",
-          username: "AdeT",
-          name: "Adetomi",
-          image:
-            "https://media.licdn.com/dms/image/C4D03AQGi5O_7-EXcaQ/profile-displayphoto-shrink_400_400/0/1652770527289?e=1683158400&v=beta&t=2AHeZlzwep_1HN-fRqShypUVXiw1bB4rLq5-mAq1efg",
+    <>
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerShown: false,
         }}
-      /> */}
-      <Feed />
-      <NewTweetButton />
-    </View>
+      >
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="CommentsScreen" component={CommentsScreen} />
+        <Stack.Screen name="UserProfile" component={UserProfile} />
+        <Stack.Screen name="FollowTab" component={FollowTabs} />
+        {/* <Stack.Screen name="PlaceOrder" component={''} />
+      <Stack.Screen name="Cart" component={''} /> */}
+      </Stack.Navigator>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    // justifyContent: "center",
-  },
   title: {
     fontSize: 20,
     fontWeight: "bold",

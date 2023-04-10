@@ -5,6 +5,8 @@ export type RootStackParamList = {
   NewTweet: undefined;
   Fleet: undefined;
   NotFound: undefined;
+  NewComment: undefined;
+  CommentsScreen: undefined;
 };
 
 export type BottomTabParamList = {

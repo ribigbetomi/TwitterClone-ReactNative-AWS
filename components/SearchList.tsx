@@ -8,6 +8,7 @@ import Colors from "../constants/Colors";
 import useColorScheme from "./../hooks/useColorScheme";
 import { useLinkProps } from "@react-navigation/native";
 import { getUser } from "../src/queries/getUserQuery";
+import { useNavigation } from "expo-router";
 
 const SearchList = ({ user }: any) => {
   //   console.log(JSON.stringify(user, null, 2), "user");
@@ -20,6 +21,7 @@ const SearchList = ({ user }: any) => {
   const [bothFollow, setBothFollow] = useState(false);
 
   const colorScheme = useColorScheme();
+  const navigation: any = useNavigation();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -65,17 +67,23 @@ const SearchList = ({ user }: any) => {
     }
   }, [authUser]);
 
-  const linkProps = useLinkProps({
-    to: {
-      screen: "UserProfile",
-      params: {
-        user: user,
-      },
-    },
-  });
+  // const linkProps = useLinkProps({
+  //   to: {
+  //     screen: "UserProfile",
+  //     params: {
+  //       user: user,
+  //     },
+  //   },
+  // });
+  const onPress = () => {
+    navigation.navigate("UserProfile", { user: user });
+  };
 
   return (
-    <Pressable {...linkProps} style={{ flexDirection: "row", marginTop: 10 }}>
+    <Pressable
+      onPress={onPress}
+      style={{ flexDirection: "row", marginTop: 10 }}
+    >
       <View style={{ marginLeft: 15, marginRight: 10 }}>
         <ProfilePicture image={user.image} size={50} />
       </View>

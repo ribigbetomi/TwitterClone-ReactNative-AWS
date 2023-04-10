@@ -13,7 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 dayjs.extend(relativeTime);
 
 const ChatListItem = ({ chat }) => {
-  console.log(JSON.stringify(chat, null, 2), "oldchatRoom");
+  // console.log(JSON.stringify(chat, null, 2), "oldchatRoom");
   const [user, setUser] = useState({});
   // console.log(user, "user");
   const [chatRoom, setChatRoom] = useState(chat);

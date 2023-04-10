@@ -2,7 +2,8 @@ import React from "react";
 import { Text, View, TouchableWithoutFeedback, StyleSheet } from "react-native";
 import { UserType } from "../../types";
 import ProfilePicture from "../ProfilePicture";
-import { useNavigation, Link, useLinkProps } from "@react-navigation/native";
+// import { useNavigation, Link, useLinkProps } from "@react-navigation/native";
+import { useNavigation } from "expo-router";
 // import { Link } from 'expo-router';
 
 export type UserFleetPreviewProps = {
@@ -18,24 +19,24 @@ const UserFleetPreview = (props: UserFleetPreviewProps) => {
     user: { id, username, image },
   } = props;
 
-  const linkProps = useLinkProps({
-    to: {
-      screen: "Fleet",
-      params: { userId: id },
-    },
-  });
+  const navigation: any = useNavigation();
 
-  //   const navigation = useNavigation();
+  // const linkProps = useLinkProps({
+  //   to: {
+  //     screen: "Fleet",
+  //     params: { userId: id },
+  //   },
+  // });
 
-  //   const onPress = () => {
-  //     // navigate to FLeet screen
-  //     navigation.navigate("Fleet", { userId: id });
-  //   };
+  const onPress = () => {
+    // navigate to FLeet screen
+    navigation.navigate("Fleet", { userId: id });
+  };
 
   return (
     <TouchableWithoutFeedback
-      {...linkProps}
-      // onPress={onPress}
+      // {...linkProps}
+      onPress={onPress}
     >
       <View style={styles.container}>
         <View style={styles.image}>

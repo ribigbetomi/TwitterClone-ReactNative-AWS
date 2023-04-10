@@ -8,12 +8,15 @@ import { Text, View } from "../../components/Themed";
 import SearchList from "../../components/SearchList";
 import Colors from "../../constants/Colors";
 import useColorScheme from "./../../hooks/useColorScheme";
-import { listUsers } from "../../src/queries/listSearchUsers";
 import { Pressable } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { listUserss } from "./../../Redux/Actions/UserActions";
 
 export default function TabTwoScreen() {
   const [users, setUsers] = useState<any>([]);
   const [searchWord, setSearchWord] = useState<string>("");
+  const dispatch = useDispatch<any>();
+  const { userInfo } = useSelector((state: any) => state.userDetails);
 
   // console.log(JSON.stringify(users, null, 2), "users");
   // console.log(searchWord.length);
@@ -22,9 +25,9 @@ export default function TabTwoScreen() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const userInfo = await Auth.currentAuthenticatedUser({
-        bypassCache: true,
-      });
+      // const userInfo = await Auth.currentAuthenticatedUser({
+      //   bypassCache: true,
+      // });
 
       try {
         const filter = {
@@ -38,12 +41,13 @@ export default function TabTwoScreen() {
 
         if (userInfo) {
           if (searchWord.length !== 0) {
-            const usersData: GraphQLResult<any> = await API.graphql(
-              graphqlOperation(listUsers, { filter })
-            );
+            dispatch(listUserss(filter));
+            // const usersData: GraphQLResult<any> = await API.graphql(
+            //   graphqlOperation(listUsers, { filter })
+            // );
             // console.log(JSON.stringify(usersData, null, 2), "usersData");
 
-            setUsers(usersData.data.listUsers.items);
+            // setUsers(usersData.data.listUsers.items);
           }
           // console.log(JSON.stringify(lists, null, 2), "lists");
         }

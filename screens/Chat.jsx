@@ -12,6 +12,7 @@ import {
 import { API, graphqlOperation } from "aws-amplify";
 import { useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import { Layout } from "@ui-kitten/components";
 import Message from "../components/ChatListItem/Message";
 import {
   onCreateAttachment,
@@ -22,14 +23,14 @@ import InputBox from "../components/InputBox";
 import { listMessagesByChatRoom } from "../src/queries/ChatScreenQueries";
 import ProfilePicture from "../components/ProfilePicture";
 import Colors from "../constants/Colors";
-import useColorScheme from "./../hooks/useColorScheme";
+import useColorScheme from "../hooks/useColorScheme";
 import { getChatRoom } from "../src/queries/getChatRoomQuery";
 
 const Chat = () => {
   const [chatRoom, setChatRoom] = useState(null);
-  console.log(JSON.stringify(chatRoom, null, 2), "chatRoomm");
+  // console.log(JSON.stringify(chatRoom, null, 2), "chatRoomm");
   const [messages, setMessages] = useState([]);
-  console.log(JSON.stringify(messages, null, 2), "messages");
+  // console.log(JSON.stringify(messages, null, 2), "messages");
 
   const route = useRoute();
   const navigation = useNavigation();
@@ -159,25 +160,27 @@ const Chat = () => {
   }
 
   return (
-    <KeyboardAvoidingView
-      enabled
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 90}
-      style={[styles.bg, { backgroundColor: Colors[colorScheme].background }]}
-    >
-      {/* <ImageBackground source={bg} style={styles.bg}> */}
-      <View style={styles.bg}>
-        <FlatList
-          data={messages}
-          renderItem={({ item }) => <Message message={item} />}
-          keyExtractor={(item) => item.id}
-          style={styles.list}
-          inverted
-        />
-        <InputBox chatRoom={chatRoom} />
-      </View>
-      {/* </ImageBackground> */}
-    </KeyboardAvoidingView>
+    <Layout>
+      <KeyboardAvoidingView
+        enabled
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 90}
+        style={[styles.bg, { backgroundColor: Colors[colorScheme].background }]}
+      >
+        {/* <ImageBackground source={bg} style={styles.bg}> */}
+        <View style={styles.bg}>
+          <FlatList
+            data={messages}
+            renderItem={({ item }) => <Message message={item} />}
+            keyExtractor={(item) => item.id}
+            style={styles.list}
+            inverted
+          />
+          <InputBox chatRoom={chatRoom} />
+        </View>
+        {/* </ImageBackground> */}
+      </KeyboardAvoidingView>
+    </Layout>
   );
 };
 

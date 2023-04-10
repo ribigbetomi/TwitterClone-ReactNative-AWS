@@ -38,6 +38,11 @@ export const likesByUserID = /* GraphQL */ `
               userID
             }
           }
+          comments {
+            items {
+              id
+            }
+          }
           retweets {
             items {
               id

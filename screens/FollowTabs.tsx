@@ -3,7 +3,7 @@ import React from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { FlatList, StyleSheet } from "react-native";
 import FollowList from "../components/FollowList";
-import useColorScheme from "./../hooks/useColorScheme";
+import useColorScheme from "../hooks/useColorScheme";
 import { useWindowDimensions } from "react-native";
 import { useState, useLayoutEffect } from "react";
 import { SceneMap, TabBar, TabView } from "react-native-tab-view";
