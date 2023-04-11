@@ -6,6 +6,14 @@ export const getChatRoom = /* GraphQL */ `
       image
       messages {
         items {
+          attachments {
+            items {
+              id
+              messageID
+              type
+              storageKey
+            }
+          }
           id
           createdAt
           text
@@ -15,7 +23,6 @@ export const getChatRoom = /* GraphQL */ `
           updatedAt
         }
         nextToken
-        startedAt
       }
       users {
         items {
@@ -26,7 +33,6 @@ export const getChatRoom = /* GraphQL */ `
           updatedAt
         }
         nextToken
-        startedAt
       }
       lastMessage {
         id
@@ -37,29 +43,11 @@ export const getChatRoom = /* GraphQL */ `
         images
         attachments {
           nextToken
-          startedAt
         }
         updatedAt
       }
-      attachments {
-        items {
-          id
-          storageKey
-          type
-          width
-          height
-          duration
-          messageID
-          chatroomID
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
       createdAt
       updatedAt
-      _deleted
       chatRoomLastMessageId
     }
   }

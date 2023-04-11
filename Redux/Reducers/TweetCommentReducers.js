@@ -17,6 +17,9 @@ import {
   LIST_FOLLOWINGS_FOR_TIMELINE_FAIL,
   LIST_FOLLOWINGS_FOR_TIMELINE_REQUEST,
   LIST_FOLLOWINGS_FOR_TIMELINE_SUCCESS,
+  MEDIA_BY_USERID_FAIL,
+  MEDIA_BY_USERID_REQUEST,
+  MEDIA_BY_USERID_SUCCESS,
   ON_CREATE_COMMENT,
   ON_CREATE_COMMENT_FEED,
   ON_CREATE_COMMENT_POST,
@@ -45,11 +48,14 @@ export const listFollowingsForTimelineReducer = (
         // console.log(JSON.stringify(post, null, 2), "post");
 
         // let okay = [...post.tweets.items, ...post.comments.items]
-        let newnew = [...post.tweets.items, ...post.comments.items];
+        let newnew = [...post.tweets.items, ...post.comments.items].sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
         wholePosts.push(...newnew);
 
         // setTweets((postt) => [...post.tweets.items, ...post.comments.items]);
       }
+      // console.log(wholeposts, 'wholeposts')
       return { loading: false, posts: wholePosts };
 
     case LIST_FOLLOWINGS_FOR_TIMELINE_FAIL:
@@ -210,6 +216,22 @@ export const commentsByUserIDReducer = (state = { replies: [] }, action) => {
 
     case COMMENTS_BY_USERID_FAIL:
       return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const mediaByUserIDReducer = (state = { media: [] }, action) => {
+  switch (action.type) {
+    case MEDIA_BY_USERID_REQUEST:
+      return { loading: true };
+
+    case MEDIA_BY_USERID_SUCCESS:
+      return { loading: false, media: action.payload };
+
+    case MEDIA_BY_USERID_FAIL:
+      return { loading: false, error: action.payload };
+
     default:
       return state;
   }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -24,6 +24,16 @@ import { v4 as uuidv4 } from "uuid";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
+import {
+  createAttachmentt,
+  createNewMessage,
+  onCreateAttachmentt,
+  onCreateNewMessage,
+  onUpdateTheChatRoomm,
+} from "../Redux/Actions/ChatRoomActions";
+import { useDispatch, useSelector } from "react-redux";
+import { updateChatRoomm } from "./../Redux/Actions/ChatRoomActions";
+import { CREATE_MESSAGE_RESET } from "../Redux/Constants/ChatRoomConstants";
 
 export type props = {
   file: any;
@@ -33,6 +43,14 @@ export type props = {
 const InputBox = ({ chatRoom }: any) => {
   const [text, setText] = useState("");
   const [images, setImages] = useState([]);
+  const dispatch = useDispatch<any>();
+  const { userInfo } = useSelector((state: any) => state.userDetails);
+  const { newMessageData } = useSelector(
+    (state: any) => state.createNewMessage
+  );
+
+  console.log(JSON.stringify(newMessageData, null, 2), "newMessageDataCHATTT");
+
   // console.log(text, "text");
   // console.log(image, "img");
   const [files, setFiles] = useState<any>([]);
@@ -56,18 +74,21 @@ const InputBox = ({ chatRoom }: any) => {
       chatroomID: chatRoom.id,
     };
 
-    return API.graphql(
-      graphqlOperation(createAttachment, { input: newAttachment })
-    );
+    // return API.graphql(
+    //   graphqlOperation(createAttachment, { input: newAttachment })
+    // );
+    dispatch(createAttachmentt(newAttachment));
+    dispatch(onCreateAttachmentt(chatRoom.id));
+    return;
   };
 
   const onSend = async () => {
-    const authUser = await Auth.currentAuthenticatedUser();
+    // const authUser = await Auth.currentAuthenticatedUser();
 
     const newMessage = {
       chatroomID: chatRoom.id,
       text,
-      userID: authUser.attributes.sub,
+      userID: userInfo.id,
     };
 
     // if (files.length > 0) {
@@ -80,38 +101,53 @@ const InputBox = ({ chatRoom }: any) => {
     // }
 
     // console.log(newMessage.images, "newimg");
-
-    const newMessageData: GraphQLResult<any> = await API.graphql(
-      graphqlOperation(createMessage, { input: newMessage })
-    );
+    dispatch(createNewMessage(newMessage));
+    dispatch(onCreateNewMessage(chatRoom.id));
+    // const newMessageData: GraphQLResult<any> = await API.graphql(
+    //   graphqlOperation(createMessage, { input: newMessage })
+    // );
     // console.log(newMessageData);
     // console.warn("Sending new message: ", newMessage);
 
     setText("");
 
     //   // create attachments
-    await Promise.all(
-      files.map((file: any) =>
-        addAttachment({
-          file,
-          messageID: newMessageData?.data?.createMessage?.id,
-        })
-      )
-    );
-    // console.log(getAttachment);
-    setFiles([]);
+    // await Promise.all(
+    //   files.map((file: any) =>
+    //     addAttachment({
+    //       file,
+    //       messageID: newMessageData?.id,
+    //     })
+    //   )
+    // );
+    // // console.log(getAttachment);
+    // setFiles([]);
 
     //   // set the new message as LastMessage of the ChatRoom
-    await API.graphql(
-      graphqlOperation(updateChatRoom, {
-        input: {
-          // _version: chatRoom._version,
-          chatRoomLastMessageId: newMessageData.data.createMessage.id,
-          id: chatRoom.id,
-        },
-      })
-    );
+    // await API.graphql(
+    //   graphqlOperation(updateChatRoom, {
+    // input: {
+    //   // _version: chatRoom._version,
+    //   chatRoomLastMessageId: newMessageData.data.createMessage.id,
+    //   id: chatRoom.id,
+    // },
+    //   })
+    // );
   };
+
+  useEffect(() => {
+    if (newMessageData?.id) {
+      let input = {
+        // _version: chatRoom._version,
+        chatRoomLastMessageId: newMessageData?.id,
+        id: chatRoom.id,
+      };
+
+      dispatch(updateChatRoomm(input));
+      // dispatch(onUpdateTheChatRoomm(chatRoom.id));
+      dispatch({ type: CREATE_MESSAGE_RESET });
+    }
+  }, [newMessageData?.id]);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -174,6 +210,7 @@ const InputBox = ({ chatRoom }: any) => {
           <FlatList
             data={files}
             horizontal
+            keyExtractor={(item) => item.uri}
             renderItem={({ item }) => (
               <>
                 <Image

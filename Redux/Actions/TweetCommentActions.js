@@ -1,9 +1,15 @@
+import { API, graphqlOperation } from "aws-amplify";
+import { commentsByUserID } from "../../components/RepliesTab/query";
+import { tweetsByUserIDAndCreatedAt } from "../../components/TweetsTab/queries";
 import { onCreateComment } from "../../src/graphql/subscriptions";
+import { listFollowings } from "../../src/queries/FollowsByAuthUserID";
 import { commentsByTweetIDAndCreatedAt } from "../../src/queries/tweetCommentsQuery";
 import {
   LIST_FOLLOWINGS_FOR_TIMELINE_FAIL,
   LIST_FOLLOWINGS_FOR_TIMELINE_REQUEST,
   LIST_FOLLOWINGS_FOR_TIMELINE_SUCCESS,
+  MEDIA_BY_USERID_REQUEST,
+  MEDIA_BY_USERID_SUCCESS,
 } from "../Constants/TweetCommentConstants";
 import {
   COMMENTS_BY_TWEETID_FAIL,
@@ -36,12 +42,15 @@ export const listFollowingsForTimeline = (userID) => async (dispatch) => {
       type: LIST_FOLLOWINGS_FOR_TIMELINE_REQUEST,
     });
 
+    // console.log("okay okay");
+
     const followingsPosts = await API.graphql(
       graphqlOperation(listFollowings, {
         filter: { authUserID: { eq: userID } },
       })
     );
-    console.log(JSON.stringify(followingsPosts, null, 2), "followingsPosts");
+
+    // console.log(JSON.stringify(followingsPosts, null, 2), "followingsPosts");
 
     dispatch({
       type: LIST_FOLLOWINGS_FOR_TIMELINE_SUCCESS,
@@ -259,6 +268,47 @@ export const getTweetsByUserIDAndCreatedAt = (userID) => async (dispatch) => {
           : error.message,
     });
   }
+};
+
+export const mediaByUserID = (userID) => async (dispatch) => {
+  // try {
+  dispatch({ type: MEDIA_BY_USERID_REQUEST });
+
+  const userTweets = await API.graphql(
+    graphqlOperation(tweetsByUserIDAndCreatedAt, {
+      userID,
+      //   sortDirection: "DESC",
+    })
+  );
+
+  let result = userTweets.data.tweetsByUserIDAndCreatedAt.items;
+
+  const userComments = await API.graphql(
+    graphqlOperation(commentsByUserID, { userID: userID })
+  );
+
+  const res = userComments.data.commentsByUserID.items.filter(
+    (item) => item.content !== "" && !item.image
+  );
+
+  const allTweets = [...res, ...result]
+    .filter((item) => item.image)
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  // console.log(JSON.stringify(allTweets, null, 2), "allTweets");
+
+  dispatch({
+    type: MEDIA_BY_USERID_SUCCESS,
+    payload: allTweets,
+  });
+  // } catch (error) {
+  //   dispatch({
+  //     type: TWEETS_BY_USERID_FAIL,
+  //     payload:
+  //       error.response && error.response.data.message
+  //         ? error.response.data.message
+  //         : error.message,
+  //   });
+  // }
 };
 
 export const getLikesByUserID = (userID) => async (dispatch) => {

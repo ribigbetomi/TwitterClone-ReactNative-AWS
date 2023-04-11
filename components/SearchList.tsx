@@ -9,50 +9,54 @@ import useColorScheme from "./../hooks/useColorScheme";
 import { useLinkProps } from "@react-navigation/native";
 import { getUser } from "../src/queries/getUserQuery";
 import { useNavigation } from "expo-router";
+import { useSelector } from "react-redux";
 
 const SearchList = ({ user }: any) => {
   //   console.log(JSON.stringify(user, null, 2), "user");
 
   const [authUser, setAuthUser] = useState<any>();
-  //   console.log(JSON.stringify(authUser, null, 2), "authUser");
+  const { userInfo } = useSelector((state: any) => state.userDetails);
 
   const [isFollowing, setIsFollowing] = useState(false);
   const [isFollower, setIsFollower] = useState(false);
   const [bothFollow, setBothFollow] = useState(false);
+  console.log(JSON.stringify(isFollowing, null, 2), "isFollowing");
+  console.log(JSON.stringify(isFollower, null, 2), "isFollower");
+  console.log(JSON.stringify(bothFollow, null, 2), "bothFollow");
 
   const colorScheme = useColorScheme();
   const navigation: any = useNavigation();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const userInfo = await Auth.currentAuthenticatedUser({
-        bypassCache: true,
-      });
+  // useEffect(() => {
+  //   // const fetchUser = async () => {
+  //   //   const userInfo = await Auth.currentAuthenticatedUser({
+  //   //     bypassCache: true,
+  //   //   });
 
-      try {
-        if (userInfo) {
-          const userData: GraphQLResult<any> = await API.graphql(
-            graphqlOperation(getUser, { id: userInfo.attributes.sub })
-          );
-          setAuthUser(userData.data.getUser);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchUser();
-  }, []);
+  //   // if (userInfo) {
+  //   //   const userData: GraphQLResult<any> = await API.graphql(
+  //   //     graphqlOperation(getUser, { id: userInfo.attributes.sub })
+  //   //   );
+  //   //   setAuthUser(userData.data.getUser);
+  //   // }
+  //   //   try {
+  //   //   } catch (e) {
+  //   //     console.log(e);
+  //   //   }
+  //   // };
+  //   fetchUser();
+  // }, []);
 
   useEffect(() => {
-    if (authUser) {
-      const follow = authUser.following.items.find(
+    if (userInfo) {
+      const follow = userInfo.following.items.find(
         (item: any) => item.userID === user.id
       );
       if (follow) {
         setIsFollowing(true);
       }
 
-      const follower = authUser.followers.items.find(
+      const follower = userInfo.followers.items.find(
         (item: any) => item.userID === user.id
       );
       if (follower) {
@@ -92,6 +96,14 @@ const SearchList = ({ user }: any) => {
         <Text style={{ color: "gray", marginVertical: 5 }}>
           @{user.username}{" "}
         </Text>
+        {bothFollow && (
+          <>
+            <Ionicons name="person" size={20} color="gray" />
+            <Text style={{ color: "gray", fontWeight: "700" }}>
+              You follow each other
+            </Text>
+          </>
+        )}
         {isFollowing && (
           <View style={{ flexDirection: "row" }}>
             <Ionicons name="person" size={20} color="gray" />
@@ -103,14 +115,6 @@ const SearchList = ({ user }: any) => {
             <Ionicons name="person" size={20} color="gray" />
             <Text style={{ color: "gray", fontWeight: "700" }}>
               Follows you
-            </Text>
-          </>
-        )}
-        {bothFollow && (
-          <>
-            <Ionicons name="person" size={20} color="gray" />
-            <Text style={{ color: "gray", fontWeight: "700" }}>
-              You follow each other
             </Text>
           </>
         )}

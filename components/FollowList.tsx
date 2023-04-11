@@ -8,44 +8,47 @@ import { useState } from "react";
 import Colors from "../constants/Colors";
 import useColorScheme from "./../hooks/useColorScheme";
 import { getUser } from "../src/queries/getUserQuery";
+import { useSelector } from "react-redux";
 
 const FollowList = ({ user }: any) => {
   // console.log(JSON.stringify(user, null, 2), "userr");
-  const [authUser, setAuthUser] = useState<any>({});
+  // const [authUser, setAuthUser] = useState<any>({});
   // console.log(JSON.stringify(authUser, null, 2), "authUserrr");
   const [following, setFollowing] = useState<any>(false);
   // console.log(following ? "you" : "me");
+  const { userInfo } = useSelector((state: any) => state.userDetails);
 
   const colorScheme = useColorScheme();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const userInfo = await Auth.currentAuthenticatedUser({
-        bypassCache: true,
-      });
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const userInfo = await Auth.currentAuthenticatedUser({
+  //       bypassCache: true,
+  //     });
 
-      try {
-        if (userInfo) {
-          const userData: GraphQLResult<any> = await API.graphql(
-            graphqlOperation(getUser, { id: userInfo.attributes.sub })
-          );
-          setAuthUser(userData.data.getUser);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchUser();
-  }, []);
+  //     try {
+  //       if (userInfo) {
+  //         // const userData: GraphQLResult<any> = await API.graphql(
+  //         //   graphqlOperation(getUser, { id: userInfo.attributes.sub })
+  //         // );
+  //         // setAuthUser(userData.data.getUser);
+  //       }
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   };
+  //   fetchUser();
+  // }, []);
 
   useEffect(() => {
-    const find = authUser.following?.items?.find(
+    const find = userInfo.following?.items?.find(
       (item: any) => item.userID === user.userID
     );
-    const match = find ? find.id : user.userID === authUser.id ? "me" : false;
+    const match = find ? find.id : user.userID === userInfo.id ? "me" : false;
     // console.log(match);
     setFollowing(match);
-  }, [authUser]);
+  }, [userInfo.following.items]);
+
   return (
     <View style={{ flexDirection: "row", margin: 15 }}>
       <View style={{ flex: 1, flexDirection: "row" }}>

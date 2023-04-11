@@ -9,100 +9,113 @@ import { onUpdateChatRoom } from "../../src/graphql/subscriptions";
 import Colors from "../../constants/Colors";
 import useColorScheme from "./../../hooks/useColorScheme";
 import { Ionicons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 
 dayjs.extend(relativeTime);
 
 const ChatListItem = ({ chat }) => {
-  // console.log(JSON.stringify(chat, null, 2), "oldchatRoom");
+  console.log(JSON.stringify(chat, null, 2), "oldchatRoom");
   const [user, setUser] = useState({});
+  const { userInfo } = useSelector((state) => state.userDetails);
   // console.log(user, "user");
-  const [chatRoom, setChatRoom] = useState(chat);
-  // console.log(chatRoom, "chatRoom");
+  const [chatRoom, setChatRoom] = useState();
+
+  console.log(chatRoom, "chatRoom");
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
-  const [authUserId, setAuthUserId] = useState(null);
 
   useEffect(() => {
-    async function getUser() {
-      const authUser = await Auth.currentAuthenticatedUser({
-        bypassCache: true,
-      });
-      setAuthUserId(authUser.attributes.sub);
-      // console.log(authUser, "authUser");
+    setChatRoom(chat ? chat : null);
+  }, [JSON.stringify(chat)]);
 
-      const userItem = chatRoom.users.items.find((item) => {
-        // if (item.userId) {
-        //   return item.userId !== authUser.attributes?.sub;
-        // } else {
-        return item.user?.id !== authUser.attributes?.sub;
-        // }
-      });
+  useEffect(() => {
+    if (chatRoom) {
+      async function getUser() {
+        // const authUser = await Auth.currentAuthenticatedUser({
+        //   bypassCache: true,
+        // });
+        // setAuthUserId(authUser.attributes.sub);
+        // console.log(authUser, "authUser");
 
-      setUser(userItem?.user);
-      // setUserr(authUser);
+        const userItem = chatRoom.users.items.find((item) => {
+          // if (item.userId) {
+          // return item.userId !== userInfo.id;
+          // } else {
+          return item.user?.id !== userInfo.id;
+          //   }
+        });
+
+        setUser(userItem?.user);
+        // setUser(userItem);
+        // setUserr(authUser);
+      }
+      getUser();
     }
-    getUser();
-  }, [chatRoom]);
+  }, [chatRoom, chat]);
 
   // fetch Chat Room
-  useEffect(() => {
-    const subscription = API.graphql(
-      graphqlOperation(onUpdateChatRoom, { filter: { id: { eq: chat.id } } })
-    ).subscribe({
-      next: ({ value }) => {
-        // console.log(value.data, "value");
-        setChatRoom((cr) => ({
-          ...(cr || {}),
-          ...value.data.onUpdateChatRoom,
-        }));
-      },
-      error: (err) => console.warn(err),
-    });
+  // useEffect(() => {
+  //   const subscription = API.graphql(
+  //     graphqlOperation(onUpdateChatRoom, { filter: { id: { eq: chat.id } } })
+  //   ).subscribe({
+  //     next: ({ value }) => {
+  //       // console.log(value.data, "value");
+  //       setChatRoom((cr) => ({
+  //         ...(cr || {}),
+  //         ...value.data.onUpdateChatRoom,
+  //       }));
+  //     },
+  //     error: (err) => console.warn(err),
+  //   });
 
-    return () => subscription.unsubscribe();
-  }, [chat.id]);
+  //   return () => subscription.unsubscribe();
+  // }, [chat.id]);
   // console.log(chatRoom, "newChatRoom");
 
   return (
-    <Pressable
-      onPress={() =>
-        navigation.navigate("Chat", {
-          id: chatRoom.id,
-          name: chatRoom.name || user.name,
-          image: chatRoom.image || user.image,
-        })
-      }
-      style={styles.container}
-    >
-      <Image
-        source={{
-          uri: user.image,
-        }}
-        style={styles.image}
-      />
-      <View style={styles.content}>
-        <View style={styles.row}>
-          <Text
-            numberOfLines={1}
-            style={[styles.name, { color: Colors[colorScheme].text }]}
-          >
-            {chatRoom.name || user.name}
-          </Text>
-          <View style={{ justifyContent: "center", marginHorizontal: 5 }}>
-            <Ionicons name="ellipse" color="gray" size={3} />
-          </View>
-          {chatRoom.lastMessage && (
-            <Text style={styles.subTitle}>
-              {dayjs(chatRoom.lastMessage?.createdAt).fromNow(true)}
+    <>
+      {chatRoom && (
+        <Pressable
+          onPress={() =>
+            navigation.navigate("Chat", {
+              id: chatRoom.id,
+              name: chatRoom.name || user.name,
+              image: chatRoom.image || user.image,
+            })
+          }
+          style={styles.container}
+        >
+          <Image
+            source={{
+              uri: user.image,
+            }}
+            style={styles.image}
+          />
+          <View style={styles.content}>
+            <View style={styles.row}>
+              <Text
+                numberOfLines={1}
+                style={[styles.name, { color: Colors[colorScheme].text }]}
+              >
+                {chatRoom.name || user.name}
+              </Text>
+              <View style={{ justifyContent: "center", marginHorizontal: 5 }}>
+                <Ionicons name="ellipse" color="gray" size={3} />
+              </View>
+              {chatRoom.lastMessage && (
+                <Text style={styles.subTitle}>
+                  {dayjs(chatRoom.lastMessage?.createdAt).fromNow(true)}
+                </Text>
+              )}
+            </View>
+            <Text numberOfLines={2} style={styles.subTitle}>
+              {chatRoom.lastMessage.userID === userInfo.id && "You:"}{" "}
+              {chatRoom.lastMessage?.text}
             </Text>
-          )}
-        </View>
-        <Text numberOfLines={2} style={styles.subTitle}>
-          {chatRoom.lastMessage.userID === authUserId && "You:"}{" "}
-          {chatRoom.lastMessage?.text}
-        </Text>
-      </View>
-    </Pressable>
+          </View>
+        </Pressable>
+      )}
+    </>
   );
 };
 

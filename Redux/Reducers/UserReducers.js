@@ -9,7 +9,7 @@ export const userDetailsReducer = (state = { userInfo: {} }, action) => {
   }
 };
 
-export const listUsers = (state = { users: [] }, action) => {
+export const listUsersReducer = (state = { users: [] }, action) => {
   switch (action.type) {
     case LIST_USERS:
       return { loading: false, users: action.payload };

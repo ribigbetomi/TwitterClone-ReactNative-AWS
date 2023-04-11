@@ -28,8 +28,6 @@ import {
   deleteFollowingReducer,
   followersByAuthUserIDReducer,
   followingsByAuthUserIDReducer,
-  onCreateFollowerReducer,
-  onCreateFollowingReducer,
 } from "./Reducers/FollowsReducers";
 
 import {
@@ -41,20 +39,16 @@ import {
   getPostReducer,
   likesByUserIDReducer,
   listFollowingsForTimelineReducer,
-  onCreateCommentFeedReducer,
-  onCreateCommentPostReducer,
+  mediaByUserIDReducer,
   tweetsByUserIDReducer,
 } from "./Reducers/TweetCommentReducers";
 
-import { userDetailsReducer } from "./Reducers/UserReducers";
+import { listUsersReducer, userDetailsReducer } from "./Reducers/UserReducers";
 
 const reducer = combineReducers({
   getChatRoom: getChatRoomReducer,
   listMessagesByChatRoom: listMessagesByChatRoomReducer,
   createChatRoom: createChatRoomReducer,
-  // onUpdateChatRoom: onUpdateChatRoomReducer,
-  // onCreateMessage: onCreateMessageReducer,
-  // onCreateAttachment: onCreateAttachmentReducer,
   listUserChatRooms: listUserChatRoomsReducer,
   createAttachment: createAttachmentReducer,
   createNewMessage: createNewMessageReducer,
@@ -62,9 +56,7 @@ const reducer = combineReducers({
   listFollowingsForTimeline: listFollowingsForTimelineReducer,
   followingsByAuthUserID: followingsByAuthUserIDReducer,
   followersByAuthUserID: followersByAuthUserIDReducer,
-  // onCreateFollowing: onCreateFollowingReducer,
   checkFollowing: checkFollowingReducer,
-  // onCreateFollower: onCreateFollowerReducer,
   checkFollower: checkFollowerReducer,
   checkFollowing: checkFollowingReducer,
   createFollower: createFollowerReducer,
@@ -80,6 +72,8 @@ const reducer = combineReducers({
   tweetsByUserID: tweetsByUserIDReducer,
   likesByUserID: likesByUserIDReducer,
   userDetails: userDetailsReducer,
+  listUsers: listUsersReducer,
+  mediaByUserID: mediaByUserIDReducer,
 });
 
 const initialState = {};

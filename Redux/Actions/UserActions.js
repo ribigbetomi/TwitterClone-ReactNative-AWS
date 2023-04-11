@@ -5,7 +5,7 @@ import {
   SAVE_USER_TO_DB,
 } from "../Constants/UserConstants";
 import { getUser } from "./../../src/queries/getUserQuery";
-import { listUsers } from "./UserActions";
+import { listUsers } from "./../../src/queries/listSearchUsers";
 
 export const getUserr = (id) => async (dispatch) => {
   // console.log(id, "iddd");
@@ -31,7 +31,8 @@ export const listUserss = (filter) => async (dispatch) => {
   const usersData = await API.graphql(graphqlOperation(listUsers, filter));
 
   let result = usersData.data.listUsers.items;
-  console.log(result);
+
+  console.log(JSON.stringify(result, null, 2), "result");
 
   dispatch({
     type: LIST_USERS,

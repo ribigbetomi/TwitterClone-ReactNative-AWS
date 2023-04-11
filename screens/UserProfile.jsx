@@ -82,9 +82,9 @@ const UserProfile = () => {
   const { chatRoom } = useSelector((state) => state.createChatRoom);
   // console.log(JSON.stringify(followings, null, 2), "followings");
   // console.log(JSON.stringify(followers, null, 2), "followers");
-  console.log(JSON.stringify(followerUser, null, 2), "followerUser");
-  console.log(JSON.stringify(followingUser, null, 2), "followingUser");
-  console.log(JSON.stringify(chatRoom, null, 2), "chatRoom");
+  // console.log(JSON.stringify(followerUser, null, 2), "followerUser");
+  // console.log(JSON.stringify(followingUser, null, 2), "followingUser");
+  // console.log(JSON.stringify(chatRoom, null, 2), "chatRoom");
 
   // const [loading, setLoading] = useState(false);
   // const [userFollowings, setUserFollowings] = useState([]);
@@ -335,53 +335,53 @@ const UserProfile = () => {
     }
 
     // console.log(JSON.stringify(existingChatRoom, null, 2), "existingChatRoom");
-    if (existingChatRoom) {
-      navigation.navigate("Chat", {
-        id: existingChatRoom.chatRoom.id,
-        name: user.name,
-        image: user.image,
-      });
-      return;
-    } else {
-      // Create a new Chatroom
-      const newChatRoomData = await API.graphql(
-        graphqlOperation(createChatRoom, { input: {} })
-      );
-      // console.log(JSON.stringify(newChatRoomData, null, 2), "newChatRoom");
-      if (!newChatRoomData.data?.createChatRoom) {
-        console.log("Error creating the chat error");
-      }
-      const newChatRoom = newChatRoomData.data?.createChatRoom;
-      // console.log(newChatRoom.id, "newid");
+    // if (existingChatRoom) {
+    //   navigation.navigate("Chat", {
+    //     id: existingChatRoom.chatRoom.id,
+    //     name: user.name,
+    //     image: user.image,
+    //   });
+    //   return;
+    // } else {
+    //   // Create a new Chatroom
+    //   const newChatRoomData = await API.graphql(
+    //     graphqlOperation(createChatRoom, { input: {} })
+    //   );
+    //   // console.log(JSON.stringify(newChatRoomData, null, 2), "newChatRoom");
+    //   if (!newChatRoomData.data?.createChatRoom) {
+    //     console.log("Error creating the chat error");
+    //   }
+    //   const newChatRoom = newChatRoomData.data?.createChatRoom;
+    //   // console.log(newChatRoom.id, "newid");
 
-      // console.log(user.id, "userID");
+    //   // console.log(user.id, "userID");
 
-      // Add the clicked user to the ChatRoom
-      const okay = await API.graphql(
-        graphqlOperation(createUserChatRoom, {
-          input: { chatRoomId: newChatRoom.id, userId: user.id },
-        })
-      );
-      // console.log(JSON.stringify(okay, null, 2), "okay");
+    //   // Add the clicked user to the ChatRoom
+    //   const okay = await API.graphql(
+    //     graphqlOperation(createUserChatRoom, {
+    //       input: { chatRoomId: newChatRoom.id, userId: user.id },
+    //     })
+    //   );
+    //   // console.log(JSON.stringify(okay, null, 2), "okay");
 
-      // Add the auth user to the ChatRoom
-      const authUser = await Auth.currentAuthenticatedUser({
-        bypassCache: true,
-      });
-      // console.log(JSON.stringify(authUser, null, 2), "authUser");
-      const res = await API.graphql(
-        graphqlOperation(createUserChatRoom, {
-          input: {
-            chatRoomId: newChatRoom.id,
-            userId: authUser.attributes.sub,
-          },
-        })
-      );
-      // console.log(JSON.stringify(res, null, 2), "res");
+    //   // Add the auth user to the ChatRoom
+    //   const authUser = await Auth.currentAuthenticatedUser({
+    //     bypassCache: true,
+    //   });
+    //   // console.log(JSON.stringify(authUser, null, 2), "authUser");
+    //   const res = await API.graphql(
+    //     graphqlOperation(createUserChatRoom, {
+    //       input: {
+    //         chatRoomId: newChatRoom.id,
+    //         userId: authUser.attributes.sub,
+    //       },
+    //     })
+    //   );
+    //   // console.log(JSON.stringify(res, null, 2), "res");
 
-      // navigate to the newly created ChatRoom
-      navigation.navigate("Chat", { id: newChatRoom.id, name: user.name });
-    }
+    //   // navigate to the newly created ChatRoom
+    //   navigation.navigate("Chat", { id: newChatRoom.id, name: user.name });
+    // }
     // const linkProps = () => {
     //   useLinkProps({
     //     to: {

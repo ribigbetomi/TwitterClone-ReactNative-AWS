@@ -27,6 +27,7 @@ import { getUserr } from "../Redux/Actions/UserActions";
 import NewTweetScreen from "../screens/NewTweet";
 import NewComment from "../screens/NewComment";
 import FleetScreen from "../screens/Fleet";
+import FollowTabs from "../screens/FollowTabs";
 
 Amplify.configure({ ...config, Analytics: { disabled: true } });
 
@@ -163,6 +164,7 @@ function RootLayoutNav() {
             component={FleetScreen}
             options={{ headerShown: false }}
           />
+
           {/* </Provider> */}
           {/* {/* </Navigator> */}
         </Stack.Navigator>

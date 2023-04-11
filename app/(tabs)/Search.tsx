@@ -13,48 +13,49 @@ import { useDispatch, useSelector } from "react-redux";
 import { listUserss } from "./../../Redux/Actions/UserActions";
 
 export default function TabTwoScreen() {
-  const [users, setUsers] = useState<any>([]);
   const [searchWord, setSearchWord] = useState<string>("");
   const dispatch = useDispatch<any>();
   const { userInfo } = useSelector((state: any) => state.userDetails);
+  const { users } = useSelector((state: any) => state.listUsers);
 
   // console.log(JSON.stringify(users, null, 2), "users");
   // console.log(searchWord.length);
 
   const colorScheme = useColorScheme();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      // const userInfo = await Auth.currentAuthenticatedUser({
-      //   bypassCache: true,
-      // });
+  const fetchUser = async () => {
+    // const userInfo = await Auth.currentAuthenticatedUser({
+    //   bypassCache: true,
+    // });
 
-      try {
-        const filter = {
-          or: [
-            {
-              username: { contains: searchWord.toLowerCase() },
-            },
-            { name: { contains: searchWord.toLowerCase() } },
-          ],
-        };
+    try {
+      const filter = {
+        or: [
+          {
+            username: { contains: searchWord.toLowerCase() },
+          },
+          { name: { contains: searchWord.toLowerCase() } },
+        ],
+      };
 
-        if (userInfo) {
-          if (searchWord.length !== 0) {
-            dispatch(listUserss(filter));
-            // const usersData: GraphQLResult<any> = await API.graphql(
-            //   graphqlOperation(listUsers, { filter })
-            // );
-            // console.log(JSON.stringify(usersData, null, 2), "usersData");
+      if (userInfo) {
+        if (searchWord.length !== 0) {
+          dispatch(listUserss(filter));
+          // const usersData: GraphQLResult<any> = await API.graphql(
+          //   graphqlOperation(listUsers, { filter })
+          // );
+          // console.log(JSON.stringify(usersData, null, 2), "usersData");
 
-            // setUsers(usersData.data.listUsers.items);
-          }
-          // console.log(JSON.stringify(lists, null, 2), "lists");
+          // setUsers(usersData.data.listUsers.items);
         }
-      } catch (e) {
-        console.log(e);
+        // console.log(JSON.stringify(lists, null, 2), "lists");
       }
-    };
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
     fetchUser();
   }, [searchWord]);
 

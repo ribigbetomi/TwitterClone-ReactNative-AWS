@@ -4,110 +4,35 @@ import { StyleSheet, FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Text, View } from "../../components/Themed";
 import { Ionicons } from "@expo/vector-icons";
-import { getUser } from "../../src/queries/getUserQuery";
 import ChatListItem from "../../components/ChatListItem";
 import Colors from "../../constants/Colors";
-import useColorScheme from "./../../hooks/useColorScheme";
-import { useDispatch, useSelector } from "react-redux";
-import { listUserChatRoomss } from "../../Redux/Actions/ChatRoomActions";
+
 import { ActivityIndicator } from "react-native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import MessagesScreen from "../../screens/MessagesScreen";
+import Chat from "../../screens/Chat";
 
 export default function TabFourScreen() {
   const navigation = useNavigation();
-  const colorScheme = useColorScheme();
-  const dispatch = useDispatch();
 
-  const { userInfo } = useSelector((state) => state.userDetails);
-  const { loading: loadingChatRooms, chatRooms } = useSelector(
-    (state) => state.listUserChatRooms
-  );
-  // console.log(JSON.stringify(userInfo.id), "userInfoID");
-  // console.log(JSON.stringify(chatRooms, null, 2), "chatRooms");
-
-  const [authUser, setAuthUser] = useState({});
-  const [loading, setLoading] = useState(false);
-  // const [chatRooms, setChatRooms] = useState([]);
-
-  // console.log(JSON.stringify(chatRooms, null, 2), "chatRooms");
-
-  // console.log(JSON.stringify(authUser, null, 2), "authUser");
-
-  // function MyScreen() {
-  //   useLayoutEffect(() => {
-  //     const headerHeight = Header.HEIGHT;
-  //     console.log('Header height:', headerHeight);
-  //     // Do something with the header height
-  //   }, []);
-
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     const userInfo = await Auth.currentAuthenticatedUser({
-  //       bypassCache: true,
-  //     });
-  //     const { data } = await API.graphql(
-  //       graphqlOperation(getUser, { id: userInfo.attributes.sub })
-  //     );
-  //     setAuthUser(data);
-  //   };
-  //   fetchUser();
-  // }, []);
-
-  // const fetchChatRooms = async () => {
-  //   setLoading(true);
-  //   // const authUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-
-  //   // const response = await API.graphql(
-  //   //   graphqlOperation(listUserChatRooms, { id: authUser.attributes.sub })
-  //   // );
-  //   // console.log(response, "res");
-
-  //   // const rooms = response?.data?.getUser?.chatRooms?.items?.filter(
-  //   //   (item) => !item._deleted
-  //   // );
-
-  //   // const sortedRooms = response.data.getUser.chatRooms.items.sort(
-  //   //   (r1, r2) =>
-  //   //     new Date(r2.chatRoom.updatedAt) - new Date(r1.chatRoom.updatedAt)
-  //   // );
-
-  //   // setChatRooms(sortedRooms);
-  //   setLoading(false);
-  // };
-  const fetch = () => {
-    setLoading(true);
-    dispatch(listUserChatRoomss(userInfo.id));
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetch();
-  }, [userInfo]);
+  const Stack = createNativeStackNavigator();
 
   return (
-    <View style={styles.container}>
-      {loadingChatRooms && <ActivityIndicator />}
-      <View
-        style={[
-          styles.head,
-          { backgroundColor: Colors[colorScheme].transparent },
-        ]}
+    <>
+      <Stack.Navigator
+        initialRouteName="MessagesScreen"
+        screenOptions={{
+          headerShown: false,
+        }}
       >
-        <View style={styles.header}>
-          <Ionicons name={"search-outline"} color={"gray"} size={20} />
-          <Text style={{ color: "gray", marginLeft: 5 }}>
-            Search Direct Messages
-          </Text>
-        </View>
-      </View>
-      <View style={styles.line} />
-      <FlatList
-        data={chatRooms}
-        renderItem={({ item }) => <ChatListItem chat={item.chatRoom} />}
-        style={{ backgroundColor: Colors[colorScheme].background }}
-        refreshing={loading}
-        onRefresh={fetch}
-      />
-    </View>
+        <Stack.Screen name="MessagesScreen" component={MessagesScreen} />
+        <Stack.Screen name="Chat" component={Chat} />
+        {/* <Stack.Screen name="CommentsScreen" component={CommentsScreen} /> */}
+        {/* <Stack.Screen name="FollowTabs" component={FollowTabs} /> */}
+        {/* <Stack.Screen name="PlaceOrder" component={''} />
+    <Stack.Screen name="Cart" component={''} /> */}
+      </Stack.Navigator>
+    </>
   );
 }
 

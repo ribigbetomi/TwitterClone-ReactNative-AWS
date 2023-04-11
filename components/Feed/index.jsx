@@ -25,7 +25,8 @@ const Feed = () => {
     error,
     posts,
   } = useSelector((state) => state.listFollowingsForTimeline);
-  console.log(JSON.stringify(posts, null, 2), "posts");
+
+  // console.log(JSON.stringify(posts, null, 2), "posts");
 
   // const [tweetss, setTweetss] = useState([]);
   // console.log(JSON.stringify(tweets, null, 2), "tweetss");
@@ -77,66 +78,68 @@ const Feed = () => {
   useEffect(() => {
     // fetchTweets();
     fetch();
-  }, [userInfo.id]);
+  }, []);
 
-  useEffect(() => {
-    const subscription = API.graphql(
-      graphqlOperation(onCreateComment, {
-        filter: { userID: { eq: userInfo.id } },
-      })
-    ).subscribe({
-      next: ({ value }) => {
-        // console.log(JSON.stringify(value, null, 2), "valueee");
+  // useEffect(() => {
+  //   const subscription = API.graphql(
+  //     graphqlOperation(onCreateComment, {
+  //       filter: { userID: { eq: userInfo.id } },
+  //     })
+  //   ).subscribe({
+  //     next: ({ value }) => {
+  //       // console.log(JSON.stringify(value, null, 2), "valueee");
 
-        if (value.data.onCreateComment.tweetID) {
-          const find = tweets.find(
-            (item) => item.id === value.data.onCreateComment.tweetID
-          );
-          // console.log(JSON.stringify(find, null, 2), "find");
-          const neww = {
-            ...find,
-            comments: {
-              ...find.comments,
-              items: [...find.comments.items, value.data.onCreateComment],
-            },
-          };
+  //       if (value.data.onCreateComment.tweetID) {
+  //         const find = tweets.find(
+  //           (item) => item.id === value.data.onCreateComment.tweetID
+  //         );
+  //         // console.log(JSON.stringify(find, null, 2), "find");
+  //         const neww = {
+  //           ...find,
+  //           comments: {
+  //             ...find.comments,
+  //             items: [...find.comments.items, value.data.onCreateComment],
+  //           },
+  //         };
 
-          // console.log(JSON.stringify(neww, null, 2), "neww");
+  //         // console.log(JSON.stringify(neww, null, 2), "neww");
 
-          setTweets((tweet) =>
-            tweet.filter(
-              (item) => item.id !== value.data.onCreateComment.tweetID
-            )
-          );
-          setTweets((tweet) => [...tweet, ...neww]);
-        }
+  //         setTweets((tweet) =>
+  //           tweet.filter(
+  //             (item) => item.id !== value.data.onCreateComment.tweetID
+  //           )
+  //         );
+  //         setTweets((tweet) => [...tweet, ...neww]);
+  //       }
 
-        // setTweets((tweet) => {
-        //   return {
-        //     ...tweet,
-        //     comments: {
-        //       ...tweet.comments,
-        //       items: [...tweet.comments.items, value.data.onCreateComment],
-        //     },
-        //   };
-        // });
-      },
-      error: (err) => console.warn(err),
-    });
-    return () => subscription.unsubscribe();
-  }, [userInfo.id]);
+  //       // setTweets((tweet) => {
+  //       //   return {
+  //       //     ...tweet,
+  //       //     comments: {
+  //       //       ...tweet.comments,
+  //       //       items: [...tweet.comments.items, value.data.onCreateComment],
+  //       //     },
+  //       //   };
+  //       // });
+  //     },
+  //     error: (err) => console.warn(err),
+  //   });
+  //   return () => subscription.unsubscribe();
+  // }, [userInfo.id]);
 
   return (
     <View style={{ width: "100%" }}>
       {loadingPosts && <ActivityIndicator />}
-      <FlatList
-        data={posts}
-        renderItem={({ item }) => <Tweet tweet={item} />}
-        keyExtractor={(item) => item.id}
-        refreshing={loading}
-        onRefresh={fetch}
-        ListHeaderComponent={UserFleetsList}
-      />
+      {posts && (
+        <FlatList
+          data={posts}
+          renderItem={({ item }) => <Tweet tweet={item} />}
+          keyExtractor={(item) => item.id}
+          refreshing={loading}
+          onRefresh={fetch}
+          ListHeaderComponent={UserFleetsList}
+        />
+      )}
     </View>
   );
 };
