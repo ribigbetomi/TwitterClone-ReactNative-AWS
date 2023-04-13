@@ -7,41 +7,32 @@ import { GraphQLResult } from "@aws-amplify/api-graphql";
 import { FlatList } from "react-native";
 import Tweet from "../Tweet";
 import { commentsByUserID } from "./query";
+import { useDispatch, useSelector } from "react-redux";
+import { getCommentsByUserID } from "../../Redux/Actions/TweetCommentActions";
+import { ActivityIndicator } from "react-native";
+import { COMMENTS_BY_USERID_RESET } from "../../Redux/Constants/TweetCommentConstants";
 const RepliesTab = ({ user: { userID } }: any) => {
-  // console.log(userID);
   const [comments, setComments] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  // console.log(JSON.stringify(comments, null, 2), "commentss");
+  const dispatch = useDispatch<any>();
+  const { loading: loadingReplies, replies } = useSelector(
+    (state: any) => state.commentsByUserID
+  );
+  // console.log(JSON.stringify(replies, null, 2), "replies");
 
   useEffect(() => {
-    const fetchUserComments = async () => {
-      setLoading(true);
-      const userComments: GraphQLResult<any> = await API.graphql(
-        graphqlOperation(commentsByUserID, { userID: userID })
-      );
-      // console.log(
-      //   JSON.stringify(userComments.data.commentsByUserID.items, null, 2),
-      //   "userComments"
-      // );
-      const comm = userComments.data.commentsByUserID.items.filter(
-        (item: any) => item.content !== "" && !item.image
-      );
-      setComments(comm);
-      setLoading(false);
-    };
-    fetchUserComments();
-  }, []);
+    dispatch(getCommentsByUserID(userID));
+  }, [userID]);
   return (
     <View>
-      {/* {comments.length && ( */}
-      {/* <Text>RepliesTab</Text> */}
-      <FlatList
-        data={comments}
-        keyExtractor={(item: any) => item.id}
-        renderItem={({ item }) => <Tweet tweet={item} />}
-        refreshing={loading}
-      />
+      {loadingReplies && <ActivityIndicator />}
+      {replies && (
+        <FlatList
+          data={replies}
+          keyExtractor={(item: any) => item.id}
+          renderItem={({ item }) => <Tweet tweet={item} />}
+          // refreshing={loading}
+        />
+      )}
       {/* )} */}
     </View>
   );

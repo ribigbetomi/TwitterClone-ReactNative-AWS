@@ -32,6 +32,12 @@ export const likesByUserID = /* GraphQL */ `
           content
           image
           userID
+          user {
+            id
+            name
+            username
+            image
+          }
           likes {
             items {
               id
@@ -68,6 +74,13 @@ export const likesByUserID = /* GraphQL */ `
           createdAt
           content
           image
+          userID
+          user {
+            id
+            name
+            username
+            image
+          }
           updatedAt
           comments {
             items {

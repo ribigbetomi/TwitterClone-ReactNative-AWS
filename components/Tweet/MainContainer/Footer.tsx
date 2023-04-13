@@ -19,7 +19,7 @@ import { useNavigation } from "expo-router";
 //   tweet: TweetType;
 // };
 
-const Footer = ({ tweet }: any) => {
+const Footer = ({ tweet, likey }: any) => {
   const navigation: any = useNavigation();
   // console.log(JSON.stringify(tweet.likes.items, null, 2), "tweetLikes");
 
@@ -75,14 +75,14 @@ const Footer = ({ tweet }: any) => {
         // console.log(JSON.stringify(searchedLike, null, 2), "searchedLike");
         setMyLike(searchedLike);
       } else {
-        if (tweet.comment) {
+        if (tweet.comment && likey) {
           //for likesTab that like retrieved from likesByUserID is for a comment
           searchedLike = tweet.comment?.likes?.items.find(
             (like: any) => like.userID === user
           );
 
           setMyLike(searchedLike);
-        } else if (tweet.tweet) {
+        } else if (tweet.tweet && likey) {
           //for likesTab that like retrieved from likesByUserID is for a tweet
           searchedLike = tweet.tweet?.likes?.items.find(
             (like: any) => like.userID === user
@@ -105,14 +105,14 @@ const Footer = ({ tweet }: any) => {
         // console.log(JSON.stringify(searchedLike, null, 2), "searchedLike");
         setMyRetweet(searchedRetweet);
       } else {
-        if (tweet.comment) {
+        if (tweet.comment && likey) {
           //for likesTab that likes retrieved from likesByUserID is for a comment
           searchedRetweet = tweet.comment?.retweets?.items.find(
             (retweet: any) => retweet.userID === user
           );
 
           setMyRetweet(searchedRetweet);
-        } else if (tweet.tweet) {
+        } else if (tweet.tweet && likey) {
           //for likesTab that likes retrieved from likesByUserID is for a tweet
           searchedRetweet = tweet.tweet?.retweets?.items.find(
             (retweet: any) => retweet.userID === user
@@ -141,8 +141,10 @@ const Footer = ({ tweet }: any) => {
       setTweetComments(filtered.length);
       // console.log(filtered.length, "filteredLength");
     } else if (tweet.comment) {
+      // for likesTab with comment
       setTweetComments(tweet.comment.comments.items.length);
     } else if (tweet.tweetID) {
+      //for likesTab with tweet
       setTweetComments(tweet.tweet.comments.items.length);
     }
   }, [JSON.stringify(tweet)]);
@@ -221,6 +223,7 @@ const Footer = ({ tweet }: any) => {
     navigation.navigate("NewComment", {
       tweetOrComment: tweet,
       tweetUser: tweet.user.username,
+      likey: likey,
     });
   };
 

@@ -14,7 +14,7 @@ import useColorScheme from "../../../hooks/useColorScheme";
 //   tweet: TweetType;
 // };
 
-const MainContainer = ({ tweet }: any) => {
+const MainContainer = ({ tweet, likey }: any) => {
   const [downloadedAttachments, setDownloadedAttachments] = useState<any>("");
   // console.log(downloadedAttachments, "attache");
   const [imageViewerVisible, setImageViewerVisible] = useState(false);
@@ -99,7 +99,7 @@ const MainContainer = ({ tweet }: any) => {
           onRequestClose={() => setImageViewerVisible(false)}
         />
       </View>
-      <Footer tweet={tweet} />
+      <Footer tweet={tweet} likey={likey} />
     </View>
   );
 };

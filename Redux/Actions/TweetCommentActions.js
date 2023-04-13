@@ -1,8 +1,11 @@
 import { API, graphqlOperation } from "aws-amplify";
+import { likesByUserID } from "../../components/LikesTab/query";
 import { commentsByUserID } from "../../components/RepliesTab/query";
 import { tweetsByUserIDAndCreatedAt } from "../../components/TweetsTab/queries";
+import { createComment } from "../../src/graphql/mutations";
 import { onCreateComment } from "../../src/graphql/subscriptions";
 import { listFollowings } from "../../src/queries/FollowsByAuthUserID";
+import { getComment } from "../../src/queries/getComment";
 import { commentsByTweetIDAndCreatedAt } from "../../src/queries/tweetCommentsQuery";
 import {
   LIST_FOLLOWINGS_FOR_TIMELINE_FAIL,
@@ -67,83 +70,86 @@ export const listFollowingsForTimeline = (userID) => async (dispatch) => {
   }
 };
 
-export const getPost = (postID) => async (dispatch) => {
-  let postFind = state.posts.find((post) => post.id === postID);
+export const getPost = (tweet) => async (dispatch, getState) => {
+  // const {
+  //   listFollowingsForTimeline: { posts },
+  // } = getState();
+
+  // console.log(tweet, "tweet");
+  // let postFind = posts.find((post) => post.id === postID);
+  // console.log(JSON.stringify(postFind, null, 2), "postFind");
 
   dispatch({
     type: GET_POST,
-    payload: {
-      postFind,
-    },
+    payload: tweet,
   });
 };
 
-export const onCreateCommentPost = (filter) => async (dispatch) => {
-  let data;
-
+export const onCreateCommentPost = (commentID) => async (dispatch) => {
   const subscription = API.graphql(
     graphqlOperation(onCreateComment, {
-      filter: filter,
-      // { tweetID: { eq: tweettID } },
+      filter: { commentID: { eq: commentID } },
     })
   ).subscribe({
     next: ({ value }) => {
-      data = value.data.onCreateComment;
+      console.log(
+        JSON.stringify(value.data.onCreateComment, null, 2),
+        "valueOncreateCommentPost"
+      );
+      dispatch({
+        type: ON_CREATE_COMMENT_POST,
+        payload: value.data.onCreateComment,
+      });
     },
     error: (err) => console.warn(err),
   });
 
-  dispatch({
-    type: ON_CREATE_COMMENT_POST,
-    payload: {
-      data,
-    },
-  });
   return () => subscription.unsubscribe();
 };
 
-export const onCreateCommentFeed = (filter) => async (dispatch) => {
-  let data;
-
+export const onCreateCommentFeed = (tweettID) => async (dispatch) => {
+  // console.log(tweettID, "tweetID");
   const subscription = API.graphql(
     graphqlOperation(onCreateComment, {
-      filter: filter,
-      // { tweetID: { eq: tweettID } },
+      filter: { tweetID: { eq: tweettID } },
     })
   ).subscribe({
     next: ({ value }) => {
-      data = value.data.onCreateComment;
+      // console.log(
+      //   JSON.stringify(value.data.onCreateComment, null, 2),
+      //   "valueOncreateCommentFeed"
+      // );
+      dispatch({
+        type: ON_CREATE_COMMENT_FEED,
+        payload: value.data.onCreateComment,
+      });
     },
     error: (err) => console.warn(err),
   });
 
-  dispatch({
-    type: ON_CREATE_COMMENT_FEED,
-    payload: {
-      data,
-    },
-  });
   return () => subscription.unsubscribe();
 };
 
 export const getCommentComments = (postID) => async (dispatch) => {
   try {
     dispatch({ type: GET_COMMENT_REQUEST });
+    // console.log(JSON.stringify(postID), "postID");
+
     const comment = await API.graphql(
       graphqlOperation(getComment, {
-        postID,
+        id: postID,
         // sortDirection: "DESC",
       })
     );
-    let result = comment.data.getComment.comments.items.filter(
-      (item) => item.id !== id
-    );
+    // console.log(JSON.stringify(comment, null, 2), "comment");
+    let result = comment.data.getComment.comments.items
+      .filter((item) => item.id !== postID)
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    // console.log(JSON.stringify(result, null, 2), "result");
 
     dispatch({
       type: GET_COMMENT_SUCCESS,
-      payload: {
-        result,
-      },
+      payload: result,
     });
   } catch (error) {
     dispatch({
@@ -166,15 +172,13 @@ export const getCommentsByTweetIDAndCreatedAt =
           // sortDirection: "DESC",
         })
       );
-      let result = comment.data.commentsByTweetIDAndCreatedAt.items.filter(
-        (item) => item.content !== "" && !item.image
-      );
+      let result = comment.data.commentsByTweetIDAndCreatedAt.items
+        .filter((item) => item.content !== "" && !item.image)
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
       dispatch({
         type: COMMENTS_BY_TWEETID_SUCCESS,
-        payload: {
-          result,
-        },
+        payload: result,
       });
     } catch (error) {
       dispatch({
@@ -194,9 +198,7 @@ export const createNewComment = (commentToAdd) => async (dispatch) => {
 
   dispatch({
     type: CREATE_COMMENT,
-    payload: {
-      newnew,
-    },
+    payload: newnew.data.createComment,
   });
 };
 
@@ -221,15 +223,13 @@ export const getCommentsByUserID = (userID) => async (dispatch) => {
       graphqlOperation(commentsByUserID, { userID: userID })
     );
 
-    const result = userComments.data.commentsByUserID.items.filter(
-      (item) => item.content !== "" && !item.image
-    );
+    const result = userComments.data.commentsByUserID.items
+      .filter((item) => item.content !== "" && !item.image)
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     dispatch({
       type: COMMENTS_BY_USERID_SUCCESS,
-      payload: {
-        result,
-      },
+      payload: result,
     });
   } catch (error) {
     dispatch({
@@ -252,12 +252,12 @@ export const getTweetsByUserIDAndCreatedAt = (userID) => async (dispatch) => {
       })
     );
 
-    let result = userTweets.data.tweetsByUserIDAndCreatedAt.items;
+    let result = userTweets.data.tweetsByUserIDAndCreatedAt.items.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
     dispatch({
       type: TWEETS_BY_USERID_SUCCESS,
-      payload: {
-        result,
-      },
+      payload: result,
     });
   } catch (error) {
     dispatch({
@@ -312,33 +312,29 @@ export const mediaByUserID = (userID) => async (dispatch) => {
 };
 
 export const getLikesByUserID = (userID) => async (dispatch) => {
-  try {
-    dispatch({ type: LIKES_BY_USERID_REQUEST });
+  // try {
+  dispatch({ type: LIKES_BY_USERID_REQUEST });
 
-    const userLikes = await API.graphql(
-      graphqlOperation(likesByUserID, { userID: userID })
-    );
+  const userLikes = await API.graphql(
+    graphqlOperation(likesByUserID, { userID: userID })
+  );
 
-    const result = userLikes.data.likesByUserID.items;
+  const result = userLikes.data.likesByUserID.items;
 
-    dispatch({
-      type: LIKES_BY_USERID_SUCCESS,
-      payload: {
-        result,
-      },
-    });
-  } catch (error) {
-    dispatch({
-      type: LIKES_BY_USERID_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
+  dispatch({
+    type: LIKES_BY_USERID_SUCCESS,
+    payload: result,
+  });
+  // } catch (error) {
+  //   dispatch({
+  //     type: LIKES_BY_USERID_FAIL,
+  //     payload:
+  //       error.response && error.response.data.message
+  //         ? error.response.data.message
+  //         : error.message,
+  //   });
+  // }
 };
-
-export const listPosts = () => async (dispatch) => {};
 
 // export const createNewLike = (like) => async (dispatch) => {
 //   const res = await API.graphql(

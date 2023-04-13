@@ -33,7 +33,7 @@ const Tweet = ({ tweet, likey = false }: any) => {
     <Pressable onPress={onPress} style={styles.container}>
       {/* <TouchableWithoutFeedback {...linkProps}> */}
       <LeftContainer user={tweet.user} />
-      <MainContainer tweet={tweet} />
+      <MainContainer tweet={tweet} likey={likey} />
       {/* </TouchableWithoutFeedback> */}
     </Pressable>
   );

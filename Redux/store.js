@@ -65,7 +65,7 @@ const reducer = combineReducers({
   deleteFollower: deleteFollowerReducer,
   getPost: getPostReducer,
   getComment: getCommentReducer,
-  commentsByTweetIDAndCreatedAt: commentsByTweetIDAndCreatedAtReducer,
+  // commentsByTweetIDAndCreatedAt: commentsByTweetIDAndCreatedAtReducer,
   createComment: createCommentReducer,
   createTweet: createTweetReducer,
   commentsByUserID: commentsByUserIDReducer,

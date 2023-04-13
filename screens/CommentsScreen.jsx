@@ -21,6 +21,12 @@ import { Pressable } from "react-native";
 // import { getComment } from "../src/graphql/queries";
 import { getComment } from "../src/queries/getComment";
 import { onCreateComment } from "../src/subscriptions/onCreateComment";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getCommentComments,
+  getCommentsByTweetIDAndCreatedAt,
+  getPost,
+} from "../Redux/Actions/TweetCommentActions";
 
 const CommentsScreen = () => {
   const route = useRoute();
@@ -30,13 +36,18 @@ const CommentsScreen = () => {
   const [tweetComments, setTweetComments] = useState([]);
   // console.log(JSON.stringify(tweetComments, null, 2), "tweetComments");
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  const { postComments } = useSelector((state) => state.getComment);
+  // console.log(JSON.stringify(postComments, null, 2), "postComments");
+
+  const { post } = useSelector((state) => state.getPost);
+  // console.log(JSON.stringify(post, null, 2), "post");
 
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
 
   const [tweett, setTweett] = useState(tweet);
-
-  // console.log(JSON.stringify(tweett, null, 2), "Tweett");
 
   // useEffect(() => {
   //   setTweett(tweet)
@@ -64,102 +75,45 @@ const CommentsScreen = () => {
     });
   }, []);
 
-  //   console.log(JSON.stringify(tweetComments, null, 2), "tweetComments");
-  //   console.log(tweetID);
-
   useEffect(() => {
     setTweett(tweet);
-  }, [tweet]);
-
-  useEffect(() => {
-    const subscription = API.graphql(
-      graphqlOperation(onCreateComment, {
-        filter: { tweetID: { eq: tweett.id } },
-      })
-    ).subscribe({
-      next: ({ value }) => {
-        // console.log(JSON.stringify(value, null, 2), "value");
-        setTweett((tweet) => {
-          return {
-            ...tweet,
-            comments: {
-              ...tweet.comments,
-              items: [...tweet.comments.items, value.data.onCreateComment],
-            },
-          };
-        });
-      },
-      error: (err) => console.warn(err),
-    });
-    return () => subscription.unsubscribe();
-  }, [tweett]);
+    if (tweet.comments) {
+      dispatch(getPost(tweet));
+    } else if (tweet.comment) {
+      console.log("comment");
+      dispatch(getPost(tweet.comment));
+    } else if (tweet.tweetID && likey) {
+      console.log("tweet");
+      dispatch(getPost(tweet.tweet));
+    }
+  }, [tweet, likey]);
 
   const fetchTweetComments = async () => {
     let id;
     if (!tweett.tweetID && tweett.commentID) {
+      //third level of comment with no tweetID but commentID
       setLoading(true);
       id = tweett.id;
-      const comment = await API.graphql(
-        graphqlOperation(getComment, {
-          id,
-          // sortDirection: "DESC",
-        })
-      );
-      // console.log(JSON.stringify(comment.data.getComment, null, 2), "com");
-      setTweetComments(comment.data.getComment.comments.items);
-      // setLoading(false);
-      // console.log(
-      //   JSON.stringify(
-      //     tweetCommentss.data.commentsByTweetIDAndCreatedAt.items,
-      //     null,
-      //     2
-      //   ),
-      //   "fetchedTweets"
-      // );
-      // const comm =
-      //   tweetCommentss.data.commentsByTweetIDAndCreatedAt.items.filter(
-      //     (item: any) => item.content !== "" && !item.image
-      //   );
-      // console.log(JSON.stringify(comm, null, 2), "comm");
-      // setTweetComments(comm);
+
+      dispatch(getCommentComments(id));
+
       setLoading(false);
     } else if (tweett.comment) {
+      //for first commentScreen from likesTab
       setLoading(true);
-      // setTweetComments(tweet.comments.items);
-      // if () {
+
       id = tweett.comment.id;
-      const comment = await API.graphql(
-        graphqlOperation(getComment, {
-          id,
-          // sortDirection: "DESC",
-        })
-      );
-      let filtered = comment.data.getComment.comments.items.filter(
-        (item) => item.id !== id
-      );
-      // console.log(JSON.stringify(comment.data.getComment, null, 2), "com");
-      setTweetComments(
-        filtered
-        // comment.data.getComment.comments.items
-      );
+
+      dispatch(getCommentComments(id));
 
       setLoading(false);
     } else if (tweett.tweetID && !likey) {
+      //for onPress of comment from first commentsScreen(with tweetID and
+      // likey=false because likey is only true if it's from the likesTab ) to next
       setLoading(true);
       id = tweett.id;
-      const comment = await API.graphql(
-        graphqlOperation(getComment, {
-          id,
-          // sortDirection: "DESC",
-        })
-      );
-      let filtered = comment.data.getComment.comments.items.filter(
-        (item) => item.id !== id
-      );
-      // console.log(filtered)
-      // console.log(JSON.stringify(filtered, null, 2), "commm");
-      // console.log(JSON.stringify(comment.data.getComment, null, 2), "commm");
-      setTweetComments(filtered);
+      dispatch(getCommentComments(id));
+
       setLoading(false);
     } else {
       setLoading(true);
@@ -169,52 +123,11 @@ const CommentsScreen = () => {
       } else {
         tweettID = tweett.id;
       }
-      const tweetCommentss = await API.graphql(
-        graphqlOperation(commentsByTweetIDAndCreatedAt, {
-          tweetID: tweettID,
-          sortDirection: "DESC",
-        })
-      );
-      const comm =
-        tweetCommentss.data.commentsByTweetIDAndCreatedAt.items.filter(
-          (item) => item.content !== "" && !item.image
-        );
-      // console.log(JSON.stringify(comm, null, 2), "coo");
-      setTweetComments(comm);
+
+      dispatch(getCommentsByTweetIDAndCreatedAt(tweettID));
+
       setLoading(false);
     }
-
-    // const subscription = API.graphql(
-    //   graphqlOperation(onCreateComment, {
-    //     filter: { tweetID: { eq: tweett.id } },
-    //   })
-    // ).subscribe({
-    //   next: ({ value }) => {
-    //     console.log(JSON.stringify(value, null, 2), "value");
-    //     setTweett((tweet) => {
-    //       return {
-    //         ...tweet,
-    //         comments: {
-    //           ...tweet.comments,
-    //           items: [...tweet.comments.items, value.data.onCreateComment],
-    //         },
-    //       };
-    //     });
-    //   },
-    //   error: (err) => console.warn(err),
-    // });
-    // return () => subscription.unsubscribe();
-    // console.log(id, "id");
-    // const comment: GraphQLResult<any> = await API.graphql(
-    //   graphqlOperation(getComment, {
-    //     id,
-    //     // sortDirection: "DESC",
-    //   })
-    // );
-    // console.log(JSON.stringify(comment.data.getComment, null, 2), "com");
-    // setTweetComments(comment.data.getComment);
-    // setLoading(false);
-    // }
   };
 
   useEffect(() => {
@@ -222,24 +135,24 @@ const CommentsScreen = () => {
   }, [tweett, likey]);
 
   return (
-    <SafeAreaView style={{ width: "100%" }}>
-      {tweett && (
-        <>
+    <>
+      {post.id && (
+        <SafeAreaView style={{ width: "100%", flex: 1 }}>
           <View style={styles.container}>
-            <LeftContainer user={tweett.user} />
-            <MainContainer tweet={tweett} />
+            <LeftContainer user={post.user} />
+            <MainContainer tweet={post} />
           </View>
           <FlatList
-            data={tweetComments}
+            data={postComments}
             renderItem={({ item }) => <Tweet tweet={item} />}
             keyExtractor={(item) => item.id}
             refreshing={loading}
             // onRefresh={fetchTweetComments}
             // ListHeaderComponent={UserFleetsList}
           />
-        </>
+        </SafeAreaView>
       )}
-    </SafeAreaView>
+    </>
   );
 };
 

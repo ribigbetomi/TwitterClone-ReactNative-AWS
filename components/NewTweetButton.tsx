@@ -6,21 +6,21 @@ import Colors from "../constants/Colors";
 import { Link } from "expo-router";
 
 const NewTweetButton = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
 
-  //   const onPress = () => {
-  //     navigation.navigate('NewTweet');
-  //   };
+  const onPress = () => {
+    navigation.navigate("NewTweet");
+  };
 
   return (
     <TouchableOpacity
       activeOpacity={0.8}
       style={styles.button}
-      //   onPress={onPress}
+      onPress={onPress}
     >
-      <Link href="/NewTweet">
-        <MaterialCommunityIcons name={"feather"} size={30} color="white" />
-      </Link>
+      {/* <Link href="/NewTweet"> */}
+      <MaterialCommunityIcons name={"feather"} size={30} color="white" />
+      {/* </Link> */}
     </TouchableOpacity>
   );
 };

@@ -32,33 +32,33 @@ import {
   ON_DELETE_FOLLOWING,
 } from "../Constants/FollowsConstants";
 
-export const listFollowingsForTimeline = (userID) => async (dispatch) => {
-  try {
-    dispatch({
-      type: LIST_FOLLOWINGS_FOR_TIMELINE_REQUEST,
-    });
+// export const listFollowingsForTimeline = (userID) => async (dispatch) => {
+//   try {
+//     dispatch({
+//       type: LIST_FOLLOWINGS_FOR_TIMELINE_REQUEST,
+//     });
 
-    const followingsPosts = await API.graphql(
-      graphqlOperation(listFollowings, {
-        filter: { authUserID: { eq: userID } },
-      })
-    );
-    console.log(JSON.stringify(followingsPosts, null, 2), "followingsPosts");
+//     const followingsPosts = await API.graphql(
+//       graphqlOperation(listFollowings, {
+//         filter: { authUserID: { eq: userID } },
+//       })
+//     );
+//     console.log(JSON.stringify(followingsPosts, null, 2), "followingsPosts");
 
-    dispatch({
-      type: LIST_FOLLOWINGS_FOR_TIMELINE_SUCCESS,
-      payload: followingsPosts,
-    });
-  } catch (error) {
-    dispatch({
-      type: LIST_FOLLOWINGS_FOR_TIMELINE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+//     dispatch({
+//       type: LIST_FOLLOWINGS_FOR_TIMELINE_SUCCESS,
+//       payload: followingsPosts,
+//     });
+//   } catch (error) {
+//     dispatch({
+//       type: LIST_FOLLOWINGS_FOR_TIMELINE_FAIL,
+//       payload:
+//         error.response && error.response.data.message
+//           ? error.response.data.message
+//           : error.message,
+//     });
+//   }
+// };
 
 export const getFollowingsByAuthUserID = (userID) => async (dispatch) => {
   const res = await API.graphql(

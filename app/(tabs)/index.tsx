@@ -8,6 +8,7 @@ import CommentsScreen from "../../screens/CommentsScreen";
 import FleetScreen from "../../screens/Fleet";
 import FollowTabs from "../../screens/FollowTabs";
 import HomeScreen from "../../screens/HomeScreen";
+import NewComment from "../NewComment";
 import UserProfile from "../../screens/UserProfile";
 
 const Stack = createNativeStackNavigator();
@@ -25,8 +26,8 @@ export default function TabOneScreen() {
         <Stack.Screen name="CommentsScreen" component={CommentsScreen} />
         <Stack.Screen name="UserProfile" component={UserProfile} />
         <Stack.Screen name="FollowTabs" component={FollowTabs} />
-        {/* <Stack.Screen name="PlaceOrder" component={''} />
-      <Stack.Screen name="Cart" component={''} /> */}
+        {/* <Stack.Screen name="NewComment" component={NewComment} /> */}
+        {/* <Stack.Screen name="Cart" component={''} /> */}
       </Stack.Navigator>
     </>
   );

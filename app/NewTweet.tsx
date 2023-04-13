@@ -198,7 +198,7 @@ export default function NewTweetScreen() {
               numberOfLines={3}
               style={[styles.tweetInput, { color: Colors[colorScheme].text }]}
               placeholder={"What's happening?"}
-              placeholderTextColor={Colors[colorScheme].text}
+              placeholderTextColor={"gray"}
             />
             <TouchableOpacity onPress={pickImage}>
               <Text style={styles.pickImage}>Pick an image</Text>
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
   tweetInput: {
     height: 100,
     maxHeight: 300,
-    fontSize: 20,
+    fontSize: 15,
   },
   pickImage: {
     fontSize: 18,

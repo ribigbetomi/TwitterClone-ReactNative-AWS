@@ -8,47 +8,36 @@ import { TweetType } from "../../types";
 import Colors from "../../constants/Colors";
 import useColorScheme from "../../hooks/useColorScheme";
 import { tweetsByUserIDAndCreatedAt } from "./queries";
+import { useDispatch, useSelector } from "react-redux";
+import { getTweetsByUserIDAndCreatedAt } from "../../Redux/Actions/TweetCommentActions";
+import { ActivityIndicator } from "react-native";
 
 const TweetTab = ({ userID }: any) => {
-  //   console.log(userID, "use");
-  const [userTweets, setUserTweets] = useState<any>([]);
-  const [loading, setLoading] = useState(false);
   const colorScheme = useColorScheme();
-
-  // console.log(JSON.stringify(userTweets, null, 2), "userTweet");
+  const dispatch = useDispatch<any>();
+  const { loading, userTweets } = useSelector(
+    (state: any) => state.tweetsByUserID
+  );
 
   const fetchTweets = async () => {
-    setLoading(true);
-    try {
-      const userTweets: GraphQLResult<any> = await API.graphql(
-        graphqlOperation(tweetsByUserIDAndCreatedAt, {
-          userID: userID.userID,
-          //   sortDirection: "DESC",
-        })
-      );
-      setUserTweets(userTweets.data.tweetsByUserIDAndCreatedAt.items);
-    } catch (e) {
-      console.log(e);
-    } finally {
-      setLoading(false);
-    }
+    dispatch(getTweetsByUserIDAndCreatedAt(userID.userID));
   };
+
   useEffect(() => {
     fetchTweets();
-  }, []);
-  //   console.log(user, "userrrr");
+  }, [userID?.userID]);
+
   return (
     <View style={{ width: "100%" }}>
-      {/* <Text>TweetsTab</Text> */}
+      {loading && <ActivityIndicator />}
       {userTweets && (
         <FlatList
           data={userTweets}
           renderItem={({ item }) => <Tweet tweet={item} />}
           // style={{ backgroundColor: "blue" }}
           keyExtractor={(item: TweetType) => item.id}
-          refreshing={loading}
-          onRefresh={fetchTweets}
-          // ListHeaderComponent={UserFleetsList}
+          // refreshing={loading}
+          // onRefresh={fetchTweets}
         />
       )}
     </View>

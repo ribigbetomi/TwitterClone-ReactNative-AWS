@@ -24,8 +24,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TabLayout from "./(tabs)/_layout";
 import CommentsScreen from "../screens/CommentsScreen";
 import { getUserr } from "../Redux/Actions/UserActions";
-import NewTweetScreen from "../screens/NewTweet";
-import NewComment from "../screens/NewComment";
+import NewTweetScreen from "./NewTweet";
+import NewComment from "./NewComment";
 import FleetScreen from "../screens/Fleet";
 import FollowTabs from "../screens/FollowTabs";
 
@@ -156,8 +156,14 @@ function RootLayoutNav() {
           <Stack.Screen
             name="NewComment"
             component={NewComment}
-            options={{ headerShown: false }}
+            // options={{ headerShown: false }}
           />
+
+          {/* <Stack.Screen
+            name="NewComment"
+            component={NewTweetScreen}
+            // options={{ headerShown: false }}
+          /> */}
 
           <Stack.Screen
             name="Fleet"
