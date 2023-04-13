@@ -1,20 +1,21 @@
-// ADD TO CART
-export const addToCart = (id, qty) => async (dispatch) => {
-  const { data } = await axios.get(`${url}/api/products/${id}`);
+import { API, graphqlOperation } from "aws-amplify";
+import { listUsers } from "../../components/UserFleetsList/queries";
+import { GET_FLEETERS } from "../Constants/FleetConstants";
 
-  // console.log(data);
+// ADD TO CART
+export const getFleeters = () => async (dispatch) => {
+  console.log("flee");
+  const { data } = await API.graphql(graphqlOperation(listUsers));
+  const fleeters = data.listUsers.items.filter(
+    (item) => item.fleets.items.length !== 0
+  );
+
+  // setUsers(fleeters);
+
+  console.log(fleeters, "fleet");
 
   dispatch({
-    type: CART_ADD_ITEM,
-    payload: {
-      product: data._id,
-      name: data.name,
-      image: data.image,
-      price: data.price,
-      countInStock: data.countInStock,
-      qty,
-    },
+    type: GET_FLEETERS,
+    payload: fleeters,
   });
-
-  // localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
 };

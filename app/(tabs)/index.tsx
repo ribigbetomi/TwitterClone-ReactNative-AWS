@@ -5,7 +5,7 @@ import NewTweetButton from "../../components/NewTweetButton";
 import { Text, View } from "../../components/Themed";
 import UserFleetPreview from "../../components/UserFleetPreview";
 import CommentsScreen from "../../screens/CommentsScreen";
-import FleetScreen from "../../screens/Fleet";
+import FleetScreen from "../Fleet";
 import FollowTabs from "../../screens/FollowTabs";
 import HomeScreen from "../../screens/HomeScreen";
 import NewComment from "../NewComment";

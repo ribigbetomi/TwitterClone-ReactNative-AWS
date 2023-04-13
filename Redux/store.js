@@ -44,6 +44,7 @@ import {
 } from "./Reducers/TweetCommentReducers";
 
 import { listUsersReducer, userDetailsReducer } from "./Reducers/UserReducers";
+import { getFleetersReducer } from "./Reducers/FleetReducers";
 
 const reducer = combineReducers({
   getChatRoom: getChatRoomReducer,
@@ -74,6 +75,7 @@ const reducer = combineReducers({
   userDetails: userDetailsReducer,
   listUsers: listUsersReducer,
   mediaByUserID: mediaByUserIDReducer,
+  getFleeters: getFleetersReducer,
 });
 
 const initialState = {};

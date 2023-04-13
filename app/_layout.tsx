@@ -26,8 +26,9 @@ import CommentsScreen from "../screens/CommentsScreen";
 import { getUserr } from "../Redux/Actions/UserActions";
 import NewTweetScreen from "./NewTweet";
 import NewComment from "./NewComment";
-import FleetScreen from "../screens/Fleet";
+import FleetScreen from "./Fleet";
 import FollowTabs from "../screens/FollowTabs";
+import NewFleetScreen from "./NewFleet";
 
 Amplify.configure({ ...config, Analytics: { disabled: true } });
 
@@ -159,11 +160,11 @@ function RootLayoutNav() {
             // options={{ headerShown: false }}
           />
 
-          {/* <Stack.Screen
-            name="NewComment"
-            component={NewTweetScreen}
+          <Stack.Screen
+            name="NewFleet"
+            component={NewFleetScreen}
             // options={{ headerShown: false }}
-          /> */}
+          />
 
           <Stack.Screen
             name="Fleet"

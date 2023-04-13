@@ -46,10 +46,14 @@ export const listFollowingsForTimelineReducer = (
         i++
       ) {
         let post = action.payload.data.listFollowings.items[i].user;
-        let newnew = [...post.tweets.items, ...post.comments.items].sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-        );
+        let newnew = [...post.tweets.items, ...post.comments.items];
+
         wholePosts.push(...newnew);
+        if (i === action.payload.data.listFollowings.items.length - 1) {
+          wholePosts.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          );
+        }
       }
       return { loading: false, posts: wholePosts };
 
