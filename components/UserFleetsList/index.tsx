@@ -19,7 +19,7 @@ const UserFleetsList = () => {
   const [user, setUser] = useState<any>(null);
   const dispatch = useDispatch<any>();
   const { fleeters } = useSelector((state: any) => state.getFleeters);
-  console.log(JSON.stringify(fleeters, null, 2), "fleeters");
+  // console.log(JSON.stringify(fleeters, null, 2), "fleeters");
 
   const navigation: any = useNavigation();
   // console.log(JSON.stringify(user, null, 2), "userr");

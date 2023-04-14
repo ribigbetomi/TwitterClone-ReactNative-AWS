@@ -12,7 +12,7 @@ export const getFleeters = () => async (dispatch) => {
 
   // setUsers(fleeters);
 
-  console.log(fleeters, "fleet");
+  // console.log(fleeters, "fleet");
 
   dispatch({
     type: GET_FLEETERS,

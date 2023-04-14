@@ -78,16 +78,16 @@ export const followingsByAuthUserIDReducer = (
     case FOLLOWINGS_BY_AUTH_USERID:
       return { loading: false, followings: action.payload };
 
-    // case ON_CREATE_FOLLOWING:
+    // case CREATE_FOLLOWING:
     //   console.log(JSON.stringify(action.payload, null, 2), "actionPayyLLoadd");
     //   return { followings: [...state.followings, action.payload] };
 
-    case ON_DELETE_FOLLOWING:
-      console.log(JSON.stringify(action.payload, null, 2), "actionPAYLLoadd");
-      let newFollowings = state.followings.filter(
-        (item) => item.id !== action.payload.id
-      );
-      return { followings: newFollowings };
+    // case DELETE_FOLLOWING:
+    //   console.log(JSON.stringify(action.payload, null, 2), "actionPAYLLoadd");
+    //   let newFollowings = state.followings.filter(
+    //     (item) => item.id !== action.payload.id
+    //   );
+    //   return { followings: newFollowings };
 
     default:
       return state;
@@ -102,12 +102,16 @@ export const checkFollowingReducer = (
     case CHECK_FOLLOWING:
       return { followingUser: action.payload };
 
-    case ON_CREATE_FOLLOWING:
+    case CREATE_FOLLOWING:
+      console.log(
+        JSON.stringify(action.payload.id, null, 2),
+        "checkFollowingCREATEFOLLOWING"
+      );
       return {
         followingUser: action.payload.id,
       };
 
-    case ON_DELETE_FOLLOWING:
+    case DELETE_FOLLOWING:
       return { followingUser: false };
 
     default:
@@ -135,11 +139,14 @@ export const followersByAuthUserIDReducer = (
     case FOLLOWERS_BY_AUTH_USERID:
       return { loading: false, followers: action.payload };
 
-    case ON_CREATE_FOLLOWER:
-      console.log(JSON.stringify(action.payload, null, 2), "actionPAYloadd");
+    case CREATE_FOLLOWER:
+      console.log(
+        JSON.stringify(action.payload, null, 2),
+        "followerslistCREATEFOLLOWERS"
+      );
       return { followers: [...state.followers, action.payload] };
 
-    case ON_DELETE_FOLLOWER:
+    case DELETE_FOLLOWER:
       console.log(JSON.stringify(action.payload, null, 2), "actionPAYload");
 
       let newFollowers = state.followers.filter(
@@ -153,17 +160,21 @@ export const followersByAuthUserIDReducer = (
   }
 };
 
-export const checkFollowerReducer = (state = { followerUser: {} }, action) => {
+export const checkFollowerReducer = (state = {}, action) => {
   switch (action.type) {
     case CHECK_FOLLOWER:
       return { loading: false, followerUser: action.payload };
 
-    case ON_CREATE_FOLLOWER:
+    case CREATE_FOLLOWER:
+      console.log(
+        JSON.stringify(action.payload, null, 2),
+        "checkFollowerCREATEFOLLOWER"
+      );
       return {
         followerUser: action.payload.id,
       };
 
-    case ON_DELETE_FOLLOWER:
+    case DELETE_FOLLOWER:
       return { followerUser: false };
 
     default:

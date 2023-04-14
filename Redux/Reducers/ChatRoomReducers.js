@@ -19,6 +19,9 @@ import {
   UPDATE_CHATROOM,
   ON_CREATE_ATTACHMENT,
   CREATE_MESSAGE_RESET,
+  COMMON_CHATROOM_REQUEST,
+  COMMON_CHATROOM_SUCCESS,
+  COMMON_CHATROOM_FAIL,
 } from "../Constants/ChatRoomConstants";
 
 export const getChatRoomReducer = (state = { chatRoom: {} }, action) => {
@@ -138,6 +141,15 @@ export const listMessagesByChatRoomReducer = (
 };
 export const createChatRoomReducer = (state = { chatRoom: {} }, action) => {
   switch (action.type) {
+    case COMMON_CHATROOM_REQUEST:
+      return { loadingCommon: true };
+
+    case COMMON_CHATROOM_SUCCESS:
+      return { loadingCommon: false, chatRoom: action.payload };
+
+    case COMMON_CHATROOM_FAIL:
+      return { loadingCommon: false, error: action.payload };
+
     case CREATE_CHATROOM_REQUEST:
       return { loading: true };
 

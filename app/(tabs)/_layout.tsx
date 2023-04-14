@@ -17,6 +17,8 @@ import TabOneScreen from "./index";
 import TabTwoScreen from "./Search";
 import TabThreeScreen from "./Notifications";
 import TabFourScreen from "./Messages";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserr } from "../../Redux/Actions/UserActions";
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
@@ -30,33 +32,48 @@ function TabBarIcon(props: {
 const Tab = createBottomTabNavigator();
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
-  const [user, setUser] = useState<any>(null);
-
+  const dispatch = useDispatch<any>();
   useEffect(() => {
-    // get the current user
-    const fetchUser = async () => {
+    const fetch = async () => {
       const userInfo = await Auth.currentAuthenticatedUser({
         bypassCache: true,
       });
-      if (!userInfo) {
-        return;
-      }
-
-      try {
-        const userData: GraphQLResult<any> = await API.graphql(
-          graphqlOperation(getUser, { id: userInfo.attributes.sub })
-        );
-        if (userData) {
-          setUser(userData.data.getUser);
-        }
-      } catch (e) {
-        console.log(e);
-      }
+      dispatch(getUserr(userInfo.attributes.sub));
     };
-    fetchUser();
+    fetch();
   }, []);
+
+  const { userInfo } = useSelector((state: any) => state.userDetails);
+  // console.log(JSON.stringify(userInfo, null, 2), "userInfo");
+
+  const colorScheme = useColorScheme();
+
+  // const [user, setUser] = useState<any>(null);
+
+  // useEffect(() => {
+  //   // get the current user
+
+  //   const fetchUser = async () => {
+  //     const userInfo = await Auth.currentAuthenticatedUser({
+  //       bypassCache: true,
+  //     });
+  //     if (!userInfo) {
+  //       return;
+  //     }
+
+  //     try {
+  //       const userData: GraphQLResult<any> = await API.graphql(
+  //         graphqlOperation(getUser, { id: userInfo.attributes.sub })
+  //       );
+  //       if (userData) {
+  //         setUser(userData.data.getUser);
+  //       }
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   };
+  //   fetchUser();
+  // }, []);
 
   return (
     <Tab.Navigator
@@ -97,7 +114,7 @@ export default function TabLayout() {
           // },
           headerLeft: () => (
             <View style={{ marginLeft: 15 }}>
-              <ProfilePicture image={user?.image} />
+              <ProfilePicture image={userInfo?.image} />
             </View>
           ),
           // headerLeftContainerStyle: {
@@ -136,7 +153,7 @@ export default function TabLayout() {
           headerTitleAlign: "center",
           headerLeft: () => (
             <View style={{ marginLeft: 15 }}>
-              <ProfilePicture image={user?.image} size={30} />
+              <ProfilePicture image={userInfo?.image} size={30} />
             </View>
           ),
           headerRight: () => (

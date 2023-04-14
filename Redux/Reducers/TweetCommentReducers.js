@@ -46,15 +46,23 @@ export const listFollowingsForTimelineReducer = (
         i++
       ) {
         let post = action.payload.data.listFollowings.items[i].user;
-        let newnew = [...post.tweets.items, ...post.comments.items];
+        let newnew = [...post.tweets.items, ...post.comments.items].sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
 
         wholePosts.push(...newnew);
-        if (i === action.payload.data.listFollowings.items.length - 1) {
-          wholePosts.sort(
-            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-          );
-        }
+        // wholePosts.sort(
+        //   (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        // );
+
+        // if (i === action.payload.data.listFollowings.items.length - 1) {
+        //   wholePosts.sort(
+        //     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        //   );
+        // }
       }
+      // wholePosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
       return { loading: false, posts: wholePosts };
 
     case LIST_FOLLOWINGS_FOR_TIMELINE_FAIL:

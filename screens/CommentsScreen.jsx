@@ -9,7 +9,7 @@ import {
 import React, { useEffect, useState, useLayoutEffect } from "react";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
 import { API, Auth, graphqlOperation } from "aws-amplify";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import Tweet from "../components/Tweet";
 import { commentsByTweetIDAndCreatedAt } from "../src/queries/tweetCommentsQuery";
 import LeftContainer from "../components/Tweet/LeftContainer";
@@ -27,6 +27,7 @@ import {
   getCommentsByTweetIDAndCreatedAt,
   getPost,
 } from "../Redux/Actions/TweetCommentActions";
+import { useNavigation } from "expo-router";
 
 const CommentsScreen = () => {
   const route = useRoute();
@@ -49,9 +50,9 @@ const CommentsScreen = () => {
 
   const [tweett, setTweett] = useState(tweet);
 
-  // useEffect(() => {
-  //   setTweett(tweet)
-  // }, [tweet])
+  useEffect(() => {
+    setTweett(tweet);
+  }, [tweet]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -76,7 +77,7 @@ const CommentsScreen = () => {
   }, []);
 
   useEffect(() => {
-    setTweett(tweet);
+    // setTweett(tweet);
     if (tweet.comments) {
       dispatch(getPost(tweet));
     } else if (tweet.comment) {
@@ -90,38 +91,38 @@ const CommentsScreen = () => {
 
   const fetchTweetComments = async () => {
     let id;
-    if (!tweett.tweetID && tweett.commentID) {
+    if (!tweet.tweetID && tweet.commentID) {
       //third level of comment with no tweetID but commentID
       setLoading(true);
-      id = tweett.id;
+      id = tweet.id;
 
       dispatch(getCommentComments(id));
 
       setLoading(false);
-    } else if (tweett.comment) {
+    } else if (tweet.comment) {
       //for first commentScreen from likesTab
       setLoading(true);
 
-      id = tweett.comment.id;
+      id = tweet.comment.id;
 
       dispatch(getCommentComments(id));
 
       setLoading(false);
-    } else if (tweett.tweetID && !likey) {
+    } else if (tweet.tweetID && !likey) {
       //for onPress of comment from first commentsScreen(with tweetID and
       // likey=false because likey is only true if it's from the likesTab ) to next
       setLoading(true);
-      id = tweett.id;
+      id = tweet.id;
       dispatch(getCommentComments(id));
 
       setLoading(false);
     } else {
       setLoading(true);
       let tweettID;
-      if (tweett.tweetID) {
-        tweettID = tweett.tweetID;
+      if (tweet.tweetID) {
+        tweettID = tweet.tweetID;
       } else {
-        tweettID = tweett.id;
+        tweettID = tweet.id;
       }
 
       dispatch(getCommentsByTweetIDAndCreatedAt(tweettID));
@@ -132,23 +133,32 @@ const CommentsScreen = () => {
 
   useEffect(() => {
     fetchTweetComments();
-  }, [tweett, likey]);
+  }, [tweet, likey]);
+
+  const onPress = () => {
+    navigation.goBack();
+  };
 
   return (
     <>
       {post.id && (
         <SafeAreaView style={{ width: "100%", flex: 1 }}>
-          <View style={styles.container}>
+          {/* <View style={styles.container}>
             <LeftContainer user={post.user} />
             <MainContainer tweet={post} />
-          </View>
+          </View> */}
           <FlatList
             data={postComments}
             renderItem={({ item }) => <Tweet tweet={item} />}
             keyExtractor={(item) => item.id}
             refreshing={loading}
             // onRefresh={fetchTweetComments}
-            // ListHeaderComponent={UserFleetsList}
+            ListHeaderComponent={() => (
+              <View style={styles.container}>
+                <LeftContainer user={post.user} />
+                <MainContainer tweet={post} />
+              </View>
+            )}
           />
         </SafeAreaView>
       )}

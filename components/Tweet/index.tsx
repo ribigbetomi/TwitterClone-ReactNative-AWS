@@ -11,6 +11,7 @@ import MainContainer from "./MainContainer";
 import { TweetType } from "../../types";
 import { useLinkProps } from "@react-navigation/native";
 import { useNavigation } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
 export type TweetProps = {
   tweet: TweetType;
@@ -25,9 +26,18 @@ const Tweet = ({ tweet, likey = false }: any) => {
   //     params: { tweet: tweet, likey: likey },
   //   },
   // });
+
   const onPress = () => {
+    console.log("onPress");
     navigation.navigate("CommentsScreen", { tweet: tweet, likey: likey });
   };
+  // const onClick = () => {
+  //   console.log("onClick");
+  //   // navigation.popToTop();
+  //   navigation.push("CommentsScreen", { tweet: tweet, likey: likey });
+  //   console.log(JSON.stringify(tweet, null, 2), "tweet");
+  // };
+
   // console.log(JSON.stringify(tweet, null, 2), "tweet");
   return (
     <Pressable onPress={onPress} style={styles.container}>

@@ -59,7 +59,7 @@ function RootLayout() {
   }, [error]);
 
   const getRandomImage = () => {
-    return "https://picsum.photos/200";
+    return "https://media.licdn.com/dms/image/C4D03AQGi5O_7-EXcaQ/profile-displayphoto-shrink_800_800/0/1652770527289?e=2147483647&v=beta&t=_mpfN1C4TnCuUkAImvsVSdvKd02eoJQXgc1VbZFoCRo";
   };
 
   const saveUserToDB = async (user: CreateUserInput) => {
@@ -123,17 +123,7 @@ const Stack = createNativeStackNavigator();
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
-  const dispatch = useDispatch<any>();
-
-  useEffect(() => {
-    const fetch = async () => {
-      const userInfo = await Auth.currentAuthenticatedUser({
-        bypassCache: true,
-      });
-      dispatch(getUserr(userInfo.attributes.sub));
-    };
-    fetch();
-  }, []);
+  // const dispatch = useDispatch<any>();
 
   return (
     <>

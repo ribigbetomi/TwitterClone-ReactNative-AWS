@@ -79,27 +79,16 @@ const UserProfile = () => {
   const { followers } = useSelector((state) => state.followersByAuthUserID);
   const { followerUser } = useSelector((state) => state.checkFollower);
   const { followingUser } = useSelector((state) => state.checkFollowing);
-  const { chatRoom } = useSelector((state) => state.createChatRoom);
-  // console.log(JSON.stringify(followings, null, 2), "followings");
-  // console.log(JSON.stringify(followers, null, 2), "followers");
-  // console.log(JSON.stringify(followerUser, null, 2), "followerUser");
-  // console.log(JSON.stringify(followingUser, null, 2), "followingUser");
-  // console.log(JSON.stringify(chatRoom, null, 2), "chatRoom");
+  const { loading, loadingCommon, chatRoom } = useSelector(
+    (state) => state.createChatRoom
+  );
+  const [pressed, setPressed] = useState(false);
 
-  // const [loading, setLoading] = useState(false);
-  // const [userFollowings, setUserFollowings] = useState([]);
-  // const [userFollowers, setUserFollowers] = useState([]);
+  console.log(pressed, "pressed");
   const [imageViewerVisible, setImageViewerVisible] = useState(false);
-  // console.log(JSON.stringify(userFollowings, null, 2), "userFollowings");
+
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
-
-  // const linkProps = useLinkProps({
-  //   to: {
-  //     screen: "FollowTabs",
-  //     params: { userFollowings, userFollowers, name: authUser.name },
-  //   },
-  // });
 
   const onPress = () => {
     navigation.navigate("FollowTabs", {
@@ -109,50 +98,10 @@ const UserProfile = () => {
     });
   };
 
-  // const linkProp = useLinkProps({
-  //   to: {
-  //     screen: 'FollowersList',
-  //     params: userFollowers
-  //   }
-  // })
-
   useEffect(() => {
-    // const getUser = async () => {
-    //   const res = await API.graphql(
-    //     graphqlOperation(followingsByAuthUserID, { authUserID: user.id })
-    //   );
-    //   // console.log(JSON.stringify(res, null, 2), "res");
-    //   setUserFollowings(res.data.followingsByAuthUserID.items);
-
-    //   const result = await API.graphql(
-    //     graphqlOperation(followersByAuthUserID, { authUserID: user.id })
-    //   );
-    //   setUserFollowers(result.data.followersByAuthUserID.items);
-    // };
-    // getUser();
     dispatch(getFollowingsByAuthUserID(user.id));
     dispatch(getFollowersByAuthUserID(user.id));
   }, [user]);
-
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     const userInfo = await Auth.currentAuthenticatedUser({
-  //       bypassCache: true,
-  //     });
-
-  //     try {
-  //       if (userInfo) {
-  //         const userData = await API.graphql(
-  //           graphqlOperation(getUser, { id: userInfo.attributes.sub })
-  //         );
-  //         setAuthUser(userData.data.getUser);
-  //       }
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
-  //   fetchUser();
-  // }, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -161,98 +110,11 @@ const UserProfile = () => {
   }, []);
 
   useEffect(() => {
-    // const setFollowing = async () => {
     if (userInfo) {
-      // setLoading(true);
       dispatch(checkFollowing(user.id));
       dispatch(checkFollower(user));
-
-      // const matching = userInfo?.following?.items?.find(
-      //   (item) => item.userID === user?.id
-      // );
-      // console.log(matching, "matching");
-      // const check = matching ? matching.id : false;
-      // setFollowingUser(check);
-
-      // const match = user.followers?.items?.find(
-      //   (item) => item.userID === authUser.id
-      // );
-      // const confirm = match ? match.id : false;
-      // setFollowerUser(confirm);
-
-      // const subscription = API.graphql(
-      //   graphqlOperation(onCreateFollowing, {
-      //     filter: { authUserID: { eq: authUser.id } },
-      //   })
-      // ).subscribe({
-      //   next: ({ value }) => {
-      //     // console.log(JSON.stringify(value, null, 2), "value");
-
-      //     setFollowingUser(value.data.onCreateFollowing.id);
-      //   },
-      //   error: (err) => console.warn(err),
-      // });
-
-      // const sub = API.graphql(
-      //   graphqlOperation(onCreateFollower, {
-      //     filter: { authUserID: { eq: user.id } },
-      //   })
-      // ).subscribe({
-      //   next: ({ value }) => {
-      //     // console.log(JSON.stringify(value, null, 2), "value");
-
-      //     setFollowerUser(value.data.onCreateFollower.id);
-      //   },
-      //   error: (err) => console.warn(err),
-      // });
-
-      // return () => {
-      //   subscription.unsubscribe();
-      //   sub.unsubscribe();
-      // };
     }
-    // setLoading(false);
   }, [userInfo, user]);
-
-  // useEffect(() => {
-  //   dispatch(onCreateNewFollowing(userInfo.id));
-  //   dispatch(onCreateNewFollower(user.id));
-  // }, [user.id, userInfo.id]);
-
-  // console.log(JSON.stringify(user, null, 2), "user");
-
-  // useEffect(() => {
-  //   dispatch(onDeleteFollowingg(followingUser));
-  //   dispatch(onDeleteFollowerr(followerUser));
-
-  //   // const subscription = API.graphql(
-  //   //   graphqlOperation(onDeleteFollowing, {
-  //   //     filter: { authUserID: { eq: authUser.id } },
-  //   //   })
-  //   // ).subscribe({
-  //   //   next: ({ value }) => {
-  //   //     // console.log(JSON.stringify(value, null, 2), "DeleteValue");
-  //   //     setFollowingUser(false);
-  //   //   },
-  //   //   error: (err) => console.warn(err),
-  //   // });
-
-  //   // const sub = API.graphql(
-  //   //   graphqlOperation(onDeleteFollower, {
-  //   //     filter: { authUserID: { eq: user.id } },
-  //   //   })
-  //   // ).subscribe({
-  //   //   next: ({ value }) => {
-  //   //     // console.log(JSON.stringify(value, null, 2), "DeleteValue");
-  //   //     setFollowerUser(false);
-  //   //   },
-  //   //   error: (err) => console.warn(err),
-  //   // });
-  //   // return () => {
-  //   //   subscription.unsubscribe();
-  //   //   sub.unsubscribe();
-  //   // };
-  // }, [followerUser, followingUser]);
 
   const followUser = async () => {
     // const userInfo = await Auth.currentAuthenticatedUser({
@@ -269,9 +131,15 @@ const UserProfile = () => {
       };
       dispatch(createNewFollowing(data));
       dispatch(createNewFollower(dataa));
+      setPressed(true);
 
-      dispatch(onCreateNewFollowing(userInfo.id));
-      dispatch(onCreateNewFollower(user.id));
+      // dispatch(onCreateNewFollowing(userInfo.id));
+      // dispatch(onCreateNewFollower(user.id));
+
+      if (followingUser) {
+        setPressed(false);
+      }
+
       // const follow = await API.graphql(
       //   graphqlOperation(createFollowing, { input: data })
       // );
@@ -296,8 +164,8 @@ const UserProfile = () => {
           dispatch(deleteFollowingg(followingUser));
           dispatch(deleteFollowerr(followerUser));
 
-          dispatch(onDeleteFollowingg(userInfo.id));
-          dispatch(onDeleteFollowerr(user.id));
+          // dispatch(onDeleteFollowingg(userInfo.id));
+          // dispatch(onDeleteFollowerr(user.id));
           // const unfollow = await API.graphql(
           //   graphqlOperation(deleteFollowing, { input: { id: followingUser } })
           // );
@@ -317,22 +185,33 @@ const UserProfile = () => {
     // Check if we already have a ChatRoom with user
     // const existingChatRoom = await getCommonChatRoomWithUser(user.id);
     dispatch(getCommonChatRoomWithTheUser(user.id));
-
-    if (chatRoom) {
-      navigation.navigate("Chat", {
-        id: chatRoom.id,
-        name: user.name,
-        image: user.image,
-      });
-      return;
-    } else {
-      dispatch(createTwoUsersChatRoom(user.id));
-      navigation.navigate("Chat", {
-        id: chatRoom.id,
-        name: user.name,
-        image: user.image,
-      });
+    if (!loadingCommon) {
+      if (chatRoom.id) {
+        console.log("getCommon");
+        navigation.navigate("Chat", {
+          id: chatRoom.id,
+          name: user.name,
+          image: user.image,
+        });
+        return;
+      }
     }
+    // else {
+    dispatch(createTwoUsersChatRoom(user.id));
+
+    if (!loading) {
+      console.log(loading, "createNewww");
+      if (chatRoom.id) {
+        console.log(chatRoom, "newchatroom");
+        navigation.navigate("Chat", {
+          id: chatRoom.id,
+          name: user.name,
+          image: user.image,
+        });
+        return;
+      }
+    }
+    // }
 
     // console.log(JSON.stringify(existingChatRoom, null, 2), "existingChatRoom");
     // if (existingChatRoom) {
@@ -464,26 +343,27 @@ const UserProfile = () => {
                 />
               </TouchableOpacity>
 
-              <Pressable onPress={followingUser ? unfollowUser : followUser}>
-                {followingUser ? (
-                  <View style={styles.button}>
-                    <Text style={[{ color: Colors[colorScheme].text }]}>
-                      Following
-                    </Text>
-                  </View>
-                ) : (
-                  <View
-                    style={[
-                      styles.button,
-                      { backgroundColor: Colors[colorScheme].text },
-                    ]}
-                  >
-                    <Text style={[{ color: Colors[colorScheme].background }]}>
-                      Follow
-                    </Text>
-                  </View>
-                )}
-              </Pressable>
+              {/* <Pressable onPress={followingUser ? unfollowUser : followUser}> */}
+              {followingUser ? (
+                <Pressable onPress={unfollowUser} style={styles.button}>
+                  <Text style={[{ color: Colors[colorScheme].text }]}>
+                    Following
+                  </Text>
+                </Pressable>
+              ) : (
+                <Pressable
+                  onPress={!pressed && followUser}
+                  style={[
+                    styles.button,
+                    { backgroundColor: Colors[colorScheme].text },
+                  ]}
+                >
+                  <Text style={[{ color: Colors[colorScheme].background }]}>
+                    Follow
+                  </Text>
+                </Pressable>
+              )}
+              {/* </Pressable> */}
             </View>
           )}
         </View>

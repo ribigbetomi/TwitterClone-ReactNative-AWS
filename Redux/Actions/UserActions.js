@@ -32,7 +32,7 @@ export const listUserss = (filter) => async (dispatch) => {
 
   let result = usersData.data.listUsers.items;
 
-  console.log(JSON.stringify(result, null, 2), "result");
+  // console.log(JSON.stringify(result, null, 2), "result");
 
   dispatch({
     type: LIST_USERS,

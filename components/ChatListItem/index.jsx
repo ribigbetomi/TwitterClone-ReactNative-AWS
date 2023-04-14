@@ -14,19 +14,19 @@ import { useSelector } from "react-redux";
 dayjs.extend(relativeTime);
 
 const ChatListItem = ({ chat }) => {
-  console.log(JSON.stringify(chat, null, 2), "oldchatRoom");
+  // console.log(JSON.stringify(chat, null, 2), "oldchatRoom");
   const [user, setUser] = useState({});
   const { userInfo } = useSelector((state) => state.userDetails);
   // console.log(user, "user");
   const [chatRoom, setChatRoom] = useState();
 
-  console.log(chatRoom, "chatRoom");
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
 
   useEffect(() => {
     setChatRoom(chat ? chat : null);
   }, [JSON.stringify(chat)]);
+  // console.log(JSON.stringify(chatRoom, null, 2), "chatRoom");
 
   useEffect(() => {
     if (chatRoom) {
@@ -109,7 +109,7 @@ const ChatListItem = ({ chat }) => {
               )}
             </View>
             <Text numberOfLines={2} style={styles.subTitle}>
-              {chatRoom.lastMessage.userID === userInfo.id && "You:"}{" "}
+              {chatRoom.lastMessage?.userID === userInfo.id && "You:"}{" "}
               {chatRoom.lastMessage?.text}
             </Text>
           </View>

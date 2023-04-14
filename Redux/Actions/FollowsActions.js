@@ -19,6 +19,8 @@ import {
 import {
   CHECK_FOLLOWER,
   CHECK_FOLLOWING,
+  CREATE_FOLLOWER,
+  CREATE_FOLLOWING,
   DELETE_FOLLOWER,
   DELETE_FOLLOWING,
   FOLLOWERS_BY_AUTH_USERID,
@@ -174,31 +176,37 @@ export const createNewFollowing = (data) => async (dispatch) => {
     graphqlOperation(createFollowing, { input: data })
   );
 
-  dispatch({ type: CHECK_FOLLOWER, payload: follow });
+  dispatch({ type: CREATE_FOLLOWING, payload: follow.data.createFollowing });
 };
 
 export const createNewFollower = (dataa) => async (dispatch) => {
+  console.log(JSON.stringify(dataa, null, 2), "dataa");
   const follower = await API.graphql(
     graphqlOperation(createFollower, { input: dataa })
   );
+  console.log(JSON.stringify(follower, null, 2), "follower");
 
-  dispatch({ type: CHECK_FOLLOWER, payload: follower });
+  dispatch({ type: CREATE_FOLLOWER, payload: follower.data.createFollower });
 };
 
 export const deleteFollowingg = (followingUser) => async (dispatch) => {
+  console.log(followingUser);
   const unfollow = await API.graphql(
     graphqlOperation(deleteFollowing, { input: { id: followingUser } })
   );
 
-  dispatch({ type: DELETE_FOLLOWING, payload: unfollow });
+  console.log(JSON.stringify(unfollow, null, 2), "unfollowing");
+  dispatch({ type: DELETE_FOLLOWING, payload: unfollow.data.deleteFollowing });
 };
 
 export const deleteFollowerr = (followerUser) => async (dispatch) => {
+  console.log(followerUser);
   const unfollow = await API.graphql(
     graphqlOperation(deleteFollower, { input: { id: followerUser } })
   );
+  console.log(JSON.stringify(unfollow, null, 2), "unfollower");
 
-  dispatch({ type: DELETE_FOLLOWER, payload: unfollow });
+  dispatch({ type: DELETE_FOLLOWER, payload: unfollow.data.deleteFollower });
 };
 
 export const onDeleteFollowingg = (authUserID) => async (dispatch) => {

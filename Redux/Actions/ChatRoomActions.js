@@ -11,6 +11,8 @@ import { listMessagesByChatRoom } from "../../src/queries/ChatScreenQueries";
 import { getChatRoom } from "../../src/queries/getChatRoomQuery";
 import { listUserChatRooms } from "../../src/queries/listUserChatRooms";
 import {
+  COMMON_CHATROOM_REQUEST,
+  COMMON_CHATROOM_SUCCESS,
   CREATE_ATTACHMENT,
   CREATE_CHATROOM_FAIL,
   CREATE_CHATROOM_REQUEST,
@@ -163,7 +165,7 @@ export const onCreateAttachmentt = (chatRoomID) => async (dispatch) => {
 export const getCommonChatRoomWithTheUser =
   (userID) => async (dispatch, getState) => {
     // try {
-    dispatch({ type: CREATE_CHATROOM_REQUEST });
+    dispatch({ type: COMMON_CHATROOM_REQUEST });
 
     const {
       userDetails: { userInfo },
@@ -182,9 +184,10 @@ export const getCommonChatRoomWithTheUser =
         )
       );
     });
+    console.log(JSON.stringify(chatRoom, null, 2), "chatRoomCommon");
 
     dispatch({
-      type: CREATE_CHATROOM_SUCCESS,
+      type: COMMON_CHATROOM_SUCCESS,
       payload: chatRoom,
     });
     // } catch (error) {
@@ -206,6 +209,7 @@ export const getCommonChatRoomWithTheUser =
 
 export const createTwoUsersChatRoom =
   (userID) => async (dispatch, getState) => {
+    console.log(userID, "userID");
     // try {
     dispatch({ type: CREATE_CHATROOM_REQUEST });
     const {
@@ -215,15 +219,17 @@ export const createTwoUsersChatRoom =
     const newChatRoomData = await API.graphql(
       graphqlOperation(createChatRoom, { input: {} })
     );
+    console.log(JSON.stringify(newChatRoomData, null, 2), "newChatRoomData");
     const newChatRoom = newChatRoomData.data?.createChatRoom;
 
-    await API.graphql(
+    const firstUser = await API.graphql(
       graphqlOperation(createUserChatRoom, {
         input: { chatRoomId: newChatRoom.id, userId: userID },
       })
     );
+    console.log(JSON.stringify(firstUser, null, 2), "firstUser");
 
-    await API.graphql(
+    const secondUser = await API.graphql(
       graphqlOperation(createUserChatRoom, {
         input: {
           chatRoomId: newChatRoom.id,
@@ -231,6 +237,7 @@ export const createTwoUsersChatRoom =
         },
       })
     );
+    console.log(JSON.stringify(secondUser, null, 2), "secondUser");
 
     dispatch({
       type: CREATE_CHATROOM_SUCCESS,

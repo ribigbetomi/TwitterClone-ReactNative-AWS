@@ -21,6 +21,7 @@ const Feed = () => {
     error,
     posts,
   } = useSelector((state) => state.listFollowingsForTimeline);
+  // console.log(JSON.stringify(posts, null, 2), "posts");
 
   const fetch = async () => {
     setLoading(true);
@@ -29,8 +30,10 @@ const Feed = () => {
   };
 
   useEffect(() => {
-    fetch();
-  }, [userInfo.id]);
+    if (userInfo?.id) {
+      fetch();
+    }
+  }, [userInfo?.id]);
 
   return (
     <View style={{ width: "100%" }}>
