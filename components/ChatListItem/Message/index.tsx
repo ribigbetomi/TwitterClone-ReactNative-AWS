@@ -104,7 +104,9 @@ const Message = ({ message }: any) => {
           {message.text}
         </Text>
       </View>
-      <Text style={styles.time}>
+      <Text
+        style={[styles.time, { alignSelf: isMe ? "flex-end" : "flex-start" }]}
+      >
         {dayjs(message.createdAt).format("HH:mm")}
       </Text>
     </View>
@@ -133,7 +135,7 @@ const styles = StyleSheet.create({
   },
   time: {
     color: "gray",
-    alignSelf: "flex-end",
+    // alignSelf: "flex-end",
     paddingRight: 5,
   },
   images: {

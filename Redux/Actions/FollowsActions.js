@@ -105,12 +105,14 @@ export const checkFollower = (user) => async (dispatch, getState) => {
   const {
     userDetails: { userInfo },
   } = getState();
-  // console.log(JSON.stringify(user, null, 2), "useR");
-
+  console.log(JSON.stringify(userInfo.id, null, 2), "userID");
+  console.log(JSON.stringify(user.followers, null, 2), "useee");
   const matching = user.followers?.items?.find(
     (item) => item.userID === userInfo.id
   );
+  console.log(matching, "matching");
   const check = matching ? matching.id : false;
+  console.log(check, "check");
 
   dispatch({ type: CHECK_FOLLOWER, payload: check });
 };

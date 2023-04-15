@@ -19,6 +19,7 @@ import TabThreeScreen from "./Notifications";
 import TabFourScreen from "./Messages";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserr } from "../../Redux/Actions/UserActions";
+import { listUserChatRoomss } from "../../Redux/Actions/ChatRoomActions";
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
@@ -33,18 +34,9 @@ const Tab = createBottomTabNavigator();
 
 export default function TabLayout() {
   const dispatch = useDispatch<any>();
-  useEffect(() => {
-    const fetch = async () => {
-      const userInfo = await Auth.currentAuthenticatedUser({
-        bypassCache: true,
-      });
-      dispatch(getUserr(userInfo.attributes.sub));
-    };
-    fetch();
-  }, []);
 
   const { userInfo } = useSelector((state: any) => state.userDetails);
-  // console.log(JSON.stringify(userInfo, null, 2), "userInfo");
+  // console.log(JSON.stringify(userInfo?.id, null, 2), "userInfoLayoutTabs");
 
   const colorScheme = useColorScheme();
 

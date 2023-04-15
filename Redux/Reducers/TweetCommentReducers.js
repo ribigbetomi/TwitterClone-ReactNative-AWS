@@ -20,6 +20,7 @@ import {
   LIST_FOLLOWINGS_FOR_TIMELINE_SUCCESS,
   MEDIA_BY_USERID_FAIL,
   MEDIA_BY_USERID_REQUEST,
+  MEDIA_BY_USERID_RESET,
   MEDIA_BY_USERID_SUCCESS,
   ON_CREATE_COMMENT,
   ON_CREATE_COMMENT_FEED,
@@ -363,6 +364,9 @@ export const mediaByUserIDReducer = (state = { media: [] }, action) => {
 
     case MEDIA_BY_USERID_FAIL:
       return { loading: false, error: action.payload };
+
+    case MEDIA_BY_USERID_RESET:
+      return {};
 
     case CREATE_COMMENT:
       const find = state.media.find(

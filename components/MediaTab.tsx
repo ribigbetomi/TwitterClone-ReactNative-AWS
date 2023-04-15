@@ -14,6 +14,7 @@ import {
 } from "../Redux/Actions/TweetCommentActions";
 import { useDispatch, useSelector } from "react-redux";
 import { ActivityIndicator } from "react-native";
+import { MEDIA_BY_USERID_RESET } from "../Redux/Constants/TweetCommentConstants";
 
 const MediaTab = ({ user: { userID } }: any) => {
   const [mediaTweets, setMediaTweets] = useState<any>([]);
@@ -22,8 +23,16 @@ const MediaTab = ({ user: { userID } }: any) => {
   const { loading, media } = useSelector((state: any) => state.mediaByUserID);
   // console.log(JSON.stringify(media, null, 2), "media");
 
+  // useEffect(() => {
+  //   if (!loading && media) {
+  //     setMediaTweets(media);
+  //   }
+  // }, [loading]);
+
   useEffect(() => {
     dispatch(mediaByUserID(userID));
+    // dispatch({ type: MEDIA_BY_USERID_RESET });
+    // setMediaTweets(media);
   }, [userID]);
   return (
     <View>

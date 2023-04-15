@@ -85,7 +85,7 @@ const InputBox = ({ chatRoom }: any) => {
   const onSend = async () => {
     // const authUser = await Auth.currentAuthenticatedUser();
 
-    const newMessage = {
+    const newMessage: any = {
       chatroomID: chatRoom.id,
       text,
       userID: userInfo.id,
@@ -112,16 +112,16 @@ const InputBox = ({ chatRoom }: any) => {
     setText("");
 
     //   // create attachments
-    // await Promise.all(
-    //   files.map((file: any) =>
-    //     addAttachment({
-    //       file,
-    //       messageID: newMessageData?.id,
-    //     })
-    //   )
-    // );
-    // // console.log(getAttachment);
-    // setFiles([]);
+    await Promise.all(
+      files.map((file: any) =>
+        addAttachment({
+          file,
+          messageID: newMessageData?.id,
+        })
+      )
+    );
+    // console.log(getAttachment);
+    setFiles([]);
 
     //   // set the new message as LastMessage of the ChatRoom
     // await API.graphql(

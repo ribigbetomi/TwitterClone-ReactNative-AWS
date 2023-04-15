@@ -11,6 +11,7 @@ import useColorScheme from "./../../hooks/useColorScheme";
 import { Pressable } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { listUserss } from "./../../Redux/Actions/UserActions";
+import { LIST_USERS_RESET } from "../../Redux/Constants/UserConstants";
 
 export default function TabTwoScreen() {
   const [searchWord, setSearchWord] = useState<string>("");
@@ -18,46 +19,46 @@ export default function TabTwoScreen() {
   const { userInfo } = useSelector((state: any) => state.userDetails);
   const { users } = useSelector((state: any) => state.listUsers);
 
-  // console.log(JSON.stringify(users, null, 2), "users");
-  // console.log(searchWord.length);
+  console.log(JSON.stringify(userInfo?.id, null, 2), "userInfoIdSearch");
+  // console.log(searchWord.length, "searchWord");
 
   const colorScheme = useColorScheme();
 
-  const fetchUser = async () => {
+  const fetchUser = () => {
     // const userInfo = await Auth.currentAuthenticatedUser({
     //   bypassCache: true,
     // });
 
-    try {
-      const filter = {
-        or: [
-          {
-            username: { contains: searchWord.toLowerCase() },
-          },
-          { name: { contains: searchWord.toLowerCase() } },
-        ],
-      };
+    // try {
+    dispatch(listUserss(searchWord));
+    // if (searchWord.trim().length > 0) {
+    //   console.log("notEmpty");
+    //   // const usersData: GraphQLResult<any> = await API.graphql(
+    //   //   graphqlOperation(listUsers, { filter })
+    //   // );
+    //   // console.log(JSON.stringify(usersData, null, 2), "usersData");
 
-      if (userInfo) {
-        if (searchWord.length !== 0) {
-          dispatch(listUserss(filter));
-          // const usersData: GraphQLResult<any> = await API.graphql(
-          //   graphqlOperation(listUsers, { filter })
-          // );
-          // console.log(JSON.stringify(usersData, null, 2), "usersData");
-
-          // setUsers(usersData.data.listUsers.items);
-        }
-        // console.log(JSON.stringify(lists, null, 2), "lists");
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    //   // setUsers(usersData.data.listUsers.items);
+    //   console.log(searchWord.trim().length);
+    // } else {
+    //   console.log("Empty");
+    //   dispatch({ type: LIST_USERS_RESET });
+    // }
+    // console.log(JSON.stringify(lists, null, 2), "lists");
+    // } catch (e) {
+    //   console.log(e);
+    // }
   };
 
   useEffect(() => {
-    fetchUser();
-  }, [searchWord]);
+    if (userInfo?.id) {
+      fetchUser();
+    }
+    // if (searchWord.length !== 0) {
+    // } else if (!searchWord) {
+    //   dispatch({ type: LIST_USERS_RESET });
+    // }
+  }, [searchWord, userInfo?.id]);
 
   return (
     <View style={styles.container}>
@@ -76,6 +77,7 @@ export default function TabTwoScreen() {
           <Ionicons name="search-outline" size={20} color="gray" />
           <TextInput
             value={searchWord}
+            keyboardType="default"
             onChangeText={(value) => setSearchWord(value)}
             placeholder="Search Twitter"
             placeholderTextColor="gray"
@@ -94,7 +96,7 @@ export default function TabTwoScreen() {
       </View>
       <View>
         <FlatList
-          data={users}
+          data={searchWord && users}
           renderItem={({ item }) => <SearchList user={item} />}
           keyExtractor={(item) => item.id}
           // refreshing={loading}

@@ -207,58 +207,59 @@ export const getCommonChatRoomWithTheUser =
     // }
   };
 
-export const createTwoUsersChatRoom =
-  (userID) => async (dispatch, getState) => {
-    console.log(userID, "userID");
-    // try {
-    dispatch({ type: CREATE_CHATROOM_REQUEST });
-    const {
-      userDetails: { userInfo },
-    } = getState();
+// export const createTwoUsersChatRoom =
+//   (userID) => async (dispatch, getState) => {
+//     console.log(userID, "userID");
+//     // try {
+//     dispatch({ type: CREATE_CHATROOM_REQUEST });
+//     const {
+//       userDetails: { userInfo },
+//     } = getState();
 
-    const newChatRoomData = await API.graphql(
-      graphqlOperation(createChatRoom, { input: {} })
-    );
-    console.log(JSON.stringify(newChatRoomData, null, 2), "newChatRoomData");
-    const newChatRoom = newChatRoomData.data?.createChatRoom;
+//     const newChatRoomData = await API.graphql(
+//       graphqlOperation(createChatRoom, { input: {} })
+//     );
+//     console.log(JSON.stringify(newChatRoomData, null, 2), "newChatRoomData");
+//     const newChatRoom = newChatRoomData.data?.createChatRoom;
 
-    const firstUser = await API.graphql(
-      graphqlOperation(createUserChatRoom, {
-        input: { chatRoomId: newChatRoom.id, userId: userID },
-      })
-    );
-    console.log(JSON.stringify(firstUser, null, 2), "firstUser");
+//     const firstUser = await API.graphql(
+//       graphqlOperation(createUserChatRoom, {
+//         input: { chatRoomId: newChatRoom.id, userId: userID },
+//       })
+//     );
+//     console.log(JSON.stringify(firstUser, null, 2), "firstUser");
 
-    const secondUser = await API.graphql(
-      graphqlOperation(createUserChatRoom, {
-        input: {
-          chatRoomId: newChatRoom.id,
-          userId: userInfo.id,
-        },
-      })
-    );
-    console.log(JSON.stringify(secondUser, null, 2), "secondUser");
+//     const secondUser = await API.graphql(
+//       graphqlOperation(createUserChatRoom, {
+//         input: {
+//           chatRoomId: newChatRoom.id,
+//           userId: userInfo.id,
+//         },
+//       })
+//     );
+//     console.log(JSON.stringify(secondUser, null, 2), "secondUser");
 
-    dispatch({
-      type: CREATE_CHATROOM_SUCCESS,
-      payload: newChatRoom,
-    });
-    // } catch (error) {
-    //   const message =
-    //     error.response && error.response.data.message
-    //       ? error.response.data.message
-    //       : error.message;
+//     dispatch({
+//       type: CREATE_CHATROOM_SUCCESS,
+//       payload: newChatRoom,
+//     });
+//     // } catch (error) {
+//     //   const message =
+//     //     error.response && error.response.data.message
+//     //       ? error.response.data.message
+//     //       : error.message;
 
-    //   if (message === "Not authorized, token failed") {
-    //     dispatch(logout());
-    //   }
+//     //   if (message === "Not authorized, token failed") {
+//     //     dispatch(logout());
+//     //   }
 
-    //   dispatch({
-    //     type: CREATE_CHATROOM_FAIL,
-    //     payload: message,
-    //   });
-    // }
-  };
+//     //   dispatch({
+//     //     type: CREATE_CHATROOM_FAIL,
+//     //     payload: message,
+//     //   });
+//     // }
+//   };
+
 export const listUserChatRoomss = (userID) => async (dispatch, getState) => {
   // try {
   dispatch({ type: LIST_USER_CHATROOMS_REQUEST });
@@ -273,7 +274,7 @@ export const listUserChatRoomss = (userID) => async (dispatch, getState) => {
     })
   );
 
-  const sortedRooms = response.data.getUser.chatRooms.items.sort(
+  const sortedRooms = response.data?.getUser?.chatRooms?.items?.sort(
     (r1, r2) =>
       new Date(r2.chatRoom.updatedAt) - new Date(r1.chatRoom.updatedAt)
   );

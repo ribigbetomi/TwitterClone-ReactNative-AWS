@@ -9,7 +9,7 @@ import { useFonts } from "expo-font";
 import { SplashScreen } from "expo-router";
 import { createStackNavigator } from "@react-navigation/stack";
 import useCachedResources from "../hooks/useCachedResources";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
 import { Amplify, API, Auth, graphqlOperation } from "aws-amplify";
 import config from "../src/aws-exports";
@@ -23,12 +23,13 @@ import { Provider, useDispatch } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TabLayout from "./(tabs)/_layout";
 import CommentsScreen from "../screens/CommentsScreen";
-import { getUserr } from "../Redux/Actions/UserActions";
+import { createNewUser, getUserr } from "../Redux/Actions/UserActions";
 import NewTweetScreen from "./NewTweet";
 import NewComment from "./NewComment";
 import FleetScreen from "./Fleet";
 import FollowTabs from "../screens/FollowTabs";
 import NewFleetScreen from "./NewFleet";
+import { GET_USER } from "../Redux/Constants/UserConstants";
 
 Amplify.configure({ ...config, Analytics: { disabled: true } });
 
@@ -47,6 +48,7 @@ export const unstable_settings = {
 function RootLayout() {
   // const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
+  // const dispatch = useDispatch<any>();
 
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
@@ -64,8 +66,11 @@ function RootLayout() {
 
   const saveUserToDB = async (user: CreateUserInput) => {
     // console.log(user);
-    await API.graphql(graphqlOperation(createUser, { input: user }));
+
+    return await API.graphql(graphqlOperation(createUser, { input: user }));
   };
+
+  const [newwUser, setNewwUser] = useState<any>({});
 
   useEffect(() => {
     const updateUser = async () => {
@@ -91,7 +96,12 @@ function RootLayout() {
             email: userInfo.attributes.email,
             image: getRandomImage(),
           };
-          await saveUserToDB(user);
+          const newUser: GraphQLResult<any> = await API.graphql(
+            graphqlOperation(createUser, { input: user })
+          );
+          // await saveUserToDB(user);
+          // console.log(JSON.stringify(newUser, null, 2), "newUserRootLayout");
+          setNewwUser(newUser.data.createUser);
         } else {
           console.log("User already exists");
         }
@@ -109,7 +119,7 @@ function RootLayout() {
       {!loaded && <SplashScreen />}
       {loaded && (
         <Provider store={store}>
-          <RootLayoutNav />
+          <RootLayoutNav neww={newwUser} />
         </Provider>
       )}
       {/* </Provider> */}
@@ -121,9 +131,30 @@ export default withAuthenticator(RootLayout);
 
 const Stack = createNativeStackNavigator();
 
-function RootLayoutNav() {
+function RootLayoutNav({ neww }: any) {
   const colorScheme = useColorScheme();
-  // const dispatch = useDispatch<any>();
+  const dispatch = useDispatch<any>();
+
+  useEffect(() => {
+    async function fetchUser() {
+      const user = await Auth.currentAuthenticatedUser();
+      // console.log(user?.attributes?.sub, "layoutAppSub");
+      if (user) {
+        const userData: GraphQLResult<any> = await API.graphql(
+          graphqlOperation(getUser, { id: user.attributes.sub })
+        );
+        if (userData.data.getUser) {
+          dispatch({ type: GET_USER, payload: userData.data.getUser });
+        } else {
+          dispatch(createNewUser(neww));
+          console.log(JSON.stringify(neww, null, 2), "newwUserLayoutApp");
+          // dispatch({ type: GET_USER, payload: neww });
+        }
+        // console.log("layoutApp");
+      }
+    }
+    fetchUser();
+  }, [neww]);
 
   return (
     <>

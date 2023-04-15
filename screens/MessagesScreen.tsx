@@ -22,7 +22,7 @@ export default function MessagesScreen() {
     (state: any) => state.listUserChatRooms
   );
 
-  // console.log(JSON.stringify(userInfo.id), "userInfoID");
+  console.log(JSON.stringify(userInfo?.id), "userInfoIDMessageScreen");
   // console.log(JSON.stringify(chatRooms, null, 2), "chatRooms");
 
   const [loading, setLoading] = useState(false);
@@ -73,19 +73,21 @@ export default function MessagesScreen() {
   //   // setChatRooms(sortedRooms);
   //   setLoading(false);
   // };
-  const fetch = () => {
+  const fetch = async () => {
     setLoading(true);
-
-    dispatch(listUserChatRoomss(userInfo.id));
+    const user = await Auth.currentAuthenticatedUser({ bypassCache: true });
+    if (user) {
+      dispatch(listUserChatRoomss(user.attributes.sub));
+    }
 
     setLoading(false);
   };
 
   useEffect(() => {
-    if (userInfo.id) {
-      fetch();
-    }
-  }, [userInfo?.id]);
+    // if (userInfo?.id) {
+    fetch();
+    // }
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -106,7 +108,7 @@ export default function MessagesScreen() {
       <View style={styles.line} />
       <FlatList
         data={chatRooms}
-        renderItem={({ item }) => <ChatListItem chat={item.chatRoom} />}
+        renderItem={({ item }) => <ChatListItem chat={item?.chatRoom} />}
         style={{ backgroundColor: Colors[colorScheme].background }}
         refreshing={loading}
         onRefresh={fetch}

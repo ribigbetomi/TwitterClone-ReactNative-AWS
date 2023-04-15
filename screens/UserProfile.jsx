@@ -59,6 +59,7 @@ import { deleteFollowerr } from "./../Redux/Actions/FollowsActions";
 import {
   createTwoUsersChatRoom,
   getCommonChatRoomWithTheUser,
+  listUserChatRoomss,
 } from "../Redux/Actions/ChatRoomActions";
 
 const UserProfile = () => {
@@ -72,13 +73,15 @@ const UserProfile = () => {
   // console.log(JSON.stringify(authUser, null, 2), "authUser");
   // const [followingUser, setFollowingUser] = useState(false);
   // const [followerUser, setFollowerUser] = useState(false);
-  // console.log(followerUser, "followerUser");
   const { userInfo } = useSelector((state) => state.userDetails);
+  console.log(userInfo?.id, "userInfoIdProfile");
 
   const { followings } = useSelector((state) => state.followingsByAuthUserID);
   const { followers } = useSelector((state) => state.followersByAuthUserID);
   const { followerUser } = useSelector((state) => state.checkFollower);
   const { followingUser } = useSelector((state) => state.checkFollowing);
+  console.log(followerUser, "followerUser");
+  console.log(followingUser, "followingUser");
   const { loading, loadingCommon, chatRoom } = useSelector(
     (state) => state.createChatRoom
   );
@@ -120,6 +123,7 @@ const UserProfile = () => {
     // const userInfo = await Auth.currentAuthenticatedUser({
     //   bypassCache: true,
     // });
+    setPressed(true);
     if (userInfo) {
       const data = {
         authUserID: userInfo.id,
@@ -129,16 +133,18 @@ const UserProfile = () => {
         authUserID: user.id,
         userID: userInfo.id,
       };
-      dispatch(createNewFollowing(data));
-      dispatch(createNewFollower(dataa));
-      setPressed(true);
+      if (!followingUser && !followerUser)
+        await Promise.all(
+          dispatch(createNewFollowing(data)),
+          dispatch(createNewFollower(dataa))
+        );
 
       // dispatch(onCreateNewFollowing(userInfo.id));
       // dispatch(onCreateNewFollower(user.id));
 
-      if (followingUser) {
-        setPressed(false);
-      }
+      setPressed(false);
+      // if (followingUser) {
+      // }
 
       // const follow = await API.graphql(
       //   graphqlOperation(createFollowing, { input: data })
@@ -159,108 +165,112 @@ const UserProfile = () => {
       //   authUserID: user.id,
       //   userID: userInfo.attributes.sub,
       // };
-      if (followingUser) {
-        try {
-          dispatch(deleteFollowingg(followingUser));
-          dispatch(deleteFollowerr(followerUser));
+      if (followingUser && followerUser) {
+        // try {
+        await Promise.all(
+          dispatch(deleteFollowingg(followingUser)),
+          dispatch(deleteFollowerr(followerUser))
+        );
 
-          // dispatch(onDeleteFollowingg(userInfo.id));
-          // dispatch(onDeleteFollowerr(user.id));
-          // const unfollow = await API.graphql(
-          //   graphqlOperation(deleteFollowing, { input: { id: followingUser } })
-          // );
+        // dispatch(onDeleteFollowingg(userInfo.id));
+        // dispatch(onDeleteFollowerr(user.id));
+        // const unfollow = await API.graphql(
+        //   graphqlOperation(deleteFollowing, { input: { id: followingUser } })
+        // );
 
-          // const unfollower = await API.graphql(
-          //   graphqlOperation(deleteFollower, { input: { id: followerUser } })
-          // );
-          // console.log(JSON.stringify(unfollower, null, 2), "unfollower");
-        } catch (e) {
-          console.log(e);
-        }
+        // const unfollower = await API.graphql(
+        //   graphqlOperation(deleteFollower, { input: { id: followerUser } })
+        // );
+        // console.log(JSON.stringify(unfollower, null, 2), "unfollower");
+        // } catch (e) {
+        //   console.log(e);
+        // }
       }
     }
   };
 
   const createAChatRoomWithTheUser = async (user) => {
-    // Check if we already have a ChatRoom with user
-    // const existingChatRoom = await getCommonChatRoomWithUser(user.id);
-    dispatch(getCommonChatRoomWithTheUser(user.id));
-    if (!loadingCommon) {
-      if (chatRoom.id) {
-        console.log("getCommon");
-        navigation.navigate("Chat", {
-          id: chatRoom.id,
-          name: user.name,
-          image: user.image,
-        });
-        return;
-      }
-    }
-    // else {
-    dispatch(createTwoUsersChatRoom(user.id));
-
-    if (!loading) {
-      console.log(loading, "createNewww");
-      if (chatRoom.id) {
-        console.log(chatRoom, "newchatroom");
-        navigation.navigate("Chat", {
-          id: chatRoom.id,
-          name: user.name,
-          image: user.image,
-        });
-        return;
-      }
-    }
-    // }
-
-    // console.log(JSON.stringify(existingChatRoom, null, 2), "existingChatRoom");
-    // if (existingChatRoom) {
-    //   navigation.navigate("Chat", {
-    //     id: existingChatRoom.chatRoom.id,
-    //     name: user.name,
-    //     image: user.image,
-    //   });
-    //   return;
-    // } else {
-    //   // Create a new Chatroom
-    //   const newChatRoomData = await API.graphql(
-    //     graphqlOperation(createChatRoom, { input: {} })
-    //   );
-    //   // console.log(JSON.stringify(newChatRoomData, null, 2), "newChatRoom");
-    //   if (!newChatRoomData.data?.createChatRoom) {
-    //     console.log("Error creating the chat error");
+    // dispatch(getCommonChatRoomWithTheUser(user.id));
+    // if (!loadingCommon) {
+    //   if (chatRoom.id) {
+    //     console.log("getCommon");
+    //     navigation.navigate("Chat", {
+    //       id: chatRoom.id,
+    //       name: user.name,
+    //       image: user.image,
+    //     });
+    //     return;
     //   }
-    //   const newChatRoom = newChatRoomData.data?.createChatRoom;
-    //   // console.log(newChatRoom.id, "newid");
-
-    //   // console.log(user.id, "userID");
-
-    //   // Add the clicked user to the ChatRoom
-    //   const okay = await API.graphql(
-    //     graphqlOperation(createUserChatRoom, {
-    //       input: { chatRoomId: newChatRoom.id, userId: user.id },
-    //     })
-    //   );
-    //   // console.log(JSON.stringify(okay, null, 2), "okay");
-
-    //   // Add the auth user to the ChatRoom
-    //   const authUser = await Auth.currentAuthenticatedUser({
-    //     bypassCache: true,
-    //   });
-    //   // console.log(JSON.stringify(authUser, null, 2), "authUser");
-    //   const res = await API.graphql(
-    //     graphqlOperation(createUserChatRoom, {
-    //       input: {
-    //         chatRoomId: newChatRoom.id,
-    //         userId: authUser.attributes.sub,
-    //       },
-    //     })
-    //   );
-    //   // console.log(JSON.stringify(res, null, 2), "res");
-
-    //   // navigate to the newly created ChatRoom
-    //   navigation.navigate("Chat", { id: newChatRoom.id, name: user.name });
     // }
+    // // else {
+    // dispatch(createTwoUsersChatRoom(user.id));
+
+    // if (!loading) {
+    //   console.log(loading, "createNewww");
+    //   if (chatRoom.id) {
+    //     console.log(chatRoom, "newchatroom");
+    //     navigation.navigate("Chat", {
+    //       id: chatRoom.id,
+    //       name: user.name,
+    //       image: user.image,
+    //     });
+    //     return;
+    //   }
+    // }
+    // // }
+
+    // Check if we already have a ChatRoom with user
+    const existingChatRoom = await getCommonChatRoomWithUser(user.id);
+
+    console.log(JSON.stringify(existingChatRoom, null, 2), "existingChatRoom");
+    if (existingChatRoom) {
+      navigation.navigate("Chat", {
+        id: existingChatRoom.chatRoom.id,
+        name: user.name,
+        image: user.image,
+      });
+      return;
+    } else {
+      // Create a new Chatroom
+      const newChatRoomData = await API.graphql(
+        graphqlOperation(createChatRoom, { input: {} })
+      );
+      // console.log(JSON.stringify(newChatRoomData, null, 2), "newChatRoom");
+      if (!newChatRoomData.data?.createChatRoom) {
+        console.log("Error creating the chat error");
+      }
+      const newChatRoom = newChatRoomData.data?.createChatRoom;
+      // console.log(newChatRoom.id, "newid");
+
+      // console.log(user.id, "userID");
+
+      //   // Add the clicked user to the ChatRoom
+      const okay = await API.graphql(
+        graphqlOperation(createUserChatRoom, {
+          input: { chatRoomId: newChatRoom.id, userId: user.id },
+        })
+      );
+      // console.log(JSON.stringify(okay, null, 2), "okay");
+
+      //   // Add the auth user to the ChatRoom
+      const authUser = await Auth.currentAuthenticatedUser({
+        bypassCache: true,
+      });
+      // console.log(JSON.stringify(authUser, null, 2), "authUser");
+      const res = await API.graphql(
+        graphqlOperation(createUserChatRoom, {
+          input: {
+            chatRoomId: newChatRoom.id,
+            userId: authUser.attributes.sub,
+          },
+        })
+      );
+      dispatch(listUserChatRoomss(authUser.attributes.sub));
+      // console.log(JSON.stringify(res, null, 2), "res");
+
+      //   // navigate to the newly created ChatRoom
+      navigation.navigate("Chat", { id: newChatRoom.id, name: user.name });
+    }
     // const linkProps = () => {
     //   useLinkProps({
     //     to: {
@@ -317,7 +327,7 @@ const UserProfile = () => {
               <Text style={{ color: "gray" }}>@{user.username}</Text>
             </View>
           </View>
-          {user.id === userInfo.id ? (
+          {user.id === userInfo?.id ? (
             <Text style={[styles.button, { color: Colors[colorScheme].text }]}>
               Edit Profile
             </Text>

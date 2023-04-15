@@ -141,14 +141,14 @@ export const listMessagesByChatRoomReducer = (
 };
 export const createChatRoomReducer = (state = { chatRoom: {} }, action) => {
   switch (action.type) {
-    case COMMON_CHATROOM_REQUEST:
-      return { loadingCommon: true };
+    // case COMMON_CHATROOM_REQUEST:
+    //   return { loadingCommon: true };
 
-    case COMMON_CHATROOM_SUCCESS:
-      return { loadingCommon: false, chatRoom: action.payload };
+    // case COMMON_CHATROOM_SUCCESS:
+    //   return { loadingCommon: false, chatRoom: action.payload };
 
-    case COMMON_CHATROOM_FAIL:
-      return { loadingCommon: false, error: action.payload };
+    // case COMMON_CHATROOM_FAIL:
+    //   return { loadingCommon: false, error: action.payload };
 
     case CREATE_CHATROOM_REQUEST:
       return { loading: true };

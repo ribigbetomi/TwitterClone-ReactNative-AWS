@@ -12,6 +12,7 @@ import {
   LIST_FOLLOWINGS_FOR_TIMELINE_REQUEST,
   LIST_FOLLOWINGS_FOR_TIMELINE_SUCCESS,
   MEDIA_BY_USERID_REQUEST,
+  MEDIA_BY_USERID_RESET,
   MEDIA_BY_USERID_SUCCESS,
 } from "../Constants/TweetCommentConstants";
 import {
@@ -300,6 +301,7 @@ export const mediaByUserID = (userID) => async (dispatch) => {
     type: MEDIA_BY_USERID_SUCCESS,
     payload: allTweets,
   });
+
   // } catch (error) {
   //   dispatch({
   //     type: TWEETS_BY_USERID_FAIL,

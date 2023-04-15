@@ -20,9 +20,9 @@ const SearchList = ({ user }: any) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [isFollower, setIsFollower] = useState(false);
   const [bothFollow, setBothFollow] = useState(false);
-  console.log(JSON.stringify(isFollowing, null, 2), "isFollowing");
-  console.log(JSON.stringify(isFollower, null, 2), "isFollower");
-  console.log(JSON.stringify(bothFollow, null, 2), "bothFollow");
+  // console.log(JSON.stringify(isFollowing, null, 2), "isFollowing");
+  // console.log(JSON.stringify(isFollower, null, 2), "isFollower");
+  // console.log(JSON.stringify(bothFollow, null, 2), "bothFollow");
 
   const colorScheme = useColorScheme();
   const navigation: any = useNavigation();
