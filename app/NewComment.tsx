@@ -28,7 +28,7 @@ const NewComment = () => {
   const [comment, setComment] = useState<any>();
   // console.log(comment);
   const { tweetOrComment, tweetUser, likey }: any = route.params;
-  // console.log(JSON.stringify(tweetOrComment, null, 2), "tweetOrComment");
+  console.log(JSON.stringify(tweetOrComment, null, 2), "tweetOrComment");
 
   const [user, setUser] = useState<UserType | null>();
   //   console.log(user);
@@ -95,7 +95,7 @@ const NewComment = () => {
         tweetID: tweetOrComment.tweet.id,
       };
       dispatch(createNewComment(commentToAdd));
-    } else {
+    } else if (!tweetOrComment.tweetID && !tweetOrComment.commentID && !likey) {
       let commentToAdd = {
         userID: authUser.attributes.sub,
         tweetID: tweetOrComment.id,

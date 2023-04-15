@@ -63,10 +63,10 @@ const Tabs = (userID: any) => {
   // console.log(userID, "userID");
 
   const renderScene = SceneMap({
-    first: () => <TweetTab userID={userID} />,
-    second: () => <RepliesTab user={userID} />,
-    third: () => <MediaTab user={userID} />,
-    fourth: () => <LikesTab user={userID} />,
+    first: () => <TweetTab style={{ flax: 1 }} userID={userID} />,
+    second: () => <RepliesTab style={{ flax: 1 }} user={userID} />,
+    third: () => <MediaTab style={{ flax: 1 }} user={userID} />,
+    fourth: () => <LikesTab style={{ flax: 1 }} user={userID} />,
   });
 
   const renderTabBar = (props: any) => (
@@ -93,7 +93,7 @@ const Tabs = (userID: any) => {
       navigationState={{ index, routes }}
       renderScene={renderScene}
       onIndexChange={setIndex}
-      lazy={true}
+      // lazy={true}
       swipeEnabled={false}
       // onLayout={handleTabViewLayout}
       // springConfig={{ bounciness: 0, speed: 12 }}

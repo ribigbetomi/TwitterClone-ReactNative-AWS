@@ -14,6 +14,7 @@ export const commentsByUserID = /* GraphQL */ `
       nextToken: $nextToken
     ) {
       items {
+        commentID
         id
         createdAt
         userID

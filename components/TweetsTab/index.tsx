@@ -30,16 +30,28 @@ const TweetTab = ({ userID }: any) => {
   return (
     <View style={{ width: "100%" }}>
       {loading && <ActivityIndicator />}
-      {userTweets && (
-        <FlatList
-          data={userTweets}
-          renderItem={({ item }) => <Tweet tweet={item} />}
-          // style={{ backgroundColor: "blue" }}
-          keyExtractor={(item: TweetType) => item.id}
-          // refreshing={loading}
-          // onRefresh={fetchTweets}
-        />
-      )}
+      {
+        userTweets && (
+          <FlatList
+            data={userTweets}
+            renderItem={({ item }) => <Tweet tweet={item} />}
+            // style={{ backgroundColor: "blue" }}
+            keyExtractor={(item: TweetType) => item.id}
+            // refreshing={loading}
+            // onRefresh={fetchTweets}
+          />
+        )
+        // (
+        //   <View>
+        //     <Text>Bro</Text>
+        //   </View>
+        // )
+        // userTweets.map((item: any, index: any) => (
+        //   <View key={index}>
+        //     <Tweet tweet={item} />
+        //   </View>
+        // ))
+      }
     </View>
   );
 };

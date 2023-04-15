@@ -457,10 +457,10 @@ export const likesByUserIDReducer = (state = { userLikes: [] }, action) => {
 
       const find = state.userLikes.find(
         (item) =>
-          item.tweetID === action.payload.tweetID ||
+          (item.tweetID && item.tweetID === action.payload.tweetID) ||
           item.comment?.id === action.payload.commentID
       );
-      // console.log(JSON.stringify(find, null, 2), "find");
+      console.log(JSON.stringify(find, null, 2), "find");
 
       if (!find) {
         return state;
@@ -489,11 +489,12 @@ export const likesByUserIDReducer = (state = { userLikes: [] }, action) => {
           },
         };
       }
-      // console.log(JSON.stringify(neww, null, 2), "neww");
+      console.log(JSON.stringify(neww, null, 2), "neww");
 
       const add = state.userLikes.map((item) =>
         item.id === find.id ? neww : item
       );
+      console.log(JSON.stringify(add, null, 2), "add");
 
       return {
         userLikes: [...add],

@@ -32,6 +32,7 @@ import { useNavigation } from "expo-router";
 const CommentsScreen = () => {
   const route = useRoute();
   const { tweet, likey } = route.params;
+
   // console.log(likey, "likey");
   // console.log(JSON.stringify(tweet, null, 2), "tweett00");
   const [tweetComments, setTweetComments] = useState([]);
