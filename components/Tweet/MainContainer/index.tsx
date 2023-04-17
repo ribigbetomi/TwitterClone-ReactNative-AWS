@@ -61,11 +61,28 @@ const MainContainer = ({ tweet, likey }: any) => {
       <View style={styles.tweetHeaderContainer}>
         <View style={styles.tweetHeaderNames}>
           <Text style={[styles.name, { color: Colors[colorScheme].text }]}>
-            {tweet.user?.name}
+            {tweet.comment && likey
+              ? tweet.comment.user.name
+              : tweet.tweet && likey
+              ? tweet.tweet.user.name
+              : tweet.user?.name}
           </Text>
-          <Text style={styles.username}>@{tweet.user?.username}</Text>
+          <Text style={styles.username}>
+            @
+            {tweet.comment && likey
+              ? tweet.comment.user.username
+              : tweet.tweet && likey
+              ? tweet.tweet.user.username
+              : tweet.user?.username}
+          </Text>
           <Text style={styles.createdAt}>
-            {moment(tweet.createdAt).fromNow()}
+            {moment(
+              tweet.comment && likey
+                ? tweet.comment.createdAt
+                : tweet.tweet && likey
+                ? tweet.tweet.createdAt
+                : tweet.createdAt
+            ).fromNow()}
           </Text>
         </View>
         <Entypo name={"chevron-down"} size={16} color={"grey"} />

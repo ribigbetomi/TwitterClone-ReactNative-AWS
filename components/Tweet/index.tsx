@@ -18,9 +18,9 @@ export type TweetProps = {
 };
 
 const Tweet = ({ tweet, likey = false }: any) => {
-  // console.log(likey);
+  console.log(likey);
   const navigation: any = useNavigation();
-  // console.log(JSON.stringify(tweet, null, 2), "tweee");
+
   // const linkProps = useLinkProps({
   //   to: {
   //     screen: "CommentsScreen",
@@ -32,20 +32,19 @@ const Tweet = ({ tweet, likey = false }: any) => {
     console.log("onPress");
     navigation.navigate("CommentsScreen", { tweet: tweet, likey: likey });
   };
-  // const onClick = () => {
-  //   console.log("onClick");
-  //   // navigation.popToTop();
-  //   navigation.push("CommentsScreen", { tweet: tweet, likey: likey });
-  //   console.log(JSON.stringify(tweet, null, 2), "tweet");
-  // };
 
-  // console.log(JSON.stringify(tweet, null, 2), "tweet");
   return (
     <Pressable onPress={onPress} style={styles.container}>
-      {/* <TouchableWithoutFeedback {...linkProps}> */}
-      <LeftContainer user={tweet.user} />
+      <LeftContainer
+        user={
+          tweet.comment && likey
+            ? tweet.comment.user
+            : tweet.tweet && likey
+            ? tweet.tweet.user
+            : tweet.user
+        }
+      />
       <MainContainer tweet={tweet} likey={likey} />
-      {/* </TouchableWithoutFeedback> */}
     </Pressable>
   );
 };

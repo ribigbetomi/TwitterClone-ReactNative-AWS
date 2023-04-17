@@ -74,20 +74,24 @@ const UserProfile = () => {
   // const [followingUser, setFollowingUser] = useState(false);
   // const [followerUser, setFollowerUser] = useState(false);
   const { userInfo } = useSelector((state) => state.userDetails);
-  console.log(userInfo?.id, "userInfoIdProfile");
+  // console.log(userInfo?.id, "userInfoIdProfile");
 
   const { followings } = useSelector((state) => state.followingsByAuthUserID);
   const { followers } = useSelector((state) => state.followersByAuthUserID);
   const { followerUser } = useSelector((state) => state.checkFollower);
   const { followingUser } = useSelector((state) => state.checkFollowing);
-  console.log(followerUser, "followerUser");
-  console.log(followingUser, "followingUser");
+  // console.log(followerUser, "followerUser");
+  // console.log(followingUser, "followingUser");
   const { loading, loadingCommon, chatRoom } = useSelector(
     (state) => state.createChatRoom
   );
   const [pressed, setPressed] = useState(false);
+  //pressed state so user doesn't create a second following as creation of first following is being processed and before follow button is updated to following
 
-  console.log(pressed, "pressed");
+  const [unpressed, setUnpressed] = useState(false);
+  //unpressed state so user doesn't unfollow a second time as first unfollowing is being processed so it doesnt create an error of invalid id of following and follower
+
+  // console.log(pressed, "pressed");
   const [imageViewerVisible, setImageViewerVisible] = useState(false);
 
   const colorScheme = useColorScheme();
@@ -134,10 +138,9 @@ const UserProfile = () => {
         userID: userInfo.id,
       };
       if (!followingUser && !followerUser)
-        await Promise.all(
-          dispatch(createNewFollowing(data)),
-          dispatch(createNewFollower(dataa))
-        );
+        // await Promise.all(
+        dispatch(createNewFollowing(data)), dispatch(createNewFollower(dataa));
+      // );
 
       // dispatch(onCreateNewFollowing(userInfo.id));
       // dispatch(onCreateNewFollower(user.id));
@@ -160,6 +163,7 @@ const UserProfile = () => {
     // const userInfo = await Auth.currentAuthenticatedUser({
     //   bypassCache: true,
     // });
+    setUnpressed(true);
     if (userInfo) {
       // const data = {
       //   authUserID: user.id,
@@ -187,6 +191,7 @@ const UserProfile = () => {
         // }
       }
     }
+    setUnpressed(false);
   };
 
   const createAChatRoomWithTheUser = async (user) => {
@@ -355,7 +360,10 @@ const UserProfile = () => {
 
               {/* <Pressable onPress={followingUser ? unfollowUser : followUser}> */}
               {followingUser ? (
-                <Pressable onPress={unfollowUser} style={styles.button}>
+                <Pressable
+                  onPress={!unpressed && unfollowUser}
+                  style={styles.button}
+                >
                   <Text style={[{ color: Colors[colorScheme].text }]}>
                     Following
                   </Text>

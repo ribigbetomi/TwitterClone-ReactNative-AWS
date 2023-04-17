@@ -15,7 +15,7 @@ const LikesTab = ({ user: { userID } }: any) => {
   const { userLikes, loading: loadingUserLikes } = useSelector(
     (state: any) => state.likesByUserID
   );
-  // console.log(JSON.stringify(userLikes, null, 2), "userLikes");
+  console.log(JSON.stringify(userLikes, null, 2), "userLikes");
 
   useEffect(() => {
     dispatch(getLikesByUserID(userID));

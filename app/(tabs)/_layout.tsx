@@ -1,6 +1,6 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { Link, Tabs } from "expo-router";
+import { Link, Tabs, useNavigation } from "expo-router";
 import { Pressable } from "react-native";
 import useColorScheme from "../../hooks/useColorScheme";
 import Colors from "../../constants/Colors";
@@ -34,6 +34,7 @@ const Tab = createBottomTabNavigator();
 
 export default function TabLayout() {
   const dispatch = useDispatch<any>();
+  const navigation: any = useNavigation();
 
   const { userInfo } = useSelector((state: any) => state.userDetails);
   // console.log(JSON.stringify(userInfo?.id, null, 2), "userInfoLayoutTabs");
@@ -105,9 +106,14 @@ export default function TabLayout() {
           //   marginRight: 15,
           // },
           headerLeft: () => (
-            <View style={{ marginLeft: 15 }}>
+            <Pressable
+              onPress={() =>
+                navigation.navigate("UserProfile", { user: userInfo })
+              }
+              style={{ marginLeft: 15 }}
+            >
               <ProfilePicture image={userInfo?.image} />
-            </View>
+            </Pressable>
           ),
           // headerLeftContainerStyle: {
           //   marginLeft: 15,

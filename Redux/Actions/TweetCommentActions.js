@@ -283,6 +283,7 @@ export const mediaByUserID = (userID) => async (dispatch) => {
   );
 
   let result = userTweets.data.tweetsByUserIDAndCreatedAt.items;
+  // console.log(JSON.stringify(result, null, 2), "resultMedia");
 
   const userComments = await API.graphql(
     graphqlOperation(commentsByUserID, { userID: userID })

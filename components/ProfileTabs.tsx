@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useWindowDimensions, StyleSheet, Text, Animated } from "react-native";
+import {
+  useWindowDimensions,
+  StyleSheet,
+  Text,
+  Animated,
+  TouchableOpacity,
+} from "react-native";
 import { SceneMap, TabBar, TabView } from "react-native-tab-view";
 import TweetTab from "./TweetsTab";
 import RepliesTab from "./RepliesTab/RepliesTab";
@@ -8,6 +14,13 @@ import LikesTab from "./LikesTab/LikesTab";
 import useColorScheme from "./../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import { View } from "react-native";
+import { useDispatch } from "react-redux";
+import {
+  COMMENTS_BY_TWEETID_RESET,
+  LIKES_BY_USERID_RESET,
+  MEDIA_BY_USERID_RESET,
+  TWEETS_BY_USERID_RESET,
+} from "../Redux/Constants/TweetCommentConstants";
 
 // const TweetRoute = ({ user }) => (
 //     // render content using prop1 and prop2
@@ -27,6 +40,7 @@ import { View } from "react-native";
 
 const Tabs = (userID: any) => {
   const colorScheme = useColorScheme();
+  const dispatch = useDispatch<any>();
 
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
@@ -63,7 +77,7 @@ const Tabs = (userID: any) => {
   // console.log(userID, "userID");
 
   const renderScene = SceneMap({
-    first: () => <TweetTab style={{ flax: 1 }} userID={userID} />,
+    first: () => <TweetTab style={{ flax: 1 }} userID={userID} onCl />,
     second: () => <RepliesTab style={{ flax: 1 }} user={userID} />,
     third: () => <MediaTab style={{ flax: 1 }} user={userID} />,
     fourth: () => <LikesTab style={{ flax: 1 }} user={userID} />,
@@ -82,10 +96,44 @@ const Tabs = (userID: any) => {
       activeColor={Colors[colorScheme].text}
       inactiveColor={"gray"}
       renderLabel={({ route, color }) => (
+        // <TouchableOpacity onPress={() => handleTabPress(route)}>
         <Text style={{ color, ...style.text }}>{route.title}</Text>
+        // </TouchableOpacity>
       )}
     />
   );
+  // const handleTabPress = (route: any) => {
+  //   switch (route.key) {
+  //     case "first":
+  //       console.log("first");
+  //       handleFirstTabPress();
+  //       break;
+  //     case "second":
+  //       handleSecondTabPress();
+  //       break;
+  //     case "third":
+  //       handleThirdTabPress();
+  //       break;
+  //     case "fourth":
+  //       handleFourthTabPress();
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
+
+  // const handleFirstTabPress = () => {
+  //   dispatch({ type: TWEETS_BY_USERID_RESET });
+  // };
+  // const handleSecondTabPress = () => {
+  //   dispatch({ type: COMMENTS_BY_TWEETID_RESET });
+  // };
+  // const handleThirdTabPress = () => {
+  //   dispatch({ type: MEDIA_BY_USERID_RESET });
+  // };
+  // const handleFourthTabPress = () => {
+  //   dispatch({ type: LIKES_BY_USERID_RESET });
+  // };
   return (
     // <View>
     //   <Animated.View style={{ opacity }}>
@@ -93,7 +141,7 @@ const Tabs = (userID: any) => {
       navigationState={{ index, routes }}
       renderScene={renderScene}
       onIndexChange={setIndex}
-      // lazy={true}
+      lazy={true}
       swipeEnabled={false}
       // onLayout={handleTabViewLayout}
       // springConfig={{ bounciness: 0, speed: 12 }}

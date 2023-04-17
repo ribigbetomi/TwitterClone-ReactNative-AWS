@@ -14,6 +14,7 @@ import {
   GET_POST,
   LIKES_BY_USERID_FAIL,
   LIKES_BY_USERID_REQUEST,
+  LIKES_BY_USERID_RESET,
   LIKES_BY_USERID_SUCCESS,
   LIST_FOLLOWINGS_FOR_TIMELINE_FAIL,
   LIST_FOLLOWINGS_FOR_TIMELINE_REQUEST,
@@ -28,6 +29,7 @@ import {
   ON_UPDATE_POST,
   TWEETS_BY_USERID_FAIL,
   TWEETS_BY_USERID_REQUEST,
+  TWEETS_BY_USERID_RESET,
   TWEETS_BY_USERID_SUCCESS,
 } from "../Constants/TweetCommentConstants";
 
@@ -323,6 +325,9 @@ export const commentsByUserIDReducer = (state = { replies: [] }, action) => {
     case COMMENTS_BY_USERID_FAIL:
       return { loading: false, error: action.payload };
 
+    case COMMENTS_BY_USERID_RESET:
+      return { replies: [] };
+
     case CREATE_COMMENT:
       const find = state.replies.find(
         (item) => item.id === action.payload.commentID
@@ -347,8 +352,6 @@ export const commentsByUserIDReducer = (state = { replies: [] }, action) => {
         replies: [...add],
       };
 
-    case COMMENTS_BY_USERID_RESET:
-      return { replies: [] };
     default:
       return state;
   }
@@ -366,7 +369,7 @@ export const mediaByUserIDReducer = (state = { media: [] }, action) => {
       return { loading: false, error: action.payload };
 
     case MEDIA_BY_USERID_RESET:
-      return {};
+      return { media: [] };
 
     case CREATE_COMMENT:
       const find = state.media.find(
@@ -409,6 +412,9 @@ export const tweetsByUserIDReducer = (state = { userTweets: [] }, action) => {
     case TWEETS_BY_USERID_FAIL:
       return { loading: false, error: action.payload };
 
+    case TWEETS_BY_USERID_RESET:
+      return { userTweets: [] };
+
     case CREATE_COMMENT:
       const find = state.userTweets.find(
         (item) => item.id === action.payload.tweetID
@@ -448,6 +454,9 @@ export const likesByUserIDReducer = (state = { userLikes: [] }, action) => {
 
     case LIKES_BY_USERID_FAIL:
       return { loading: false, error: action.payload };
+
+    case LIKES_BY_USERID_RESET:
+      return { userLikes: [] };
 
     case CREATE_COMMENT:
       // console.log(
