@@ -25,6 +25,7 @@ import { createTweet } from "../src/graphql/mutations";
 
 import { UserType } from "../types";
 import { getUser } from "../src/queries/getUserQuery";
+import { useSelector } from "react-redux";
 
 interface MyObject {
   [key: string]: any;
@@ -36,36 +37,13 @@ export default function NewTweetScreen() {
   const [imageUrl, setImageUrl] = useState<string>("");
   const [user, setUser] = useState<any>(null);
   const [progresses, setProgresses] = useState<MyObject>({});
+  const { userInfo } = useSelector((state: any) => state.userDetails);
   // console.log(JSON.stringify(progresses, null, 2), "progresses");
 
   // console.log(imageUrl, "imgUrl");
 
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
-
-  useEffect(() => {
-    // get the current user
-    const fetchUser = async () => {
-      const userInfo = await Auth.currentAuthenticatedUser({
-        bypassCache: true,
-      });
-      if (!userInfo) {
-        return;
-      }
-
-      try {
-        const userData: GraphQLResult<any> = await API.graphql(
-          graphqlOperation(getUser, { id: userInfo.attributes.sub })
-        );
-        if (userData) {
-          setUser(userData.data.getUser);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchUser();
-  }, []);
 
   // const getPermissionAsync = async () => {
   //   if (Platform.OS !== "web") {
@@ -140,15 +118,15 @@ export default function NewTweetScreen() {
       // console.log(image, "image");
 
       try {
-        const currentUser = await Auth.currentAuthenticatedUser({
-          bypassCache: true,
-        });
+        // const currentUser = await Auth.currentAuthenticatedUser({
+        //   bypassCache: true,
+        // });
         // console.log(currentUser, "currentUser");
 
         const newTweet = {
           content: tweet,
           image,
-          userID: currentUser.attributes.sub,
+          userID: userInfo.id,
         };
         // console.log(JSON.stringify(newTweet, null, 2), "newTweet");
         await API.graphql(graphqlOperation(createTweet, { input: newTweet }));
@@ -189,7 +167,7 @@ export default function NewTweetScreen() {
           </TouchableOpacity>
         </View>
         <View style={styles.newTweetContainer}>
-          <ProfilePicture image={user?.image} />
+          <ProfilePicture image={userInfo?.image} />
           <View style={styles.inputsContainer}>
             <TextInput
               value={tweet}

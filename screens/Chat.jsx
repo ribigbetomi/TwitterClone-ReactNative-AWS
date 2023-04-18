@@ -109,7 +109,7 @@ const Chat = () => {
     //   error: (err) => console.warn(err),
     // });
     // return () => subscription.unsubscribe();
-  }, []);
+  }, [chatRoomID]);
 
   useEffect(() => {
     dispatch(listMessagesByChatRoomm(chatRoomID));
@@ -167,7 +167,7 @@ const Chat = () => {
     //   subscription.unsubscribe();
     //   subscriptionAttachments.unsubscribe();
     // };
-  }, []);
+  }, [chatRoomID]);
 
   if (!chatRoom) {
     return <ActivityIndicator />;

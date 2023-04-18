@@ -18,7 +18,7 @@ export type TweetProps = {
 };
 
 const Tweet = ({ tweet, likey = false }: any) => {
-  console.log(likey);
+  // console.log(likey);
   const navigation: any = useNavigation();
 
   // const linkProps = useLinkProps({

@@ -66,22 +66,13 @@ const UserProfile = () => {
   const route = useRoute();
   const { user } = route.params;
   const dispatch = useDispatch();
-  // console.log(JSON.stringify(user, null, 2), "userr");
-  // console.log(user.id, "user.id");
-
-  // const [authUser, setAuthUser] = useState({});
-  // console.log(JSON.stringify(authUser, null, 2), "authUser");
-  // const [followingUser, setFollowingUser] = useState(false);
-  // const [followerUser, setFollowerUser] = useState(false);
   const { userInfo } = useSelector((state) => state.userDetails);
-  // console.log(userInfo?.id, "userInfoIdProfile");
 
   const { followings } = useSelector((state) => state.followingsByAuthUserID);
   const { followers } = useSelector((state) => state.followersByAuthUserID);
   const { followerUser } = useSelector((state) => state.checkFollower);
   const { followingUser } = useSelector((state) => state.checkFollowing);
-  // console.log(followerUser, "followerUser");
-  // console.log(followingUser, "followingUser");
+
   const { loading, loadingCommon, chatRoom } = useSelector(
     (state) => state.createChatRoom
   );
@@ -124,9 +115,6 @@ const UserProfile = () => {
   }, [userInfo, user]);
 
   const followUser = async () => {
-    // const userInfo = await Auth.currentAuthenticatedUser({
-    //   bypassCache: true,
-    // });
     setPressed(true);
     if (userInfo) {
       const data = {
@@ -138,37 +126,18 @@ const UserProfile = () => {
         userID: userInfo.id,
       };
       if (!followingUser && !followerUser)
-        // await Promise.all(
-        dispatch(createNewFollowing(data)), dispatch(createNewFollower(dataa));
-      // );
-
-      // dispatch(onCreateNewFollowing(userInfo.id));
-      // dispatch(onCreateNewFollower(user.id));
+        await Promise.all(
+          dispatch(createNewFollowing(data)),
+          dispatch(createNewFollower(dataa))
+        );
 
       setPressed(false);
-      // if (followingUser) {
-      // }
-
-      // const follow = await API.graphql(
-      //   graphqlOperation(createFollowing, { input: data })
-      // );
-      // const follower = await API.graphql(
-      //   graphqlOperation(createFollower, { input: dataa })
-      // );
-      // console.log(JSON.stringify(follower, null, 2), "follow");
     }
   };
 
   const unfollowUser = async () => {
-    // const userInfo = await Auth.currentAuthenticatedUser({
-    //   bypassCache: true,
-    // });
     setUnpressed(true);
     if (userInfo) {
-      // const data = {
-      //   authUserID: user.id,
-      //   userID: userInfo.attributes.sub,
-      // };
       if (followingUser && followerUser) {
         // try {
         await Promise.all(
@@ -258,33 +227,21 @@ const UserProfile = () => {
       // console.log(JSON.stringify(okay, null, 2), "okay");
 
       //   // Add the auth user to the ChatRoom
-      const authUser = await Auth.currentAuthenticatedUser({
-        bypassCache: true,
-      });
-      // console.log(JSON.stringify(authUser, null, 2), "authUser");
+
       const res = await API.graphql(
         graphqlOperation(createUserChatRoom, {
           input: {
             chatRoomId: newChatRoom.id,
-            userId: authUser.attributes.sub,
+            userId: userInfo?.id,
           },
         })
       );
-      dispatch(listUserChatRoomss(authUser.attributes.sub));
+      dispatch(listUserChatRoomss(userInfo.id));
       // console.log(JSON.stringify(res, null, 2), "res");
 
       //   // navigate to the newly created ChatRoom
       navigation.navigate("Chat", { id: newChatRoom.id, name: user.name });
     }
-    // const linkProps = () => {
-    //   useLinkProps({
-    //     to: {
-    //       screen: 'Chat',
-    //       params: { id: newChatRoom.id, name: user.name }
-    //     }
-    //   })
-    // }
-    // linkProps()
   };
 
   // const go = () => {

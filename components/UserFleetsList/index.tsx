@@ -19,52 +19,38 @@ const UserFleetsList = () => {
   const [user, setUser] = useState<any>(null);
   const dispatch = useDispatch<any>();
   const { fleeters } = useSelector((state: any) => state.getFleeters);
+  const { userInfo } = useSelector((state: any) => state.userDetails);
   // console.log(JSON.stringify(fleeters, null, 2), "fleeters");
 
   const navigation: any = useNavigation();
   // console.log(JSON.stringify(user, null, 2), "userr");
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const userInfo = await Auth.currentAuthenticatedUser({
-        bypassCache: true,
-      });
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const userInfo = await Auth.currentAuthenticatedUser({
+  //       bypassCache: true,
+  //     });
 
-      if (!userInfo) {
-        return;
-      }
-      try {
-        const userData: GraphQLResult<any> = await API.graphql(
-          graphqlOperation(getUser, { id: userInfo.attributes.sub })
-        );
+  //     if (!userInfo) {
+  //       return;
+  //     }
+  //     try {
+  //       const userData: GraphQLResult<any> = await API.graphql(
+  //         graphqlOperation(getUser, { id: userInfo.attributes.sub })
+  //       );
 
-        if (userData) {
-          setUser(userData.data.getUser);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchUser();
-  }, []);
+  //       if (userData) {
+  //         setUser(userData.data.getUser);
+  //       }
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   };
+  //   fetchUser();
+  // }, []);
 
   useEffect(() => {
     dispatch(getFleeters());
-    // const fetchData = async () => {
-    //   try {
-    //     const data: GraphQLResult<any> = await API.graphql(
-    //       graphqlOperation(listUsers)
-    //     );
-    //     const fleeters = data.data.listUsers.items.filter(
-    //       (item: any) => item.fleets.items.length !== 0
-    //     );
-    //     // console.log(JSON.stringify(fleeters, null, 2), "fleeters");
-    //     setUsers(fleeters);
-    //   } catch (e) {
-    //     console.log(e);
-    //   }
-    // };
-    // fetchData();
   }, []);
 
   const onPress = () => {
@@ -78,7 +64,7 @@ const UserFleetsList = () => {
         onPress={onPress}
       >
         {/* <Link href="/NewFleet" > */}
-        <ProfilePicture size={60} image={user?.image} />
+        <ProfilePicture size={60} image={userInfo?.image} />
         <View style={styles.icon}>
           <Ionicons name="add" size={25} color={"#fff"} />
         </View>

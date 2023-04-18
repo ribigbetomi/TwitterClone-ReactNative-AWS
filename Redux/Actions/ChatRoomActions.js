@@ -144,10 +144,10 @@ export const onCreateNewMessage = (chatRoomID) => async (dispatch) => {
   return () => subscription.unsubscribe();
 };
 
-export const onCreateAttachmentt = (chatRoomID) => async (dispatch) => {
+export const onCreateAttachmentt = (chatRoomId) => async (dispatch) => {
   const subscriptionAttachments = API.graphql(
     graphqlOperation(onCreateAttachment, {
-      filter: { chatroomID: { eq: chatRoomID } },
+      filter: { chatroomID: { eq: chatRoomId } },
     })
   ).subscribe({
     next: ({ value }) => {
@@ -307,7 +307,7 @@ export const createAttachmentt = (newAttachment) => async (dispatch) => {
 
   dispatch({
     type: CREATE_ATTACHMENT,
-    payload: attachment,
+    payload: attachment.data.createAttachment,
   });
 };
 
@@ -333,7 +333,7 @@ export const updateChatRoomm = (input) => async (dispatch, getState) => {
   //   createNewMessage: { newMessageData },
   // } = getState();
   // console.log(JSON.stringify(newMessageData, null, 2), "newMessageData");
-  console.log(JSON.stringify(input, null, 2), "input");
+  // console.log(JSON.stringify(input, null, 2), "input");
 
   const {
     getChatRoom: { chatRoom },

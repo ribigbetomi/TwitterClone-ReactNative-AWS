@@ -20,16 +20,22 @@ import ImageAttachments from "./ImageAttachments";
 import VideoAttachments from "./VideoAttachments";
 import Colors from "../../../constants/Colors";
 import useColorScheme from "./../../../hooks/useColorScheme";
+import { useSelector } from "react-redux";
 
 // dayjs.extend(relativeTime);
 
 const Message = ({ message }: any) => {
   // console.log(JSON.stringify(message, null, 2), "message");
   const [isMe, setIsMe] = useState(false);
+  const { userInfo } = useSelector((state: any) => state.userDetails);
   const [imageSources, setImageSources] = useState([]);
   const [imageViewerVisible, setImageViewerVisible] = useState(false);
   const { width } = useWindowDimensions();
   const [downloadedAttachments, setDownloadedAttachments] = useState<any>([]);
+  // console.log(
+  //   JSON.stringify(downloadedAttachments, null, 2),
+  //   "downloadedAttachments"
+  // );
 
   const colorScheme = useColorScheme();
 
@@ -37,7 +43,7 @@ const Message = ({ message }: any) => {
     const isMyMessage = async () => {
       const authUser = await Auth.currentAuthenticatedUser();
 
-      setIsMe(message.userID === authUser.attributes.sub);
+      setIsMe(message.userID === userInfo.id);
     };
 
     isMyMessage();
@@ -59,7 +65,7 @@ const Message = ({ message }: any) => {
       }
     };
     downloadAttachments();
-  }, [JSON.stringify(message.attachments.items)]);
+  }, [JSON.stringify(message?.attachments?.items)]);
   // console.log(imageSources, "sourcess");
   // }, [JSON.stringify(message.Attachments.items)]);
 

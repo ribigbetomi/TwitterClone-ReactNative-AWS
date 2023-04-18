@@ -22,9 +22,6 @@ export default function MessagesScreen() {
     (state: any) => state.listUserChatRooms
   );
 
-  console.log(JSON.stringify(userInfo?.id), "userInfoIDMessageScreen");
-  // console.log(JSON.stringify(chatRooms, null, 2), "chatRooms");
-
   const [loading, setLoading] = useState(false);
   // const [chatRooms, setChatRooms] = useState([]);
 
@@ -75,18 +72,16 @@ export default function MessagesScreen() {
   // };
   const fetch = async () => {
     setLoading(true);
-    const user = await Auth.currentAuthenticatedUser({ bypassCache: true });
-    if (user) {
-      dispatch(listUserChatRoomss(user.attributes.sub));
+    // const user = await Auth.currentAuthenticatedUser({ bypassCache: true });
+    if (userInfo?.id) {
+      dispatch(listUserChatRoomss(userInfo?.id));
     }
 
     setLoading(false);
   };
 
   useEffect(() => {
-    // if (userInfo?.id) {
     fetch();
-    // }
   }, []);
 
   return (
@@ -118,7 +113,7 @@ export default function MessagesScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: { flex: 1 },
   header: {
     flexDirection: "row",
     paddingVertical: 5,

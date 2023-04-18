@@ -1,14 +1,16 @@
 import { API, graphqlOperation, Auth } from "aws-amplify";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
+import { useSelector } from "react-redux";
 
 export const getCommonChatRoomWithUser = async (userID) => {
   // console.log(userID, "userID");
-  const authUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+  const { userInfo } = useSelector((state) => state.userDetails);
+  // const authUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
 
   // dispatch(getCommonChatRoomWithUser(userID))
   // get all chat room of user1
   const response = await API.graphql(
-    graphqlOperation(listChatRooms, { id: authUser.attributes.sub })
+    graphqlOperation(listChatRooms, { id: userInfo.id })
   );
   // console.log(JSON.stringify(response, null, 2), "response");
   // console.log(response, "response");

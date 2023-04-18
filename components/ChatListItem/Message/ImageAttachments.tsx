@@ -4,6 +4,7 @@ import ImageView from "react-native-image-viewing";
 
 const ImageAttachments = ({ attachments }: any) => {
   const [imageViewerVisible, setImageViewerVisible] = useState(false);
+  // console.log(JSON.stringify(attachments, null, 2), "attachmentsIMGAttach");
 
   return (
     <>

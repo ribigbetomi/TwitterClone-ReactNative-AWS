@@ -49,12 +49,12 @@ const InputBox = ({ chatRoom }: any) => {
     (state: any) => state.createNewMessage
   );
 
-  console.log(JSON.stringify(newMessageData, null, 2), "newMessageDataCHATTT");
+  // console.log(JSON.stringify(newMessageData, null, 2), "newMessageDataCHATTT");
 
   // console.log(text, "text");
-  // console.log(image, "img");
   const [files, setFiles] = useState<any>([]);
   const [progresses, setProgresses] = useState<any>({});
+  // console.log(JSON.stringify(files, null, 2), "files");
 
   const colorScheme = useColorScheme();
 
@@ -77,66 +77,54 @@ const InputBox = ({ chatRoom }: any) => {
     // return API.graphql(
     //   graphqlOperation(createAttachment, { input: newAttachment })
     // );
+    // console.log(JSON.stringify(newAttachment, null, 2), "newAttachment");
+
     dispatch(createAttachmentt(newAttachment));
-    dispatch(onCreateAttachmentt(chatRoom.id));
-    return;
   };
 
   const onSend = async () => {
-    // const authUser = await Auth.currentAuthenticatedUser();
+    if (files.length || text) {
+      const newMessage: any = {
+        chatroomID: chatRoom.id,
+        text,
+        userID: userInfo.id,
+      };
 
-    const newMessage: any = {
-      chatroomID: chatRoom.id,
-      text,
-      userID: userInfo.id,
-    };
+      // if (files.length > 0) {
+      //   // console.log(images, "image");
+      //   newMessage.images = await Promise.all(
+      //     images.map((img) => uploadFile(img))
+      //   );
+      //   // since the parameter of the arrow function is the same with the parameter of the function we're calling, we can also do images.map(uploadFile)
+      //   setImages([]);
+      // }
 
-    // if (files.length > 0) {
-    //   // console.log(images, "image");
-    //   newMessage.images = await Promise.all(
-    //     images.map((img) => uploadFile(img))
-    //   );
-    //   // since the parameter of the arrow function is the same with the parameter of the function we're calling, we can also do images.map(uploadFile)
-    //   setImages([]);
-    // }
+      // console.log(newMessage.images, "newimg");
+      dispatch(createNewMessage(newMessage));
 
-    // console.log(newMessage.images, "newimg");
-    dispatch(createNewMessage(newMessage));
-    dispatch(onCreateNewMessage(chatRoom.id));
-    // const newMessageData: GraphQLResult<any> = await API.graphql(
-    //   graphqlOperation(createMessage, { input: newMessage })
-    // );
-    // console.log(newMessageData);
-    // console.warn("Sending new message: ", newMessage);
-
-    setText("");
-
-    //   // create attachments
-    await Promise.all(
-      files.map((file: any) =>
-        addAttachment({
-          file,
-          messageID: newMessageData?.id,
-        })
-      )
-    );
-    // console.log(getAttachment);
-    setFiles([]);
-
-    //   // set the new message as LastMessage of the ChatRoom
-    // await API.graphql(
-    //   graphqlOperation(updateChatRoom, {
-    // input: {
-    //   // _version: chatRoom._version,
-    //   chatRoomLastMessageId: newMessageData.data.createMessage.id,
-    //   id: chatRoom.id,
-    // },
-    //   })
-    // );
+      setText("");
+    } else {
+      return;
+    }
   };
 
   useEffect(() => {
     if (newMessageData?.id) {
+      async function attach() {
+        await Promise.all(
+          files.map((file: any) =>
+            addAttachment({
+              file,
+              messageID: newMessageData?.id,
+            })
+          )
+        );
+      }
+      setFiles([]);
+      if (files.length !== 0) {
+        attach();
+      }
+
       let input = {
         // _version: chatRoom._version,
         chatRoomLastMessageId: newMessageData?.id,
@@ -144,7 +132,7 @@ const InputBox = ({ chatRoom }: any) => {
       };
 
       dispatch(updateChatRoomm(input));
-      // dispatch(onUpdateTheChatRoomm(chatRoom.id));
+
       dispatch({ type: CREATE_MESSAGE_RESET });
     }
   }, [newMessageData?.id]);
@@ -161,6 +149,7 @@ const InputBox = ({ chatRoom }: any) => {
 
     if (!result.canceled) {
       // if (result.assets.length > 1) {
+
       setFiles(result.assets);
       // } else {
       //   setImages([result.assets[0].uri]);
@@ -287,7 +276,10 @@ const InputBox = ({ chatRoom }: any) => {
             onPress={onSend}
             style={[
               styles.send,
-              { backgroundColor: text ? Colors.light.tint : "gray" },
+              {
+                backgroundColor:
+                  text || files.length ? Colors.light.tint : "gray",
+              },
             ]}
             name="send"
             size={16}

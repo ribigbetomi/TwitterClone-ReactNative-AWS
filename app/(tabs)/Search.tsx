@@ -11,7 +11,6 @@ import useColorScheme from "./../../hooks/useColorScheme";
 import { Pressable } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { listUserss } from "./../../Redux/Actions/UserActions";
-import { LIST_USERS_RESET } from "../../Redux/Constants/UserConstants";
 
 export default function TabTwoScreen() {
   const [searchWord, setSearchWord] = useState<string>("");
@@ -25,39 +24,13 @@ export default function TabTwoScreen() {
   const colorScheme = useColorScheme();
 
   const fetchUser = () => {
-    // const userInfo = await Auth.currentAuthenticatedUser({
-    //   bypassCache: true,
-    // });
-
-    // try {
     dispatch(listUserss(searchWord));
-    // if (searchWord.trim().length > 0) {
-    //   console.log("notEmpty");
-    //   // const usersData: GraphQLResult<any> = await API.graphql(
-    //   //   graphqlOperation(listUsers, { filter })
-    //   // );
-    //   // console.log(JSON.stringify(usersData, null, 2), "usersData");
-
-    //   // setUsers(usersData.data.listUsers.items);
-    //   console.log(searchWord.trim().length);
-    // } else {
-    //   console.log("Empty");
-    //   dispatch({ type: LIST_USERS_RESET });
-    // }
-    // console.log(JSON.stringify(lists, null, 2), "lists");
-    // } catch (e) {
-    //   console.log(e);
-    // }
   };
 
   useEffect(() => {
     if (userInfo?.id) {
       fetchUser();
     }
-    // if (searchWord.length !== 0) {
-    // } else if (!searchWord) {
-    //   dispatch({ type: LIST_USERS_RESET });
-    // }
   }, [searchWord, userInfo?.id]);
 
   return (

@@ -19,7 +19,7 @@ const Feed = () => {
 
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.userDetails);
-  console.log(JSON.stringify(userInfo?.id), "userInfoFEED");
+  // console.log(JSON.stringify(userInfo?.id), "userInfoFEED");
 
   // useEffect(() => {
   //   const fetchUser = async () => {

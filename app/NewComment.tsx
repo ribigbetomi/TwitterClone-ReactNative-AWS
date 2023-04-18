@@ -18,7 +18,7 @@ import { GraphQLResult } from "@aws-amplify/api-graphql";
 import { UserType } from "../types";
 import { getUser } from "../src/queries/getUserQuery";
 import { createNewComment } from "../Redux/Actions/TweetCommentActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const NewComment = () => {
   const navigation = useNavigation();
@@ -29,6 +29,7 @@ const NewComment = () => {
   // console.log(comment);
   const { tweetOrComment, tweetUser, likey }: any = route.params;
   console.log(JSON.stringify(tweetOrComment, null, 2), "tweetOrComment");
+  const { userInfo } = useSelector((state: any) => state.userDetails);
 
   const [user, setUser] = useState<UserType | null>();
   //   console.log(user);
@@ -63,19 +64,19 @@ const NewComment = () => {
 
   const postComment = async () => {
     // console.log(comment, "comment");
-    const authUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+    // const authUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
     // let commentToAdd;
 
     if (tweetOrComment.commentID) {
       let commentToAdd = {
-        userID: authUser.attributes.sub,
+        userID: userInfo.id,
         content: comment,
         commentID: tweetOrComment.id,
       };
       dispatch(createNewComment(commentToAdd));
     } else if (tweetOrComment.tweetID && !likey) {
       let commentToAdd = {
-        userID: authUser.attributes.sub,
+        userID: userInfo.id,
         content: comment,
         commentID: tweetOrComment.id,
       };
@@ -83,21 +84,21 @@ const NewComment = () => {
       // console.log(JSON.stringify(commentToAdd, null, 2), "COMMENTTOADD");
     } else if (tweetOrComment.comment) {
       let commentToAdd = {
-        userID: authUser.attributes.sub,
+        userID: userInfo.id,
         content: comment,
         commentID: tweetOrComment.comment.id,
       };
       dispatch(createNewComment(commentToAdd));
     } else if (tweetOrComment.tweetID && likey) {
       let commentToAdd = {
-        userID: authUser.attributes.sub,
+        userID: userInfo.id,
         content: comment,
         tweetID: tweetOrComment.tweet.id,
       };
       dispatch(createNewComment(commentToAdd));
     } else if (!tweetOrComment.tweetID && !tweetOrComment.commentID && !likey) {
       let commentToAdd = {
-        userID: authUser.attributes.sub,
+        userID: userInfo.id,
         tweetID: tweetOrComment.id,
         content: comment,
       };
@@ -121,24 +122,24 @@ const NewComment = () => {
     navigation.goBack();
   };
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const authUser = await Auth.currentAuthenticatedUser({
-        bypassCache: true,
-      });
-      if (authUser) {
-        try {
-          const userData: GraphQLResult<any> = await API.graphql(
-            graphqlOperation(getUser, { id: authUser.attributes.sub })
-          );
-          setUser(userData.data.getUser);
-        } catch (e) {
-          console.log(e);
-        }
-      }
-    };
-    fetchUser();
-  }, []);
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const authUser = await Auth.currentAuthenticatedUser({
+  //       bypassCache: true,
+  //     });
+  //     if (authUser) {
+  //       try {
+  //         const userData: GraphQLResult<any> = await API.graphql(
+  //           graphqlOperation(getUser, { id: authUser.attributes.sub })
+  //         );
+  //         setUser(userData.data.getUser);
+  //       } catch (e) {
+  //         console.log(e);
+  //       }
+  //     }
+  //   };
+  //   fetchUser();
+  // }, []);
 
   return (
     <SafeAreaView>
@@ -147,7 +148,7 @@ const NewComment = () => {
       </Text>
       <View style={styles.input}>
         <View style={{ marginRight: 10 }}>
-          <ProfilePicture image={user?.image} size={50} />
+          <ProfilePicture image={userInfo?.image} size={50} />
         </View>
         <TextInput
           style={{ color: Colors[colorScheme].text }}

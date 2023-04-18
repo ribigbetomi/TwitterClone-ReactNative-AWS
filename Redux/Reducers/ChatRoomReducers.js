@@ -116,7 +116,7 @@ export const listMessagesByChatRoomReducer = (
         // },
       };
 
-    case ON_CREATE_ATTACHMENT:
+    case CREATE_ATTACHMENT:
       const messageToUpdate = state.messagesByChatRoom.find(
         (item) => item.id === action.payload.messageID
       );
@@ -131,6 +131,7 @@ export const listMessagesByChatRoomReducer = (
       let okay = state.messagesByChatRoom.map((message) =>
         message.id === messageToUpdate.id ? messageToUpdate : message
       );
+      console.log(JSON.stringify(okay, null, 2), "okay");
       return {
         messagesByChatRoom: okay,
       };
@@ -262,9 +263,14 @@ export const listUserChatRoomsReducer = (state = { chatRooms: [] }, action) => {
       let newnew = state.chatRooms.map((item) =>
         item.chatRoom.id === find.chatRoom.id ? updated : item
       );
-      console.log(JSON.stringify(newnew, null, 2), "newnew");
+      let newww = newnew.sort(
+        (a, b) =>
+          new Date(b.chatRoom.lastMessage.createdAt) -
+          new Date(a.chatRoom.lastMessage.createdAt)
+      );
+      console.log(JSON.stringify(newww, null, 2), "newww");
 
-      return { chatRooms: [...newnew] };
+      return { chatRooms: [...newww] };
 
     default:
       return state;

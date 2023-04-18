@@ -23,6 +23,7 @@ import ProfilePicture from "../components/ProfilePicture";
 import { createFleet } from "../src/graphql/mutations";
 import { UserType } from "../types";
 import { getUser } from "../src/queries/getUserQuery";
+import { useSelector } from "react-redux";
 
 interface MyObject {
   [key: string]: any;
@@ -33,6 +34,7 @@ export default function NewFleetScreen() {
   const [text, setText] = useState("");
   const [imageUrl, setImageUrl] = useState<string>("");
   const [user, setUser] = useState<any>(null);
+  const { userInfo } = useSelector((state: any) => state.userDetails);
   const [progresses, setProgresses] = useState<MyObject>({});
 
   const navigation = useNavigation();
@@ -42,29 +44,29 @@ export default function NewFleetScreen() {
     navigation.setOptions({ headerShown: false });
   }, []);
 
-  useEffect(() => {
-    // get the current user
-    const fetchUser = async () => {
-      const userInfo = await Auth.currentAuthenticatedUser({
-        bypassCache: true,
-      });
-      if (!userInfo) {
-        return;
-      }
+  // useEffect(() => {
+  //   // get the current user
+  //   const fetchUser = async () => {
+  //     const userInfo = await Auth.currentAuthenticatedUser({
+  //       bypassCache: true,
+  //     });
+  //     if (!userInfo) {
+  //       return;
+  //     }
 
-      try {
-        const userData: GraphQLResult<any> = await API.graphql(
-          graphqlOperation(getUser, { id: userInfo.attributes.sub })
-        );
-        if (userData) {
-          setUser(userData.data.getUser);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchUser();
-  }, []);
+  //     try {
+  //       const userData: GraphQLResult<any> = await API.graphql(
+  //         graphqlOperation(getUser, { id: userInfo.attributes.sub })
+  //       );
+  //       if (userData) {
+  //         setUser(userData.data.getUser);
+  //       }
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   };
+  //   fetchUser();
+  // }, []);
 
   // const getPermissionAsync = async () => {
   //   if (Platform.OS !== "web") {
@@ -138,16 +140,16 @@ export default function NewFleetScreen() {
     // console.log(image, "image");
 
     try {
-      const currentUser = await Auth.currentAuthenticatedUser({
-        bypassCache: true,
-      });
+      // const currentUser = await Auth.currentAuthenticatedUser({
+      //   bypassCache: true,
+      // });
       // console.log(currentUser, "currentUser");
 
       const newFleet = {
         text,
         type: image ? "IMAGE" : "TEXT",
         image,
-        userID: currentUser.attributes.sub,
+        userID: userInfo?.id,
       };
       // console.log(JSON.stringify(newTweet, null, 2), "newTweet");
       await API.graphql(graphqlOperation(createFleet, { input: newFleet }));
@@ -179,7 +181,7 @@ export default function NewFleetScreen() {
           </TouchableOpacity>
         </View>
         <View style={styles.newTweetContainer}>
-          <ProfilePicture image={user?.image} />
+          <ProfilePicture image={userInfo?.image} />
           <View style={styles.inputsContainer}>
             <TextInput
               value={text}
