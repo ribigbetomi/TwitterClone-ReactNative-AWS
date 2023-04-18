@@ -1,28 +1,17 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { Link, Tabs, useNavigation } from "expo-router";
-import { Pressable } from "react-native";
+import { useNavigation } from "expo-router";
+import { TouchableOpacity } from "react-native";
 import useColorScheme from "../../hooks/useColorScheme";
 import Colors from "../../constants/Colors";
 import ProfilePicture from "../../components/ProfilePicture";
-import { API, Auth, graphqlOperation } from "aws-amplify";
-import { useEffect, useState } from "react";
-
 import { View } from "../../components/Themed";
-import { GraphQLResult } from "@aws-amplify/api-graphql";
-import { TextInput } from "react-native";
-import { getUser } from "../../src/queries/getUserQuery";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import TabOneScreen from "./index";
 import TabTwoScreen from "./Search";
 import TabThreeScreen from "./Notifications";
 import TabFourScreen from "./Messages";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserr } from "../../Redux/Actions/UserActions";
-import { listUserChatRoomss } from "../../Redux/Actions/ChatRoomActions";
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
+
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof Ionicons>["name"];
   color: string;
@@ -106,14 +95,14 @@ export default function TabLayout() {
           //   marginRight: 15,
           // },
           headerLeft: () => (
-            <Pressable
+            <TouchableOpacity
               onPress={() =>
                 navigation.navigate("UserProfile", { user: userInfo })
               }
               style={{ marginLeft: 15 }}
             >
               <ProfilePicture image={userInfo?.image} />
-            </Pressable>
+            </TouchableOpacity>
           ),
           // headerLeftContainerStyle: {
           //   marginLeft: 15,
