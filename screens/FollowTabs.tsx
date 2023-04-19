@@ -43,7 +43,6 @@ const FollowTabs = () => {
     { key: "first", title: "Following" },
     { key: "second", title: "Followers" },
   ]);
-  //   console.log(user, "userrr");
 
   const renderScene = SceneMap({
     first: () => <FollowingsList userFollowings={userFollowings} />,

@@ -7,16 +7,11 @@ import {
   SafeAreaView,
 } from "react-native";
 import React, { useState, useEffect, useLayoutEffect } from "react";
-import { API, Auth, graphqlOperation } from "aws-amplify";
-import { createComment } from "../src/graphql/mutations";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import ProfilePicture from "../components/ProfilePicture";
-
-import { GraphQLResult } from "@aws-amplify/api-graphql";
 import { UserType } from "../types";
-import { getUser } from "../src/queries/getUserQuery";
 import { createNewComment } from "../Redux/Actions/TweetCommentActions";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -26,14 +21,13 @@ const NewComment = () => {
   const dispatch = useDispatch<any>();
   const colorScheme = useColorScheme();
   const [comment, setComment] = useState<any>();
-  // console.log(comment);
+
   const { tweetOrComment, tweetUser, likey }: any = route.params;
-  console.log(JSON.stringify(tweetOrComment, null, 2), "tweetOrComment");
+  // console.log(JSON.stringify(tweetOrComment, null, 2), "tweetOrComment");
+
   const { userInfo } = useSelector((state: any) => state.userDetails);
 
   const [user, setUser] = useState<UserType | null>();
-  //   console.log(user);
-  //   console.log(tweetUser);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -63,11 +57,8 @@ const NewComment = () => {
   }, [comment]);
 
   const postComment = async () => {
-    // console.log(comment, "comment");
-    // const authUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-    // let commentToAdd;
-
     if (tweetOrComment.commentID) {
+      // if comment is added on a comment with commentID, not the first-level comment with a tweetID cos it's comment for a tweet
       let commentToAdd = {
         userID: userInfo.id,
         content: comment,
@@ -75,14 +66,15 @@ const NewComment = () => {
       };
       dispatch(createNewComment(commentToAdd));
     } else if (tweetOrComment.tweetID && !likey) {
+      // to add comment to fitst level comment attached to a tweet, but not from likesTab
       let commentToAdd = {
         userID: userInfo.id,
         content: comment,
         commentID: tweetOrComment.id,
       };
       dispatch(createNewComment(commentToAdd));
-      // console.log(JSON.stringify(commentToAdd, null, 2), "COMMENTTOADD");
     } else if (tweetOrComment.comment) {
+      //to add comment to comment from likesTab that's in the likes object
       let commentToAdd = {
         userID: userInfo.id,
         content: comment,
@@ -90,6 +82,7 @@ const NewComment = () => {
       };
       dispatch(createNewComment(commentToAdd));
     } else if (tweetOrComment.tweetID && likey) {
+      // to add comment to tweet from likesTab
       let commentToAdd = {
         userID: userInfo.id,
         content: comment,
@@ -97,49 +90,16 @@ const NewComment = () => {
       };
       dispatch(createNewComment(commentToAdd));
     } else if (!tweetOrComment.tweetID && !tweetOrComment.commentID && !likey) {
+      //to add comment to tweet that's not from likesTab
       let commentToAdd = {
         userID: userInfo.id,
         tweetID: tweetOrComment.id,
         content: comment,
       };
       dispatch(createNewComment(commentToAdd));
-      // console.log(JSON.stringify(commentToAdd, null, 2), "commentToAdd");
     }
-
-    // if (tweetOrComment.tweetID) {
-    //   dispatch(createNewCommentFeed(commentToAdd))
-    // } else if (tweetOrComment.commentID) {
-    //   dispatch(createNewCommentFeed(commentToAdd))
-    // } else {
-    //   dispatch(createNewCommentPost(commentToAdd))
-    // }
-
-    // const newnew = await API.graphql(
-    //   graphqlOperation(createComment, { input: commentToAdd })
-    // );
-    // dispatch(onCreateCommentFeed(tweetOrComment.id));
-    // console.log(JSON.stringify(newnew, null, 2), "newnew");
     navigation.goBack();
   };
-
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     const authUser = await Auth.currentAuthenticatedUser({
-  //       bypassCache: true,
-  //     });
-  //     if (authUser) {
-  //       try {
-  //         const userData: GraphQLResult<any> = await API.graphql(
-  //           graphqlOperation(getUser, { id: authUser.attributes.sub })
-  //         );
-  //         setUser(userData.data.getUser);
-  //       } catch (e) {
-  //         console.log(e);
-  //       }
-  //     }
-  //   };
-  //   fetchUser();
-  // }, []);
 
   return (
     <SafeAreaView>

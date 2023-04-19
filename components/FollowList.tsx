@@ -11,34 +11,11 @@ import { getUser } from "../src/queries/getUserQuery";
 import { useSelector } from "react-redux";
 
 const FollowList = ({ user }: any) => {
-  // console.log(JSON.stringify(user, null, 2), "userr");
-  // const [authUser, setAuthUser] = useState<any>({});
-  // console.log(JSON.stringify(authUser, null, 2), "authUserrr");
   const [following, setFollowing] = useState<any>(false);
-  // console.log(following ? "you" : "me");
+
   const { userInfo } = useSelector((state: any) => state.userDetails);
 
   const colorScheme = useColorScheme();
-
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     const userInfo = await Auth.currentAuthenticatedUser({
-  //       bypassCache: true,
-  //     });
-
-  //     try {
-  //       if (userInfo) {
-  //         // const userData: GraphQLResult<any> = await API.graphql(
-  //         //   graphqlOperation(getUser, { id: userInfo.attributes.sub })
-  //         // );
-  //         // setAuthUser(userData.data.getUser);
-  //       }
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
-  //   fetchUser();
-  // }, []);
 
   useEffect(() => {
     const find = userInfo.following?.items?.find(

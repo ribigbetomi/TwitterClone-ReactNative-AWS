@@ -34,34 +34,6 @@ import {
   ON_DELETE_FOLLOWING,
 } from "../Constants/FollowsConstants";
 
-// export const listFollowingsForTimeline = (userID) => async (dispatch) => {
-//   try {
-//     dispatch({
-//       type: LIST_FOLLOWINGS_FOR_TIMELINE_REQUEST,
-//     });
-
-//     const followingsPosts = await API.graphql(
-//       graphqlOperation(listFollowings, {
-//         filter: { authUserID: { eq: userID } },
-//       })
-//     );
-//     console.log(JSON.stringify(followingsPosts, null, 2), "followingsPosts");
-
-//     dispatch({
-//       type: LIST_FOLLOWINGS_FOR_TIMELINE_SUCCESS,
-//       payload: followingsPosts,
-//     });
-//   } catch (error) {
-//     dispatch({
-//       type: LIST_FOLLOWINGS_FOR_TIMELINE_FAIL,
-//       payload:
-//         error.response && error.response.data.message
-//           ? error.response.data.message
-//           : error.message,
-//     });
-//   }
-// };
-
 export const getFollowingsByAuthUserID = (userID) => async (dispatch) => {
   const res = await API.graphql(
     graphqlOperation(followingsByAuthUserID, { authUserID: userID })
@@ -105,14 +77,12 @@ export const checkFollower = (user) => async (dispatch, getState) => {
   const {
     userDetails: { userInfo },
   } = getState();
-  console.log(JSON.stringify(userInfo.id, null, 2), "userID");
-  console.log(JSON.stringify(user.followers, null, 2), "useee");
+
   const matching = user.followers?.items?.find(
     (item) => item.userID === userInfo.id
   );
-  console.log(matching, "matching");
+
   const check = matching ? matching.id : false;
-  console.log(check, "check");
 
   dispatch({ type: CHECK_FOLLOWER, payload: check });
 };
@@ -134,16 +104,8 @@ export const onCreateNewFollowing = (authUserID) => async (dispatch) => {
     },
     error: (err) => console.warn(err),
   });
-  // console.log(data, "dataFollowing");
-
-  // dispatch({
-  //   type: CHECK_FOLLOWING,
-  //   payload: data,
-  // });
 
   return () => subscription.unsubscribe();
-
-  //   // localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
 };
 
 export const onCreateNewFollower = (userID) => async (dispatch) => {
@@ -163,12 +125,6 @@ export const onCreateNewFollower = (userID) => async (dispatch) => {
     },
     error: (err) => console.warn(err),
   });
-  // console.log(data, "dataFollower");
-
-  // dispatch({
-  //   type: CHECK_FOLLOWER,
-  //   payload: data,
-  // });
 
   return () => subscription.unsubscribe();
 };
@@ -182,31 +138,25 @@ export const createNewFollowing = (data) => async (dispatch) => {
 };
 
 export const createNewFollower = (dataa) => async (dispatch) => {
-  console.log(JSON.stringify(dataa, null, 2), "dataa");
   const follower = await API.graphql(
     graphqlOperation(createFollower, { input: dataa })
   );
-  console.log(JSON.stringify(follower, null, 2), "follower");
 
   dispatch({ type: CREATE_FOLLOWER, payload: follower.data.createFollower });
 };
 
 export const deleteFollowingg = (followingUser) => async (dispatch) => {
-  console.log(followingUser);
   const unfollow = await API.graphql(
     graphqlOperation(deleteFollowing, { input: { id: followingUser } })
   );
 
-  console.log(JSON.stringify(unfollow, null, 2), "unfollowing");
   dispatch({ type: DELETE_FOLLOWING, payload: unfollow.data.deleteFollowing });
 };
 
 export const deleteFollowerr = (followerUser) => async (dispatch) => {
-  console.log(followerUser);
   const unfollow = await API.graphql(
     graphqlOperation(deleteFollower, { input: { id: followerUser } })
   );
-  console.log(JSON.stringify(unfollow, null, 2), "unfollower");
 
   dispatch({ type: DELETE_FOLLOWER, payload: unfollow.data.deleteFollower });
 };
@@ -220,9 +170,8 @@ export const onDeleteFollowingg = (authUserID) => async (dispatch) => {
     })
   ).subscribe({
     next: ({ value }) => {
-      // data = false;
       data = value.data.onDeleteFollowing;
-      // console.log(JSON.stringify(value, null, 2), "onDeleteFollowingValue");
+
       dispatch({
         type: ON_DELETE_FOLLOWING,
         payload: value.data.onDeleteFollowing,
@@ -230,7 +179,6 @@ export const onDeleteFollowingg = (authUserID) => async (dispatch) => {
     },
     error: (err) => console.warn(err),
   });
-  // console.log(JSON.stringify(data, null, 2), 'dataOndeletefollowing')
 
   return () => subscription.unsubscribe();
 };
@@ -244,9 +192,8 @@ export const onDeleteFollowerr = (userID) => async (dispatch) => {
     })
   ).subscribe({
     next: ({ value }) => {
-      // data = false;
       data = value.data.onDeleteFollower;
-      // console.log(JSON.stringify(value, null, 2), "onDeleteFollowerValue");
+
       dispatch({
         type: ON_DELETE_FOLLOWER,
         payload: value.data.onDeleteFollower,
@@ -254,7 +201,6 @@ export const onDeleteFollowerr = (userID) => async (dispatch) => {
     },
     error: (err) => console.warn(err),
   });
-  // console.log(JSON.stringify(data, null, 2), 'dataOndeletefollower')
 
   return () => subscription.unsubscribe();
 };

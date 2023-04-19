@@ -73,9 +73,6 @@ const Tabs = (userID: any) => {
   //   };
   // }, [opacity]);
 
-  //   console.log(user, "userrr");
-  // console.log(userID, "userID");
-
   const renderScene = SceneMap({
     first: () => <TweetTab style={{ flax: 1 }} userID={userID} onCl />,
     second: () => <RepliesTab style={{ flax: 1 }} user={userID} />,

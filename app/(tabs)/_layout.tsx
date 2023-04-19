@@ -26,36 +26,8 @@ export default function TabLayout() {
   const navigation: any = useNavigation();
 
   const { userInfo } = useSelector((state: any) => state.userDetails);
-  // console.log(JSON.stringify(userInfo?.id, null, 2), "userInfoLayoutTabs");
 
   const colorScheme = useColorScheme();
-
-  // const [user, setUser] = useState<any>(null);
-
-  // useEffect(() => {
-  //   // get the current user
-
-  //   const fetchUser = async () => {
-  //     const userInfo = await Auth.currentAuthenticatedUser({
-  //       bypassCache: true,
-  //     });
-  //     if (!userInfo) {
-  //       return;
-  //     }
-
-  //     try {
-  //       const userData: GraphQLResult<any> = await API.graphql(
-  //         graphqlOperation(getUser, { id: userInfo.attributes.sub })
-  //       );
-  //       if (userData) {
-  //         setUser(userData.data.getUser);
-  //       }
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
-  //   fetchUser();
-  // }, []);
 
   return (
     <Tab.Navigator

@@ -24,26 +24,19 @@ const Footer = ({ tweet, likey }: any) => {
   // console.log(JSON.stringify(tweet.likes.items, null, 2), "tweetLikes");
 
   const [user, setUser] = useState<any>(null);
-  // console.log(user, "user");
 
   const [myLike, setMyLike] = useState<any>(null);
-  // console.log(myLike, "myLikee");
+
   const [likesCount, setLikesCount] = useState<any>();
   const [retweetsCount, setRetweetsCount] = useState<any>();
   const [myRetweet, setMyRetweet] = useState<any>(null);
-  // console.log(JSON.stringify(myRetweet, null, 2), "myRetweet");
 
-  // console.log(likesCount, "likescount");
   const [tweetComments, setTweetComments] = useState<number>(0);
-  // const [tweetComments, setTweetComments] = useState(
-  //   tweet.comments?.items?.length
-  // );
-  // console.log(likesCount, "likesCount");
 
   useEffect(() => {
     const fetchUser = async () => {
       const currentUser = await Auth.currentAuthenticatedUser();
-      // console.log(JSON.stringify(currentUser, null, 2), "currentUser");
+
       setUser(currentUser.attributes.sub);
     };
     fetchUser();
@@ -64,7 +57,7 @@ const Footer = ({ tweet, likey }: any) => {
         ? tweet.comment.retweets.items.length
         : tweet.tweet.retweets.items.length || 0
     );
-    // console.log(JSON.stringify(currentUser, null, 2), "currentUser");
+
     if (user) {
       let searchedLike;
       if (tweet.likes) {
@@ -72,7 +65,7 @@ const Footer = ({ tweet, likey }: any) => {
         searchedLike = tweet.likes.items.find(
           (like: any) => like.userID === user
         );
-        // console.log(JSON.stringify(searchedLike, null, 2), "searchedLike");
+
         setMyLike(searchedLike);
       } else {
         if (tweet.comment && likey) {
@@ -89,11 +82,6 @@ const Footer = ({ tweet, likey }: any) => {
           );
           setMyLike(searchedLike);
         }
-        // else if (tweet.comments.items) {
-        //   searchedLike = tweet.comment?.likes?.items.find(
-        //     (like: any) => like.userID === currentUser.attributes.sub
-        //   );
-        // }
       }
 
       let searchedRetweet;
@@ -102,7 +90,7 @@ const Footer = ({ tweet, likey }: any) => {
         searchedRetweet = tweet.retweets.items.find(
           (retweet: any) => retweet.userID === user
         );
-        // console.log(JSON.stringify(searchedLike, null, 2), "searchedLike");
+
         setMyRetweet(searchedRetweet);
       } else {
         if (tweet.comment && likey) {
@@ -119,27 +107,17 @@ const Footer = ({ tweet, likey }: any) => {
           );
           setMyRetweet(searchedRetweet);
         }
-        // else if (tweet.comments.items) {
-        //   searchedLike = tweet.comment?.likes?.items.find(
-        //     (like: any) => like.userID === currentUser.attributes.sub
-        //   );
-        // }
       }
     }
   }, [tweet, user]);
 
-  // console.log(JSON.stringify(myLike, null, 2), "myLike");
-  // console.log(JSON.stringify(user.attributes.sub, null, 2), "user.");
-
   useEffect(() => {
     if (tweet.comments) {
-      // console.log("yooo");
       const filtered = tweet.comments?.items?.filter(
         (item: any) =>
           item.content !== "" && !item.image && item.id !== tweet.id
       );
       setTweetComments(filtered.length);
-      // console.log(filtered.length, "filteredLength");
     } else if (tweet.comment) {
       // for likesTab with comment
       setTweetComments(tweet.comment.comments.items.length);
@@ -148,10 +126,6 @@ const Footer = ({ tweet, likey }: any) => {
       setTweetComments(tweet.tweet.comments.items.length);
     }
   }, [JSON.stringify(tweet)]);
-
-  // console.log(JSON.stringify(tweetComments, null, 2), "tweetComments");
-
-  // console.log(JSON.stringify(myLike, null, 2), "mylike");
 
   const submitLike = async () => {
     let like;
@@ -171,16 +145,12 @@ const Footer = ({ tweet, likey }: any) => {
         tweetID: tweet.id,
       };
     }
-    // console.log(JSON.stringify(like, null, 2), "like");
-    // const like = {
-    //   userID: user.attributes.sub,
-    //   tweetID: tweet.id,
-    // };
+
     try {
       const res: GraphQLResult<any> = await API.graphql(
         graphqlOperation(createLike, { input: like })
       );
-      // console.log(JSON.stringify(res, null, 2), "res");
+
       setMyLike(res.data.createLike);
       setLikesCount(likesCount + 1);
     } catch (e) {
@@ -212,13 +182,6 @@ const Footer = ({ tweet, likey }: any) => {
     }
   };
 
-  // const linkProps = useLinkProps({
-  //   to: {
-  //     screen: "NewComment",
-  //     params: { tweetOrComment: tweet, tweetUser: tweet.user.username },
-  //   },
-  // });
-
   const onPress = () => {
     navigation.navigate("NewComment", {
       tweetOrComment: tweet,
@@ -246,16 +209,11 @@ const Footer = ({ tweet, likey }: any) => {
       };
     }
 
-    // console.log(JSON.stringify(like, null, 2), "like");
-    // const like = {
-    //   userID: user.attributes.sub,
-    //   tweetID: tweet.id,
-    // };
     try {
       const res: GraphQLResult<any> = await API.graphql(
         graphqlOperation(createRetweet, { input: retweet })
       );
-      // console.log(JSON.stringify(res, null, 2), "res");
+
       setMyRetweet(res.data.createRetweet);
       setRetweetsCount(retweetsCount + 1);
     } catch (e) {
@@ -268,7 +226,7 @@ const Footer = ({ tweet, likey }: any) => {
       const res = await API.graphql(
         graphqlOperation(deleteRetweet, { input: { id: myRetweet.id } })
       );
-      // console.log(JSON.stringify(res, null, 2), "ress");
+
       setRetweetsCount(retweetsCount - 1);
       setMyRetweet(null);
     } catch (e) {
@@ -295,7 +253,6 @@ const Footer = ({ tweet, likey }: any) => {
           <Feather name={"message-circle"} size={20} color={"grey"} />
         </TouchableOpacity>
         <Text style={styles.number}>{tweetComments ? tweetComments : ""}</Text>
-        {/* <Text style={styles.number}>{tweet.numberOfComments}</Text> */}
       </View>
       <View style={styles.iconContainer}>
         <TouchableOpacity onPress={onRetweet}>

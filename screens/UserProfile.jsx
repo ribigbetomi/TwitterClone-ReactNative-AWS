@@ -73,16 +73,12 @@ const UserProfile = () => {
   const { followerUser } = useSelector((state) => state.checkFollower);
   const { followingUser } = useSelector((state) => state.checkFollowing);
 
-  const { loading, loadingCommon, chatRoom } = useSelector(
-    (state) => state.createChatRoom
-  );
   const [pressed, setPressed] = useState(false);
   //pressed state so user doesn't create a second following as creation of first following is being processed and before follow button is updated to following
 
   const [unpressed, setUnpressed] = useState(false);
   //unpressed state so user doesn't unfollow a second time as first unfollowing is being processed so it doesnt create an error of invalid id of following and follower
 
-  // console.log(pressed, "pressed");
   const [imageViewerVisible, setImageViewerVisible] = useState(false);
 
   const colorScheme = useColorScheme();
@@ -139,64 +135,22 @@ const UserProfile = () => {
     setUnpressed(true);
     if (userInfo) {
       if (followingUser && followerUser) {
-        // try {
         await Promise.all(
           dispatch(deleteFollowingg(followingUser)),
           dispatch(deleteFollowerr(followerUser))
         );
-
-        // dispatch(onDeleteFollowingg(userInfo.id));
-        // dispatch(onDeleteFollowerr(user.id));
-        // const unfollow = await API.graphql(
-        //   graphqlOperation(deleteFollowing, { input: { id: followingUser } })
-        // );
-
-        // const unfollower = await API.graphql(
-        //   graphqlOperation(deleteFollower, { input: { id: followerUser } })
-        // );
-        // console.log(JSON.stringify(unfollower, null, 2), "unfollower");
-        // } catch (e) {
-        //   console.log(e);
-        // }
       }
     }
     setUnpressed(false);
   };
 
   const createAChatRoomWithTheUser = async (user) => {
-    // dispatch(getCommonChatRoomWithTheUser(user.id));
-    // if (!loadingCommon) {
-    //   if (chatRoom.id) {
-    //     console.log("getCommon");
-    //     navigation.navigate("Chat", {
-    //       id: chatRoom.id,
-    //       name: user.name,
-    //       image: user.image,
-    //     });
-    //     return;
-    //   }
-    // }
-    // // else {
-    // dispatch(createTwoUsersChatRoom(user.id));
-
-    // if (!loading) {
-    //   console.log(loading, "createNewww");
-    //   if (chatRoom.id) {
-    //     console.log(chatRoom, "newchatroom");
-    //     navigation.navigate("Chat", {
-    //       id: chatRoom.id,
-    //       name: user.name,
-    //       image: user.image,
-    //     });
-    //     return;
-    //   }
-    // }
-    // // }
-
     // Check if we already have a ChatRoom with user
-    const existingChatRoom = await getCommonChatRoomWithUser(user.id);
+    const existingChatRoom = await getCommonChatRoomWithUser({
+      userID: user.id,
+      authUserID: userInfo.id,
+    });
 
-    console.log(JSON.stringify(existingChatRoom, null, 2), "existingChatRoom");
     if (existingChatRoom) {
       navigation.navigate("Chat", {
         id: existingChatRoom.chatRoom.id,
@@ -206,17 +160,15 @@ const UserProfile = () => {
       return;
     } else {
       // Create a new Chatroom
+
       const newChatRoomData = await API.graphql(
         graphqlOperation(createChatRoom, { input: {} })
       );
-      // console.log(JSON.stringify(newChatRoomData, null, 2), "newChatRoom");
+
       if (!newChatRoomData.data?.createChatRoom) {
         console.log("Error creating the chat error");
       }
       const newChatRoom = newChatRoomData.data?.createChatRoom;
-      // console.log(newChatRoom.id, "newid");
-
-      // console.log(user.id, "userID");
 
       //   // Add the clicked user to the ChatRoom
       const okay = await API.graphql(
@@ -224,7 +176,6 @@ const UserProfile = () => {
           input: { chatRoomId: newChatRoom.id, userId: user.id },
         })
       );
-      // console.log(JSON.stringify(okay, null, 2), "okay");
 
       //   // Add the auth user to the ChatRoom
 
@@ -237,10 +188,13 @@ const UserProfile = () => {
         })
       );
       dispatch(listUserChatRoomss(userInfo.id));
-      // console.log(JSON.stringify(res, null, 2), "res");
 
       //   // navigate to the newly created ChatRoom
-      navigation.navigate("Chat", { id: newChatRoom.id, name: user.name });
+      navigation.navigate("Chat", {
+        id: newChatRoom.id,
+        name: user.name,
+        image: user?.image,
+      });
     }
   };
 

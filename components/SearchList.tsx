@@ -20,32 +20,9 @@ const SearchList = ({ user }: any) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [isFollower, setIsFollower] = useState(false);
   const [bothFollow, setBothFollow] = useState(false);
-  // console.log(JSON.stringify(isFollowing, null, 2), "isFollowing");
-  // console.log(JSON.stringify(isFollower, null, 2), "isFollower");
-  // console.log(JSON.stringify(bothFollow, null, 2), "bothFollow");
 
   const colorScheme = useColorScheme();
   const navigation: any = useNavigation();
-
-  // useEffect(() => {
-  //   // const fetchUser = async () => {
-  //   //   const userInfo = await Auth.currentAuthenticatedUser({
-  //   //     bypassCache: true,
-  //   //   });
-
-  //   // if (userInfo) {
-  //   //   const userData: GraphQLResult<any> = await API.graphql(
-  //   //     graphqlOperation(getUser, { id: userInfo.attributes.sub })
-  //   //   );
-  //   //   setAuthUser(userData.data.getUser);
-  //   // }
-  //   //   try {
-  //   //   } catch (e) {
-  //   //     console.log(e);
-  //   //   }
-  //   // };
-  //   fetchUser();
-  // }, []);
 
   useEffect(() => {
     if (userInfo) {
@@ -71,14 +48,6 @@ const SearchList = ({ user }: any) => {
     }
   }, [authUser]);
 
-  // const linkProps = useLinkProps({
-  //   to: {
-  //     screen: "UserProfile",
-  //     params: {
-  //       user: user,
-  //     },
-  //   },
-  // });
   const onPress = () => {
     navigation.navigate("UserProfile", { user: user });
   };

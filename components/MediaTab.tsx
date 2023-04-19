@@ -23,16 +23,8 @@ const MediaTab = ({ user: { userID } }: any) => {
   const { loading, media } = useSelector((state: any) => state.mediaByUserID);
   // console.log(JSON.stringify(media, null, 2), "media");
 
-  // useEffect(() => {
-  //   if (!loading && media) {
-  //     setMediaTweets(media);
-  //   }
-  // }, [loading]);
-
   useEffect(() => {
     dispatch(mediaByUserID(userID));
-    // dispatch({ type: MEDIA_BY_USERID_RESET });
-    // setMediaTweets(media);
   }, [userID]);
   return (
     <View>
@@ -42,7 +34,6 @@ const MediaTab = ({ user: { userID } }: any) => {
           data={media}
           keyExtractor={(item: any) => item.id}
           renderItem={({ item }) => <Tweet tweet={item} />}
-          // refreshing={loading}
         />
       )}
     </View>

@@ -30,10 +30,8 @@ import {
 } from "../Redux/Actions/ChatRoomActions";
 
 const Chat = () => {
-  // const [chatRoom, setChatRoom] = useState(null);
   const { chatRoom } = useSelector((state) => state.getChatRoom);
-  // console.log(JSON.stringify(chatRoom, null, 2), "chatRoomm");
-  // const [messages, setMessages] = useState([]);
+
   const { messagesByChatRoom } = useSelector(
     (state) => state.listMessagesByChatRoom
   );
@@ -91,82 +89,10 @@ const Chat = () => {
 
   useEffect(() => {
     dispatch(getChatRoomm(chatRoomID));
-    // API.graphql(graphqlOperation(getChatRoom, { id: chatRoomID })).then(
-    //   (result) => setChatRoom(result.data?.getChatRoom)
-    //   // setMessages(result.data?.getChatRoom?.Messages?.items);
-    // );
-
-    // const subscription = API.graphql(
-    //   graphqlOperation(onUpdateChatRoom, { filter: { id: { eq: chatRoomID } } })
-    // ).subscribe({
-    //   next: ({ value }) => {
-    //     // console.log(value, "updatedd");
-    //     setChatRoom((cr) => ({
-    //       ...(cr || {}),
-    //       ...value.data.onUpdateChatRoom,
-    //     }));
-    //   },
-    //   error: (err) => console.warn(err),
-    // });
-    // return () => subscription.unsubscribe();
   }, [chatRoomID]);
 
   useEffect(() => {
     dispatch(listMessagesByChatRoomm(chatRoomID));
-    // API.graphql(
-    //   graphqlOperation(listMessagesByChatRoom, {
-    //     chatroomID: chatRoomID,
-    //     sortDirection: "DESC",
-    //   })
-    // ).then((result) => {
-    //   setMessages(result.data?.listMessagesByChatRoom?.items);
-    // });
-
-    //     // Subscribe to new messages
-    // const subscription = API.graphql(
-    //   graphqlOperation(onCreateMessage, {
-    //     filter: { chatroomID: { eq: chatRoomID } },
-    //   })
-    // ).subscribe({
-    //   next: ({ value }) => {
-    //     // console.log(value, "New Message");
-    //     setMessages((m) => [value.data.onCreateMessage, ...m]);
-    //   },
-    //   error: (err) => console.warn(err),
-    // });
-
-    // Subscribe to new attachments
-    // const subscriptionAttachments = API.graphql(
-    //   graphqlOperation(onCreateAttachment, {
-    //     filter: { chatroomID: { eq: chatRoomID } },
-    //   })
-    // ).subscribe({
-    //   next: ({ value }) => {
-    //     const newAttachment = value.data.onCreateAttachment;
-    //     setMessages((existingMessages) => {
-    //       const messageToUpdate = existingMessages.find(
-    //         (em) => em.id === newAttachment.messageID
-    //       );
-    //       if (!messageToUpdate) {
-    //         return existingMessages;
-    //       }
-    //       if (!messageToUpdate?.attachments?.items) {
-    //         messageToUpdate.attachments.items = [];
-    //       }
-    //       messageToUpdate.attachments.items.push(newAttachment);
-
-    //       return existingMessages.map((m) =>
-    //         m.id === messageToUpdate.id ? messageToUpdate : m
-    //       );
-    //     });
-    //   },
-    //   error: (err) => console.warn(err),
-    // });
-
-    // return () => {
-    //   subscription.unsubscribe();
-    //   subscriptionAttachments.unsubscribe();
-    // };
   }, [chatRoomID]);
 
   if (!chatRoom) {

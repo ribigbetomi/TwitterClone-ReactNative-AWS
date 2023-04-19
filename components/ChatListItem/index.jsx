@@ -14,10 +14,9 @@ import { useSelector } from "react-redux";
 dayjs.extend(relativeTime);
 
 const ChatListItem = ({ chat }) => {
-  // console.log(JSON.stringify(chat, null, 2), "oldchatRoom");
   const [user, setUser] = useState({});
   const { userInfo } = useSelector((state) => state.userDetails);
-  // console.log(user, "user");
+
   const [chatRoom, setChatRoom] = useState();
 
   const navigation = useNavigation();
@@ -26,28 +25,15 @@ const ChatListItem = ({ chat }) => {
   useEffect(() => {
     setChatRoom(chat ? chat : null);
   }, [JSON.stringify(chat)]);
-  // console.log(JSON.stringify(chatRoom, null, 2), "chatRoom");
 
   useEffect(() => {
     if (chatRoom) {
       async function getUser() {
-        // const authUser = await Auth.currentAuthenticatedUser({
-        //   bypassCache: true,
-        // });
-        // setAuthUserId(authUser.attributes.sub);
-        // console.log(authUser, "authUser");
-
         const userItem = chatRoom.users.items.find((item) => {
-          // if (item.userId) {
-          // return item.userId !== userInfo.id;
-          // } else {
           return item.user?.id !== userInfo.id;
-          //   }
         });
 
         setUser(userItem?.user);
-        // setUser(userItem);
-        // setUserr(authUser);
       }
       getUser();
     }

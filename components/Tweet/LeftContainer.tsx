@@ -12,15 +12,6 @@ export type LeftContainerProps = {
 
 const LeftContainer = ({ user }: LeftContainerProps) => {
   const navigation: any = useNavigation();
-  // console.log(JSON.stringify(user, null, 2), "userrr");
-  // const linkProps = useLinkProps({
-  //   to: {
-  //     screen: "UserProfile",
-  //     params: {
-  //       user: user,
-  //     },
-  //   },
-  // });
 
   const onPress = () => {
     navigation.navigate("UserProfile", { user: user });

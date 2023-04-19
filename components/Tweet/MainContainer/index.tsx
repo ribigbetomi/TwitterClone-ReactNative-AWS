@@ -16,35 +16,19 @@ import useColorScheme from "../../../hooks/useColorScheme";
 
 const MainContainer = ({ tweet, likey }: any) => {
   const [downloadedAttachments, setDownloadedAttachments] = useState<any>("");
-  // console.log(downloadedAttachments, "attache");
+
   const [imageViewerVisible, setImageViewerVisible] = useState(false);
 
   const colorScheme = useColorScheme();
-  // console.log(JSON.stringify(tweet, null, 2), "tweet");
 
   useEffect(() => {
     const downloadAttachments = async () => {
       if (tweet.image) {
-        // console.log(tweet.image);
-        // const downloadedAttachments = await Promise.all(
-        //   message.Attachments.items.map((attachment) =>
         const imageUrl = await Storage.get(tweet.image);
-        //   .then((uri) => ({
-        //     ...attachment,
-        //     uri,
-        //   }))
-        // )
-        // );
 
         setDownloadedAttachments(imageUrl);
       } else if (tweet.tweet?.image && tweet.tweet?.likes) {
         const imageUrl = await Storage.get(tweet.tweet.image);
-        //   .then((uri) => ({
-        //     ...attachment,
-        //     uri,
-        //   }))
-        // )
-        // );
 
         setDownloadedAttachments(imageUrl);
       } else {
@@ -54,10 +38,8 @@ const MainContainer = ({ tweet, likey }: any) => {
     downloadAttachments();
   }, [tweet]);
 
-  // console.log(JSON.stringify(tweet, null, 2), "tweet");
   return (
     <View style={styles.container}>
-      {/* <Text>Hello</Text> */}
       <View style={styles.tweetHeaderContainer}>
         <View style={styles.tweetHeaderNames}>
           <Text style={[styles.name, { color: Colors[colorScheme].text }]}>
@@ -109,7 +91,6 @@ const MainContainer = ({ tweet, likey }: any) => {
         )}
         {/* {tweet.image && <S3Image style={styles.image} imgKey={tweet.image} />} */}
         <ImageView
-          // images={attachments.map(({ uri }) => ({ uri }))}
           images={[{ uri: downloadedAttachments }]}
           imageIndex={0}
           visible={imageViewerVisible}

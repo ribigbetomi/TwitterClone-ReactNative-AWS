@@ -46,15 +46,11 @@ export const listFollowingsForTimeline = (userID) => async (dispatch) => {
       type: LIST_FOLLOWINGS_FOR_TIMELINE_REQUEST,
     });
 
-    // console.log("okay okay");
-
     const followingsPosts = await API.graphql(
       graphqlOperation(listFollowings, {
         filter: { authUserID: { eq: userID } },
       })
     );
-
-    // console.log(JSON.stringify(followingsPosts, null, 2), "followingsPosts");
 
     dispatch({
       type: LIST_FOLLOWINGS_FOR_TIMELINE_SUCCESS,
@@ -72,14 +68,6 @@ export const listFollowingsForTimeline = (userID) => async (dispatch) => {
 };
 
 export const getPost = (tweet) => async (dispatch, getState) => {
-  // const {
-  //   listFollowingsForTimeline: { posts },
-  // } = getState();
-
-  // console.log(tweet, "tweet");
-  // let postFind = posts.find((post) => post.id === postID);
-  // console.log(JSON.stringify(postFind, null, 2), "postFind");
-
   dispatch({
     type: GET_POST,
     payload: tweet,
@@ -93,10 +81,6 @@ export const onCreateCommentPost = (commentID) => async (dispatch) => {
     })
   ).subscribe({
     next: ({ value }) => {
-      console.log(
-        JSON.stringify(value.data.onCreateComment, null, 2),
-        "valueOncreateCommentPost"
-      );
       dispatch({
         type: ON_CREATE_COMMENT_POST,
         payload: value.data.onCreateComment,
@@ -109,17 +93,12 @@ export const onCreateCommentPost = (commentID) => async (dispatch) => {
 };
 
 export const onCreateCommentFeed = (tweettID) => async (dispatch) => {
-  // console.log(tweettID, "tweetID");
   const subscription = API.graphql(
     graphqlOperation(onCreateComment, {
       filter: { tweetID: { eq: tweettID } },
     })
   ).subscribe({
     next: ({ value }) => {
-      // console.log(
-      //   JSON.stringify(value.data.onCreateComment, null, 2),
-      //   "valueOncreateCommentFeed"
-      // );
       dispatch({
         type: ON_CREATE_COMMENT_FEED,
         payload: value.data.onCreateComment,
@@ -134,7 +113,6 @@ export const onCreateCommentFeed = (tweettID) => async (dispatch) => {
 export const getCommentComments = (postID) => async (dispatch) => {
   try {
     dispatch({ type: GET_COMMENT_REQUEST });
-    // console.log(JSON.stringify(postID), "postID");
 
     const comment = await API.graphql(
       graphqlOperation(getComment, {
@@ -142,11 +120,10 @@ export const getCommentComments = (postID) => async (dispatch) => {
         // sortDirection: "DESC",
       })
     );
-    // console.log(JSON.stringify(comment, null, 2), "comment");
+
     let result = comment.data.getComment.comments.items
       .filter((item) => item.id !== postID)
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    // console.log(JSON.stringify(result, null, 2), "result");
 
     dispatch({
       type: GET_COMMENT_SUCCESS,
@@ -283,7 +260,6 @@ export const mediaByUserID = (userID) => async (dispatch) => {
   );
 
   let result = userTweets.data.tweetsByUserIDAndCreatedAt.items;
-  // console.log(JSON.stringify(result, null, 2), "resultMedia");
 
   const userComments = await API.graphql(
     graphqlOperation(commentsByUserID, { userID: userID })
@@ -296,26 +272,14 @@ export const mediaByUserID = (userID) => async (dispatch) => {
   const allTweets = [...res, ...result]
     .filter((item) => item.image)
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-  // console.log(JSON.stringify(allTweets, null, 2), "allTweets");
 
   dispatch({
     type: MEDIA_BY_USERID_SUCCESS,
     payload: allTweets,
   });
-
-  // } catch (error) {
-  //   dispatch({
-  //     type: TWEETS_BY_USERID_FAIL,
-  //     payload:
-  //       error.response && error.response.data.message
-  //         ? error.response.data.message
-  //         : error.message,
-  //   });
-  // }
 };
 
 export const getLikesByUserID = (userID) => async (dispatch) => {
-  // try {
   dispatch({ type: LIKES_BY_USERID_REQUEST });
 
   const userLikes = await API.graphql(
@@ -328,15 +292,6 @@ export const getLikesByUserID = (userID) => async (dispatch) => {
     type: LIKES_BY_USERID_SUCCESS,
     payload: result,
   });
-  // } catch (error) {
-  //   dispatch({
-  //     type: LIKES_BY_USERID_FAIL,
-  //     payload:
-  //       error.response && error.response.data.message
-  //         ? error.response.data.message
-  //         : error.message,
-  //   });
-  // }
 };
 
 // export const createNewLike = (like) => async (dispatch) => {

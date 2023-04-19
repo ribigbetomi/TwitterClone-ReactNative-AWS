@@ -65,8 +65,6 @@ function RootLayout() {
   };
 
   const saveUserToDB = async (user: CreateUserInput) => {
-    // console.log(user);
-
     return await API.graphql(graphqlOperation(createUser, { input: user }));
   };
 
@@ -78,15 +76,13 @@ function RootLayout() {
       const userInfo = await Auth.currentAuthenticatedUser({
         bypassCache: true,
       });
-      // bypassCache is et to true in order for this query not to use cached value and always get it from the backend
-      // console.log(JSON.stringify(userInfo, null, 2), "userInfo");
+      // bypassCache is set to true in order for this query not to use cached value and always get it from the backend
 
       if (userInfo) {
         // Check if user already exists in database
         const userData: GraphQLResult<any> = await API.graphql(
           graphqlOperation(getUser, { id: userInfo.attributes.sub })
         );
-        // console.log(userData, "userData");
 
         if (!userData.data.getUser) {
           const user = {
@@ -100,7 +96,7 @@ function RootLayout() {
             graphqlOperation(createUser, { input: user })
           );
           // await saveUserToDB(user);
-          // console.log(JSON.stringify(newUser, null, 2), "newUserRootLayout");
+
           setNewwUser(newUser.data.createUser);
         } else {
           console.log("User already exists");
@@ -138,7 +134,7 @@ function RootLayoutNav({ neww }: any) {
   useEffect(() => {
     async function fetchUser() {
       const user = await Auth.currentAuthenticatedUser();
-      // console.log(user?.attributes?.sub, "layoutAppSub");
+
       if (user) {
         const userData: GraphQLResult<any> = await API.graphql(
           graphqlOperation(getUser, { id: user.attributes.sub })
@@ -147,10 +143,9 @@ function RootLayoutNav({ neww }: any) {
           dispatch({ type: GET_USER, payload: userData.data.getUser });
         } else {
           dispatch(createNewUser(neww));
-          console.log(JSON.stringify(neww, null, 2), "newwUserLayoutApp");
+
           // dispatch({ type: GET_USER, payload: neww });
         }
-        // console.log("layoutApp");
       }
     }
     fetchUser();

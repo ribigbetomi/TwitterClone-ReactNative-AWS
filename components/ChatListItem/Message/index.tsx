@@ -66,8 +66,6 @@ const Message = ({ message }: any) => {
     };
     downloadAttachments();
   }, [JSON.stringify(message?.attachments?.items)]);
-  // console.log(imageSources, "sourcess");
-  // }, [JSON.stringify(message.Attachments.items)]);
 
   const imageContainerWidth = width * 0.8 - 30;
 

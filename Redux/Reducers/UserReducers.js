@@ -11,7 +11,6 @@ export const userDetailsReducer = (state = { userInfo: {} }, action) => {
       return { loading: false, userInfo: action.payload };
 
     case CREATE_USER:
-      console.log(JSON.stringify(action.payload, null, 2), "createUserPayload");
       return { loading: false, userInfo: action.payload };
     default:
       return state;

@@ -15,39 +15,12 @@ import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../constants/Colors";
 
 const UserFleetsList = () => {
-  const [users, setUsers] = useState<any>([]);
-  const [user, setUser] = useState<any>(null);
   const dispatch = useDispatch<any>();
   const { fleeters } = useSelector((state: any) => state.getFleeters);
   const { userInfo } = useSelector((state: any) => state.userDetails);
   // console.log(JSON.stringify(fleeters, null, 2), "fleeters");
 
   const navigation: any = useNavigation();
-  // console.log(JSON.stringify(user, null, 2), "userr");
-
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     const userInfo = await Auth.currentAuthenticatedUser({
-  //       bypassCache: true,
-  //     });
-
-  //     if (!userInfo) {
-  //       return;
-  //     }
-  //     try {
-  //       const userData: GraphQLResult<any> = await API.graphql(
-  //         graphqlOperation(getUser, { id: userInfo.attributes.sub })
-  //       );
-
-  //       if (userData) {
-  //         setUser(userData.data.getUser);
-  //       }
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
-  //   fetchUser();
-  // }, []);
 
   useEffect(() => {
     dispatch(getFleeters());
@@ -63,12 +36,10 @@ const UserFleetsList = () => {
         style={{ padding: 10, marginTop: 15 }}
         onPress={onPress}
       >
-        {/* <Link href="/NewFleet" > */}
         <ProfilePicture size={60} image={userInfo?.image} />
         <View style={styles.icon}>
           <Ionicons name="add" size={25} color={"#fff"} />
         </View>
-        {/* </Link> */}
       </TouchableOpacity>
     );
   };

@@ -72,10 +72,6 @@ export const listFollowingsForTimelineReducer = (
       return { loading: false, error: action.payload };
 
     case CREATE_COMMENT:
-      // console.log(
-      //   JSON.stringify(action.payload, null, 2),
-      //   "payloadReducerOnCreateCommentFeed"
-      // );
       const find = state.posts.find(
         (item) => item.id === action.payload.tweetID || action.payload.commentID
       );
@@ -89,7 +85,6 @@ export const listFollowingsForTimelineReducer = (
           items: [...find.comments.items, action.payload],
         },
       };
-      // console.log(JSON.stringify(neww, null, 2), "neww");
 
       const add = state.posts.map((item) =>
         item.id === find.id ? neww : item
@@ -119,10 +114,7 @@ export const getPostReducer = (state = { post: {} }, action) => {
       if (!find) {
         return state;
       }
-      // console.log(
-      //   JSON.stringify(find, null, 2),
-      //   "FindpayloadReducerOnCreateCommentPost"
-      // );
+
       return {
         post: {
           ...state.post,
@@ -202,35 +194,6 @@ export const getCommentReducer = (state = { postComments: [] }, action) => {
     case COMMENTS_BY_TWEETID_FAIL:
       return { loading: false, error: action.payload };
 
-    // case CREATE_COMMENT:
-    //   // console.log(
-    //   //   JSON.stringify(action.payload, null, 2),
-    //   //   "payloadUpdateCommentComments"
-    //   // );
-    //   // const findd = state.postComments.find(
-    //   //   (item) => item.id === action.payload.commentID
-    //   // );
-    //   // console.log(JSON.stringify(findd, null, 2), "findd");
-
-    //   if (!findd) {
-    //     return state;
-    //   }
-    // let ok = {
-    //   ...find,
-    //   comments: {
-    //     ...find.comments,
-    //     items: [...find.comments.items, action.payload],
-    //   },
-    // };
-
-    // let okay = state.postComments.map((item) =>
-    //   item.id === findd.id ? ok : item
-    // );
-
-    // return {
-    //   postComments: [...okay],
-    // };
-
     case CREATE_COMMENT:
       const find = state.postComments.find(
         (item) =>
@@ -240,7 +203,6 @@ export const getCommentReducer = (state = { postComments: [] }, action) => {
       const findd = state.postComments.find(
         (item) => item.id === action.payload.commentID
       );
-      console.log(JSON.stringify(findd, null, 2), "findd");
 
       if (!find && !findd) {
         return state;
@@ -342,7 +304,6 @@ export const commentsByUserIDReducer = (state = { replies: [] }, action) => {
           items: [...find.comments.items, action.payload],
         },
       };
-      // console.log(JSON.stringify(neww, null, 2), "neww");
 
       const add = state.replies.map((item) =>
         item.id === find.id ? neww : item
@@ -386,7 +347,6 @@ export const mediaByUserIDReducer = (state = { media: [] }, action) => {
           items: [...find.comments.items, action.payload],
         },
       };
-      // console.log(JSON.stringify(neww, null, 2), "neww");
 
       const add = state.media.map((item) =>
         item.id === find.id ? neww : item
@@ -429,7 +389,6 @@ export const tweetsByUserIDReducer = (state = { userTweets: [] }, action) => {
           items: [...find.comments.items, action.payload],
         },
       };
-      // console.log(JSON.stringify(neww, null, 2), "neww");
 
       const add = state.userTweets.map((item) =>
         item.id === find.id ? neww : item
@@ -459,17 +418,11 @@ export const likesByUserIDReducer = (state = { userLikes: [] }, action) => {
       return { userLikes: [] };
 
     case CREATE_COMMENT:
-      // console.log(
-      //   JSON.stringify(action.payload, null, 2),
-      //   "payloadLikesTabCreateComment"
-      // );
-
       const find = state.userLikes.find(
         (item) =>
           (item.tweetID && item.tweetID === action.payload.tweetID) ||
           item.comment?.id === action.payload.commentID
       );
-      console.log(JSON.stringify(find, null, 2), "find");
 
       if (!find) {
         return state;
@@ -498,12 +451,10 @@ export const likesByUserIDReducer = (state = { userLikes: [] }, action) => {
           },
         };
       }
-      console.log(JSON.stringify(neww, null, 2), "neww");
 
       const add = state.userLikes.map((item) =>
         item.id === find.id ? neww : item
       );
-      console.log(JSON.stringify(add, null, 2), "add");
 
       return {
         userLikes: [...add],

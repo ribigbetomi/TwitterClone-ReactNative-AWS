@@ -46,7 +46,6 @@ export const getChatRoomm = (chatRoomID) => async (dispatch) => {
   );
 
   const result = data.getChatRoom;
-  // console.log(JSON.stringify(result, null, 2), "result");
 
   dispatch({
     type: GET_CHATROOM_SUCCESS,
@@ -75,8 +74,6 @@ export const listMessagesByChatRoomm = (chatRoomID) => async (dispatch) => {
 
   const result = data.listMessagesByChatRoom.items;
 
-  // console.log(JSON.stringify(result, null, 2), "result");
-
   dispatch({
     type: LIST_MESSAGES_BY_CHATROOM_SUCCESS,
     payload: result,
@@ -98,10 +95,6 @@ export const onUpdateTheChatRoomm = (chatRoomID) => async (dispatch) => {
     graphqlOperation(onUpdateChatRoom, { filter: { id: { eq: chatRoomID } } })
   ).subscribe({
     next: ({ value }) => {
-      // console.log(
-      //   JSON.stringify(value.data.onUpdateChatRoom, null, 2),
-      //   "actionDataOnUpdateChatRoom"
-      // );
       dispatch({
         type: ON_UPDATE_CHATROOM,
         payload: value.data.onUpdateChatRoom,
@@ -129,10 +122,6 @@ export const onCreateNewMessage = (chatRoomID) => async (dispatch) => {
     })
   ).subscribe({
     next: ({ value }) => {
-      // console.log(
-      //   JSON.stringify(value.data.onCreateMessage, null, 2),
-      //   "onCreateMessageActionmessage"
-      // );
       dispatch({
         type: ON_CREATE_MESSAGE,
         payload: value.data.onCreateMessage,
@@ -184,27 +173,11 @@ export const getCommonChatRoomWithTheUser =
         )
       );
     });
-    console.log(JSON.stringify(chatRoom, null, 2), "chatRoomCommon");
 
     dispatch({
       type: COMMON_CHATROOM_SUCCESS,
       payload: chatRoom,
     });
-    // } catch (error) {
-    //   const message =
-    //     error.response && error.response.data.message
-    //       ? error.response.data.message
-    //       : error.message;
-
-    //   if (message === "Not authorized, token failed") {
-    //     dispatch(logout());
-    //   }
-
-    //   dispatch({
-    //     type: CREATE_CHATROOM_FAIL,
-    //     payload: message,
-    //   });
-    // }
   };
 
 // export const createTwoUsersChatRoom =
@@ -266,7 +239,6 @@ export const listUserChatRoomss = (userID) => async (dispatch, getState) => {
   const {
     userDetails: { userInfo },
   } = getState();
-  // console.log(userInfo.id, "userr");
 
   const response = await API.graphql(
     graphqlOperation(listUserChatRooms, {
@@ -312,15 +284,9 @@ export const createAttachmentt = (newAttachment) => async (dispatch) => {
 };
 
 export const createNewMessage = (newMessage) => async (dispatch) => {
-  // console.log(JSON.stringify(newMessage, null, 2), "newMessage");
   const newMessagee = await API.graphql(
     graphqlOperation(createMessage, { input: newMessage })
   );
-
-  // console.log(
-  //   JSON.stringify(newMessagee.data.createMessage, null, 2),
-  //   "createNewMessageAction"
-  // );
 
   dispatch({
     type: CREATE_MESSAGE,
@@ -329,12 +295,6 @@ export const createNewMessage = (newMessage) => async (dispatch) => {
 };
 
 export const updateChatRoomm = (input) => async (dispatch, getState) => {
-  // const {
-  //   createNewMessage: { newMessageData },
-  // } = getState();
-  // console.log(JSON.stringify(newMessageData, null, 2), "newMessageData");
-  // console.log(JSON.stringify(input, null, 2), "input");
-
   const {
     getChatRoom: { chatRoom },
   } = getState();
@@ -344,7 +304,6 @@ export const updateChatRoomm = (input) => async (dispatch, getState) => {
       input,
     })
   );
-  console.log(JSON.stringify(lastMessageId, null, 2), "lastMessageId");
 
   dispatch({
     type: UPDATE_CHATROOM,

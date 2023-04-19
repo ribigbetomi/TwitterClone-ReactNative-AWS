@@ -34,7 +34,9 @@ export default function NewFleetScreen() {
   const [text, setText] = useState("");
   const [imageUrl, setImageUrl] = useState<string>("");
   const [user, setUser] = useState<any>(null);
+
   const { userInfo } = useSelector((state: any) => state.userDetails);
+
   const [progresses, setProgresses] = useState<MyObject>({});
 
   const navigation = useNavigation();
@@ -43,30 +45,6 @@ export default function NewFleetScreen() {
   useLayoutEffect(() => {
     navigation.setOptions({ headerShown: false });
   }, []);
-
-  // useEffect(() => {
-  //   // get the current user
-  //   const fetchUser = async () => {
-  //     const userInfo = await Auth.currentAuthenticatedUser({
-  //       bypassCache: true,
-  //     });
-  //     if (!userInfo) {
-  //       return;
-  //     }
-
-  //     try {
-  //       const userData: GraphQLResult<any> = await API.graphql(
-  //         graphqlOperation(getUser, { id: userInfo.attributes.sub })
-  //       );
-  //       if (userData) {
-  //         setUser(userData.data.getUser);
-  //       }
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
-  //   fetchUser();
-  // }, []);
 
   // const getPermissionAsync = async () => {
   //   if (Platform.OS !== "web") {
@@ -89,12 +67,10 @@ export default function NewFleetScreen() {
         aspect: [4, 3],
         quality: 1,
       });
-      // console.log(JSON.stringify(result, null, 2));
+
       if (!result.canceled) {
         setImageUrl(result.assets[0].uri);
       }
-
-      // console.log(result);
     } catch (e) {
       console.log(e);
     }
@@ -103,7 +79,6 @@ export default function NewFleetScreen() {
   const uploadImage = async () => {
     try {
       const response = await fetch(imageUrl);
-      // console.log(JSON.stringify(response, null, 2), "response");
 
       const blob: any = await response.blob();
 
@@ -111,13 +86,10 @@ export default function NewFleetScreen() {
       const extension = urlParts[urlParts.length - 1];
 
       const key = `${uuidv4()}.${extension}`;
-      // const key = `${uuidv4()}.png`;
-      // console.log(key, "key");
 
       await Storage.put(key, blob, {
         contentType: blob.data.type,
         progressCallback: (progress) => {
-          // console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
           setProgresses((p) => ({
             ...p,
             [imageUrl]: progress.loaded / progress.total,
@@ -137,21 +109,15 @@ export default function NewFleetScreen() {
     if (imageUrl) {
       image = await uploadImage();
     }
-    // console.log(image, "image");
 
     try {
-      // const currentUser = await Auth.currentAuthenticatedUser({
-      //   bypassCache: true,
-      // });
-      // console.log(currentUser, "currentUser");
-
       const newFleet = {
         text,
         type: image ? "IMAGE" : "TEXT",
         image,
         userID: userInfo?.id,
       };
-      // console.log(JSON.stringify(newTweet, null, 2), "newTweet");
+
       await API.graphql(graphqlOperation(createFleet, { input: newFleet }));
       navigation.goBack();
     } catch (e) {
@@ -161,10 +127,6 @@ export default function NewFleetScreen() {
 
   return (
     <>
-      {/* <Stack.Screen
-      // name="NewTweet"
-      // options={{ title: "NewTweet" }}
-      /> */}
       <SafeAreaView
         style={[
           styles.container,

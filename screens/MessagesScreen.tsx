@@ -23,56 +23,10 @@ export default function MessagesScreen() {
   );
 
   const [loading, setLoading] = useState(false);
-  // const [chatRooms, setChatRooms] = useState([]);
 
-  // console.log(JSON.stringify(chatRooms, null, 2), "chatRooms");
-
-  // console.log(JSON.stringify(authUser, null, 2), "authUser");
-
-  // function MyScreen() {
-  //   useLayoutEffect(() => {
-  //     const headerHeight = Header.HEIGHT;
-  //     console.log('Header height:', headerHeight);
-  //     // Do something with the header height
-  //   }, []);
-
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     const userInfo = await Auth.currentAuthenticatedUser({
-  //       bypassCache: true,
-  //     });
-  //     const { data } = await API.graphql(
-  //       graphqlOperation(getUser, { id: userInfo.attributes.sub })
-  //     );
-  //     setAuthUser(data);
-  //   };
-  //   fetchUser();
-  // }, []);
-
-  // const fetchChatRooms = async () => {
-  //   setLoading(true);
-  //   // const authUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-
-  //   // const response = await API.graphql(
-  //   //   graphqlOperation(listUserChatRooms, { id: authUser.attributes.sub })
-  //   // );
-  //   // console.log(response, "res");
-
-  //   // const rooms = response?.data?.getUser?.chatRooms?.items?.filter(
-  //   //   (item) => !item._deleted
-  //   // );
-
-  //   // const sortedRooms = response.data.getUser.chatRooms.items.sort(
-  //   //   (r1, r2) =>
-  //   //     new Date(r2.chatRoom.updatedAt) - new Date(r1.chatRoom.updatedAt)
-  //   // );
-
-  //   // setChatRooms(sortedRooms);
-  //   setLoading(false);
-  // };
   const fetch = async () => {
     setLoading(true);
-    // const user = await Auth.currentAuthenticatedUser({ bypassCache: true });
+
     if (userInfo?.id) {
       dispatch(listUserChatRoomss(userInfo?.id));
     }
@@ -82,7 +36,7 @@ export default function MessagesScreen() {
 
   useEffect(() => {
     fetch();
-  }, []);
+  }, [userInfo?.id]);
 
   return (
     <View style={styles.container}>

@@ -16,60 +16,6 @@ import {
   ON_DELETE_FOLLOWING,
 } from "../Constants/FollowsConstants";
 
-// export const listFollowingsForTimelineReducer = (
-//   state = { posts: [] },
-//   action
-// ) => {
-//   switch (action.type) {
-//     case LIST_FOLLOWINGS_FOR_TIMELINE_REQUEST:
-//       return { loading: true };
-
-//     case LIST_FOLLOWINGS_FOR_TIMELINE_SUCCESS:
-//       let wholePosts = [];
-//       for (
-//         let i = 0;
-//         i < action.payload.data.listFollowings.items.length;
-//         i++
-//       ) {
-//         let post = action.payload.data.listFollowings.items[i].user;
-//         // console.log(JSON.stringify(post, null, 2), "post");
-
-//         // let okay = [...post.tweets.items, ...post.comments.items]
-//         let newnew = [...post.tweets.items, ...post.comments.items];
-//         wholePosts.push(...newnew);
-
-//         // setTweets((postt) => [...post.tweets.items, ...post.comments.items]);
-//       }
-//       return { loading: false, posts: wholePosts };
-
-//     case LIST_FOLLOWINGS_FOR_TIMELINE_FAIL:
-//       return { loading: false, error: action.payload };
-
-//       case ON_CREATE_COMMENT_FEED:
-//         const find = state.posts.find(
-//           (item) => item.id === action.payload.commentID || action.payload.tweetID
-//         );
-//         const neww = {
-//           ...find,
-//           comments: {
-//             ...find.comments,
-//             items: [...find.comments.items, action.payload],
-//           },
-//         };
-
-//         const add = state.posts.map((item) =>
-//           item.id === neww.id ? neww : item
-//         );
-
-//         return {
-//           posts: [...add],
-//         };
-
-//     default:
-//       return state;
-//   }
-// };
-
 export const followingsByAuthUserIDReducer = (
   state = { followings: [] },
   action
@@ -77,17 +23,6 @@ export const followingsByAuthUserIDReducer = (
   switch (action.type) {
     case FOLLOWINGS_BY_AUTH_USERID:
       return { loading: false, followings: action.payload };
-
-    // case CREATE_FOLLOWING:
-    //   console.log(JSON.stringify(action.payload, null, 2), "actionPayyLLoadd");
-    //   return { followings: [...state.followings, action.payload] };
-
-    // case DELETE_FOLLOWING:
-    //   console.log(JSON.stringify(action.payload, null, 2), "actionPAYLLoadd");
-    //   let newFollowings = state.followings.filter(
-    //     (item) => item.id !== action.payload.id
-    //   );
-    //   return { followings: newFollowings };
 
     default:
       return state;
@@ -103,10 +38,6 @@ export const checkFollowingReducer = (
       return { followingUser: action.payload };
 
     case CREATE_FOLLOWING:
-      console.log(
-        JSON.stringify(action.payload.id, null, 2),
-        "checkFollowingCREATEFOLLOWING"
-      );
       return {
         followingUser: action.payload.id,
       };
@@ -140,15 +71,9 @@ export const followersByAuthUserIDReducer = (
       return { loading: false, followers: action.payload };
 
     case CREATE_FOLLOWER:
-      console.log(
-        JSON.stringify(action.payload, null, 2),
-        "followerslistCREATEFOLLOWERS"
-      );
       return { followers: [...state.followers, action.payload] };
 
     case DELETE_FOLLOWER:
-      console.log(JSON.stringify(action.payload, null, 2), "actionPAYload");
-
       let newFollowers = state.followers.filter(
         (item) => item.id !== action.payload.id
       );
@@ -166,10 +91,6 @@ export const checkFollowerReducer = (state = {}, action) => {
       return { loading: false, followerUser: action.payload };
 
     case CREATE_FOLLOWER:
-      console.log(
-        JSON.stringify(action.payload, null, 2),
-        "checkFollowerCREATEFOLLOWER"
-      );
       return {
         followerUser: action.payload.id,
       };

@@ -38,9 +38,6 @@ export default function NewTweetScreen() {
   const [user, setUser] = useState<any>(null);
   const [progresses, setProgresses] = useState<MyObject>({});
   const { userInfo } = useSelector((state: any) => state.userDetails);
-  // console.log(JSON.stringify(progresses, null, 2), "progresses");
-
-  // console.log(imageUrl, "imgUrl");
 
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
@@ -66,12 +63,10 @@ export default function NewTweetScreen() {
         aspect: [4, 3],
         quality: 1,
       });
-      // console.log(JSON.stringify(result, null, 2));
+
       if (!result.canceled) {
         setImageUrl(result.assets[0].uri);
       }
-
-      // console.log(result);
     } catch (e) {
       console.log(e);
     }
@@ -80,7 +75,6 @@ export default function NewTweetScreen() {
   const uploadImage = async () => {
     try {
       const response = await fetch(imageUrl);
-      // console.log(JSON.stringify(response, null, 2), "response");
 
       const blob: any = await response.blob();
 
@@ -88,13 +82,10 @@ export default function NewTweetScreen() {
       const extension = urlParts[urlParts.length - 1];
 
       const key = `${uuidv4()}.${extension}`;
-      // const key = `${uuidv4()}.png`;
-      // console.log(key, "key");
 
       await Storage.put(key, blob, {
         contentType: blob.data.type,
         progressCallback: (progress) => {
-          // console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
           setProgresses((p) => ({
             ...p,
             [imageUrl]: progress.loaded / progress.total,
@@ -106,7 +97,6 @@ export default function NewTweetScreen() {
     } catch (e) {
       console.log(e);
     }
-    // return "";
   };
 
   const onPostTweet = async () => {
@@ -115,20 +105,14 @@ export default function NewTweetScreen() {
       if (imageUrl) {
         image = await uploadImage();
       }
-      // console.log(image, "image");
 
       try {
-        // const currentUser = await Auth.currentAuthenticatedUser({
-        //   bypassCache: true,
-        // });
-        // console.log(currentUser, "currentUser");
-
         const newTweet = {
           content: tweet,
           image,
           userID: userInfo.id,
         };
-        // console.log(JSON.stringify(newTweet, null, 2), "newTweet");
+
         await API.graphql(graphqlOperation(createTweet, { input: newTweet }));
         navigation.goBack();
       } catch (e) {
@@ -139,10 +123,6 @@ export default function NewTweetScreen() {
 
   return (
     <>
-      {/* <Stack.Screen
-      // name="NewTweet"
-      // options={{ title: "NewTweet" }}
-      /> */}
       <SafeAreaView
         style={[
           styles.container,
@@ -214,7 +194,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "flex-start",
-    // backgroundColor: Colors.light.background,
   },
   headerContainer: {
     width: "100%",

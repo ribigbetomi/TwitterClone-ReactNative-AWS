@@ -17,7 +17,6 @@ const FollowingsList = (userFollowings: any) => {
       return setUserFollowingss(item);
     });
   }, [userFollowings]);
-  // const userFollowings = route.params
 
   return (
     <View>
@@ -25,7 +24,7 @@ const FollowingsList = (userFollowings: any) => {
         data={userFollowingss}
         renderItem={({ item }) => <FollowList user={item} />}
         keyExtractor={(item: any) => item.id}
-        refreshing={loading}
+        // refreshing={loading}
         // onRefresh={fetchTweetComments}
         // ListHeaderComponent={UserFleetsList}
       />

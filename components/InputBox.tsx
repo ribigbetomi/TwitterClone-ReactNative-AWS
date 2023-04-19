@@ -51,10 +51,8 @@ const InputBox = ({ chatRoom }: any) => {
 
   // console.log(JSON.stringify(newMessageData, null, 2), "newMessageDataCHATTT");
 
-  // console.log(text, "text");
   const [files, setFiles] = useState<any>([]);
   const [progresses, setProgresses] = useState<any>({});
-  // console.log(JSON.stringify(files, null, 2), "files");
 
   const colorScheme = useColorScheme();
 
@@ -73,11 +71,6 @@ const InputBox = ({ chatRoom }: any) => {
       messageID,
       chatroomID: chatRoom.id,
     };
-
-    // return API.graphql(
-    //   graphqlOperation(createAttachment, { input: newAttachment })
-    // );
-    // console.log(JSON.stringify(newAttachment, null, 2), "newAttachment");
 
     dispatch(createAttachmentt(newAttachment));
   };
@@ -119,8 +112,8 @@ const InputBox = ({ chatRoom }: any) => {
             })
           )
         );
+        setFiles([]);
       }
-      setFiles([]);
       if (files.length !== 0) {
         attach();
       }
@@ -145,33 +138,19 @@ const InputBox = ({ chatRoom }: any) => {
       quality: 1,
       allowsMultipleSelection: true,
     });
-    // console.log(result, "result");
 
     if (!result.canceled) {
-      // if (result.assets.length > 1) {
-
       setFiles(result.assets);
-      // } else {
-      //   setImages([result.assets[0].uri]);
-      // }
-
-      // console.log(JSON.stringify(result.assets[0].uri), "stringimageUri");
-      // if (result.selected) {
-      //   setFiles(result.selected);
-      // } else {
-      //   setFiles([result]);
-      // }
     }
   };
 
   const uploadFile = async (fileUri: any) => {
     try {
       const response = await fetch(fileUri);
-      // console.log(response, "response");
+
       const blob: any = await response.blob();
-      // console.log(blob, "blob");
+
       const key = `${uuidv4()}.png`;
-      // console.log(key, "key");
 
       // console.log(blob.data.type, "blobtype");
       await Storage.put(key, blob, {
@@ -184,8 +163,7 @@ const InputBox = ({ chatRoom }: any) => {
           }));
         },
       });
-      // console.log(key, "key");
-      // console.log(JSON.stringify(key), "stringifyKey");
+
       return key;
     } catch (err) {
       console.log("Error uploading file:", err);

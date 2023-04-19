@@ -21,15 +21,7 @@ const Tweet = ({ tweet, likey = false }: any) => {
   // console.log(likey);
   const navigation: any = useNavigation();
 
-  // const linkProps = useLinkProps({
-  //   to: {
-  //     screen: "CommentsScreen",
-  //     params: { tweet: tweet, likey: likey },
-  //   },
-  // });
-
   const onPress = () => {
-    console.log("onPress");
     navigation.navigate("CommentsScreen", { tweet: tweet, likey: likey });
   };
 

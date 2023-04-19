@@ -33,10 +33,6 @@ const CommentsScreen = () => {
   const route = useRoute();
   const { tweet, likey } = route.params;
 
-  // console.log(likey, "likey");
-  // console.log(JSON.stringify(tweet, null, 2), "tweett00");
-  const [tweetComments, setTweetComments] = useState([]);
-  // console.log(JSON.stringify(tweetComments, null, 2), "tweetComments");
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -44,7 +40,6 @@ const CommentsScreen = () => {
   // console.log(JSON.stringify(postComments, null, 2), "postComments");
 
   const { post } = useSelector((state) => state.getPost);
-  // console.log(JSON.stringify(post, null, 2), "post");
 
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
@@ -60,11 +55,6 @@ const CommentsScreen = () => {
       headerTitle: "Tweet",
       headerTitleAlign: "center",
 
-      // headerStyle: {
-      //   Platform.OS === 'ios' && {
-      //     backgroundColor: "black"
-      //   }
-      // },
       headerLeft: () => (
         <Pressable onPress={navigation.goBack}>
           <Ionicons
@@ -78,14 +68,11 @@ const CommentsScreen = () => {
   }, []);
 
   useEffect(() => {
-    // setTweett(tweet);
     if (tweet.comments) {
       dispatch(getPost(tweet));
     } else if (tweet.comment) {
-      console.log("comment");
       dispatch(getPost(tweet.comment));
     } else if (tweet.tweetID && likey) {
-      console.log("tweet");
       dispatch(getPost(tweet.tweet));
     }
   }, [tweet, likey]);
@@ -136,24 +123,15 @@ const CommentsScreen = () => {
     fetchTweetComments();
   }, [tweet, likey]);
 
-  const onPress = () => {
-    navigation.goBack();
-  };
-
   return (
     <>
       {post.id && (
         <SafeAreaView style={{ width: "100%", flex: 1 }}>
-          {/* <View style={styles.container}>
-            <LeftContainer user={post.user} />
-            <MainContainer tweet={post} />
-          </View> */}
           <FlatList
             data={postComments}
             renderItem={({ item }) => <Tweet tweet={item} />}
             keyExtractor={(item) => item.id}
             refreshing={loading}
-            // onRefresh={fetchTweetComments}
             ListHeaderComponent={() => (
               <View style={styles.container}>
                 <LeftContainer user={post.user} />

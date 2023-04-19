@@ -2,21 +2,13 @@ import { API, graphqlOperation, Auth } from "aws-amplify";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
 import { useSelector } from "react-redux";
 
-export const getCommonChatRoomWithUser = async (userID) => {
-  // console.log(userID, "userID");
-  const { userInfo } = useSelector((state) => state.userDetails);
-  // const authUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-
-  // dispatch(getCommonChatRoomWithUser(userID))
+export const getCommonChatRoomWithUser = async ({ userID, authUserID }) => {
   // get all chat room of user1
   const response = await API.graphql(
-    graphqlOperation(listChatRooms, { id: userInfo.id })
+    graphqlOperation(listChatRooms, { id: authUserID })
   );
-  // console.log(JSON.stringify(response, null, 2), "response");
-  // console.log(response, "response");
 
   const chatRooms = response.data?.getUser?.chatRooms?.items || [];
-  // console.log(JSON.stringify(chatRooms, null, 2), "chatRooms");
 
   const chatRoom = chatRooms.find((chatRoomItem) => {
     return (
@@ -26,7 +18,7 @@ export const getCommonChatRoomWithUser = async (userID) => {
       )
     );
   });
-  // console.log(JSON.stringify(chatRoom, null, 2), "chatRoom");
+  //
 
   return chatRoom;
 };

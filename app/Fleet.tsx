@@ -34,11 +34,11 @@ const FleetScreen = () => {
         const data: GraphQLResult<any> = await API.graphql(
           graphqlOperation(listUsers)
         );
-        // console.log(JSON.stringify(data, null, 2), "data");
+
         const fleeters = data.data.listUsers.items.filter(
           (item: any) => item.fleets.items.length !== 0
         );
-        // console.log(JSON.stringify(fleeters, null, 2), "fleeters");
+
         setUsers(fleeters);
       } catch (e) {
         console.log(e);

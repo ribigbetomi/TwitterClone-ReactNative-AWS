@@ -18,8 +18,7 @@ export default function TabTwoScreen() {
   const { userInfo } = useSelector((state: any) => state.userDetails);
   const { users } = useSelector((state: any) => state.listUsers);
 
-  console.log(JSON.stringify(userInfo?.id, null, 2), "userInfoIdSearch");
-  // console.log(searchWord.length, "searchWord");
+  // console.log(JSON.stringify(userInfo?.id, null, 2), "userInfoIdSearch");
 
   const colorScheme = useColorScheme();
 
