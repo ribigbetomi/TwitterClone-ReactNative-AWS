@@ -64,6 +64,7 @@ const NewComment = () => {
         content: comment,
         commentID: tweetOrComment.id,
       };
+
       dispatch(createNewComment(commentToAdd));
     } else if (tweetOrComment.tweetID && !likey) {
       // to add comment to fitst level comment attached to a tweet, but not from likesTab
@@ -72,6 +73,7 @@ const NewComment = () => {
         content: comment,
         commentID: tweetOrComment.id,
       };
+
       dispatch(createNewComment(commentToAdd));
     } else if (tweetOrComment.comment) {
       //to add comment to comment from likesTab that's in the likes object
@@ -80,6 +82,7 @@ const NewComment = () => {
         content: comment,
         commentID: tweetOrComment.comment.id,
       };
+
       dispatch(createNewComment(commentToAdd));
     } else if (tweetOrComment.tweetID && likey) {
       // to add comment to tweet from likesTab
@@ -88,6 +91,7 @@ const NewComment = () => {
         content: comment,
         tweetID: tweetOrComment.tweet.id,
       };
+
       dispatch(createNewComment(commentToAdd));
     } else if (!tweetOrComment.tweetID && !tweetOrComment.commentID && !likey) {
       //to add comment to tweet that's not from likesTab
@@ -96,6 +100,7 @@ const NewComment = () => {
         tweetID: tweetOrComment.id,
         content: comment,
       };
+
       dispatch(createNewComment(commentToAdd));
     }
     navigation.goBack();

@@ -133,6 +133,11 @@ export const listFollowings = /* GraphQL */ `
                 name
                 username
                 image
+                followers {
+                  items {
+                    userID
+                  }
+                }
               }
               userID
             }
@@ -166,6 +171,12 @@ export const listFollowings = /* GraphQL */ `
                 name
                 username
                 image
+                followers {
+                  items {
+                    id
+                    userID
+                  }
+                }
               }
               userID
             }

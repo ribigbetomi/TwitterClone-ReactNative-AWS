@@ -43,7 +43,7 @@ export const checkFollowingReducer = (
       };
 
     case DELETE_FOLLOWING:
-      return { followingUser: false };
+      return { followingUser: action.payload.id ? false : state.followingUser };
 
     default:
       return state;
@@ -96,7 +96,7 @@ export const checkFollowerReducer = (state = {}, action) => {
       };
 
     case DELETE_FOLLOWER:
-      return { followerUser: false };
+      return { followerUser: action.payload.id ? false : state.followerUser };
 
     default:
       return state;

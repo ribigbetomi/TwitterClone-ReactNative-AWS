@@ -16,6 +16,7 @@ import {
   followingsByAuthUserID,
   listFollowings,
 } from "../../src/queries/FollowsByAuthUserID";
+import { getUser } from "../../src/queries/getUserQuery";
 import {
   CHECK_FOLLOWER,
   CHECK_FOLLOWING,
@@ -65,9 +66,14 @@ export const checkFollowing = (userID) => async (dispatch, getState) => {
     userDetails: { userInfo },
   } = getState();
 
-  const matching = userInfo.following?.items?.find(
+  const { data } = await API.graphql(
+    graphqlOperation(getUser, { id: userInfo.id })
+  );
+
+  const matching = data.getUser.following?.items?.find(
     (item) => item.userID === userID
   );
+
   const check = matching ? matching.id : false;
 
   dispatch({ type: CHECK_FOLLOWING, payload: check });

@@ -61,12 +61,14 @@ import {
   getCommonChatRoomWithTheUser,
   listUserChatRoomss,
 } from "../Redux/Actions/ChatRoomActions";
+import { getUserr } from "../Redux/Actions/UserActions";
 
 const UserProfile = () => {
   const route = useRoute();
   const { user } = route.params;
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.userDetails);
+  // console.log(JSON.stringify(userInfo.following, null, 2), "authUserFollowing");
 
   const { followings } = useSelector((state) => state.followingsByAuthUserID);
   const { followers } = useSelector((state) => state.followersByAuthUserID);
@@ -110,6 +112,12 @@ const UserProfile = () => {
     }
   }, [userInfo, user]);
 
+  // useEffect(() => {
+  //   if (followingUser || followerUser) {
+  //     dispatch(getUserr(userInfo.id));
+  //   }
+  // }, [followingUser, followerUser, userInfo?.id]);
+
   const followUser = async () => {
     setPressed(true);
     if (userInfo) {
@@ -121,27 +129,30 @@ const UserProfile = () => {
         authUserID: user.id,
         userID: userInfo.id,
       };
-      if (!followingUser && !followerUser)
+      if (!followingUser && !followerUser) {
         await Promise.all(
           dispatch(createNewFollowing(data)),
           dispatch(createNewFollower(dataa))
         );
+      }
 
       setPressed(false);
+      // dispatch(getUserr(userInfo.id));
     }
   };
 
-  const unfollowUser = async () => {
+  const unfollowUser = async ({ followingUser, followerUser }) => {
     setUnpressed(true);
     if (userInfo) {
-      if (followingUser && followerUser) {
+      if (followingUser !== false && followerUser !== false) {
         await Promise.all(
           dispatch(deleteFollowingg(followingUser)),
           dispatch(deleteFollowerr(followerUser))
         );
       }
+      setUnpressed(false);
+      // dispatch(getUserr(userInfo.id));
     }
-    setUnpressed(false);
   };
 
   const createAChatRoomWithTheUser = async (user) => {
@@ -272,7 +283,9 @@ const UserProfile = () => {
               {/* <Pressable onPress={followingUser ? unfollowUser : followUser}> */}
               {followingUser ? (
                 <Pressable
-                  onPress={!unpressed && unfollowUser}
+                  onPress={() =>
+                    !unpressed && unfollowUser({ followingUser, followerUser })
+                  }
                   style={styles.button}
                 >
                   <Text style={[{ color: Colors[colorScheme].text }]}>
@@ -281,7 +294,9 @@ const UserProfile = () => {
                 </Pressable>
               ) : (
                 <Pressable
-                  onPress={!pressed && followUser}
+                  onPress={() =>
+                    !pressed && followUser({ followingUser, followerUser })
+                  }
                   style={[
                     styles.button,
                     { backgroundColor: Colors[colorScheme].text },

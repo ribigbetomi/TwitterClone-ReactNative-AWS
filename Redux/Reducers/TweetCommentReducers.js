@@ -73,8 +73,11 @@ export const listFollowingsForTimelineReducer = (
 
     case CREATE_COMMENT:
       const find = state.posts.find(
-        (item) => item.id === action.payload.tweetID || action.payload.commentID
+        (item) =>
+          item.id === (action.payload.tweetID && action.payload.tweetID) ||
+          item.id === (action.payload.commentID && action.payload.commentID)
       );
+
       if (!find) {
         return state;
       }
@@ -335,7 +338,8 @@ export const mediaByUserIDReducer = (state = { media: [] }, action) => {
     case CREATE_COMMENT:
       const find = state.media.find(
         (item) =>
-          item.id === (action.payload.tweetID || action.payload.commentID)
+          item.id === action.payload.tweetID ||
+          item.id === action.payload.commentID
       );
       if (!find) {
         return state;

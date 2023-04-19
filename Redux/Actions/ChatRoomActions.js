@@ -78,15 +78,6 @@ export const listMessagesByChatRoomm = (chatRoomID) => async (dispatch) => {
     type: LIST_MESSAGES_BY_CHATROOM_SUCCESS,
     payload: result,
   });
-  // } catch (e) {
-  //   dispatch({
-  //     type: LIST_MESSAGES_BY_CHATROOM_FAIL,
-  //     payload:
-  //       error.response && error.response.data.message
-  //         ? error.response.data.message
-  //         : error.message,
-  //   });
-  // }
 };
 
 export const onUpdateTheChatRoomm = (chatRoomID) => async (dispatch) => {
