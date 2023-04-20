@@ -47,15 +47,15 @@ const Chat = () => {
   const colorScheme = useColorScheme();
 
   const chatRoomID = route.params.id;
-  const { name, image } = route.params;
+  const { name, image, user } = route.params;
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <View>
+        <Pressable onPress={() => navigation.navigate("UserProfile", { user })}>
           <ProfilePicture image={image} size={25} />
           <Text style={{ color: Colors[colorScheme].text }}>{name}</Text>
-        </View>
+        </Pressable>
       ),
       headerTitleAlign: "center",
       headerLeft: () => (
@@ -85,7 +85,7 @@ const Chat = () => {
         border: 0,
       },
     });
-  }, []);
+  }, [name, image]);
 
   useEffect(() => {
     dispatch(getChatRoomm(chatRoomID));

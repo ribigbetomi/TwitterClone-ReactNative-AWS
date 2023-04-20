@@ -10,6 +10,7 @@ import {
   CREATE_LIKE,
   CREATE_RETWEET,
   CREATE_TWEET,
+  CREATE_TWEET_REQUEST,
   DELETE_LIKE,
   DELETE_RETWEET,
   GET_COMMENT_FAIL,
@@ -46,13 +47,26 @@ export const listFollowingsForTimelineReducer = (
       return { loading: true };
 
     case LIST_FOLLOWINGS_FOR_TIMELINE_SUCCESS:
-      let wholePosts = [];
+      // console.log(
+      //   JSON.stringify(action.payload.userTweets, null, 2),
+      //   "actionPayload"
+      // );
+      let wholePosts = [
+        ...action.payload.userTweets,
+        ...action.payload.userComments,
+      ];
+      // wholePosts.push(
+      //   ...action.payload.userTweets,
+      //   ...action.payload.userComments
+      // );
+      // console.log(JSON.stringify(wholePosts, null, 2), "wholePosts");
       for (
         let i = 0;
-        i < action.payload.data.listFollowings.items.length;
+        i < action.payload.followingsPosts.data.listFollowings.items.length;
         i++
       ) {
-        let post = action.payload.data.listFollowings.items[i].user;
+        let post =
+          action.payload.followingsPosts.data.listFollowings.items[i].user;
         let newnew = [...post.tweets.items, ...post.comments.items].sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
@@ -63,17 +77,24 @@ export const listFollowingsForTimelineReducer = (
         // );
 
         // if (i === action.payload.data.listFollowings.items.length - 1) {
-        //   wholePosts.sort(
-        //     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-        //   );
+        // wholePosts.sort(
+        //   (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        // );
         // }
       }
-      // wholePosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      wholePosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
       return { loading: false, posts: wholePosts };
 
     case LIST_FOLLOWINGS_FOR_TIMELINE_FAIL:
       return { loading: false, error: action.payload };
+
+    case CREATE_TWEET:
+      return {
+        posts: [...state.posts, action.payload].sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        ),
+      };
 
     case CREATE_COMMENT:
       const find = state.posts.find(

@@ -1,6 +1,6 @@
 import { API, Auth, graphqlOperation } from "aws-amplify";
-import { useEffect, useState } from "react";
-import { StyleSheet, FlatList } from "react-native";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { StyleSheet, FlatList, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -11,13 +11,41 @@ import { listUserChatRoomss } from "../Redux/Actions/ChatRoomActions";
 import { Text, View } from "../components/Themed";
 import Colors from "../constants/Colors";
 import ChatListItem from "../components/ChatListItem";
+import ProfilePicture from "../components/ProfilePicture";
 
 export default function MessagesScreen() {
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
   const dispatch = useDispatch<any>();
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: "Messages",
+      headerTitleAlign: "center",
+
+      headerLeft: () => (
+        <View style={{ marginLeft: 15 }}>
+          <ProfilePicture image={userInfo?.image} size={30} />
+        </View>
+      ),
+      headerRight: () => (
+        <View style={{ marginRight: 15 }}>
+          <Ionicons name={"settings-outline"} size={25} color={"#E9E9E9"} />
+        </View>
+      ),
+      headerStyle: {
+        shadowOpacity: 0,
+        backgroundColor: Colors[colorScheme].background,
+        borderBottomWidth: 0,
+        borderBottomColor: "transparent",
+        elevation: 0,
+        border: 0,
+      },
+    });
+  }, []);
+
   const { userInfo } = useSelector((state: any) => state.userDetails);
+
   const { loading: loadingChatRooms, chatRooms } = useSelector(
     (state: any) => state.listUserChatRooms
   );

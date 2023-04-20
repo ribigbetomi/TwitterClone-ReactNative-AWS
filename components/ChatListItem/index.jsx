@@ -67,6 +67,7 @@ const ChatListItem = ({ chat }) => {
               id: chatRoom.id,
               name: chatRoom.name || user.name,
               image: chatRoom.image || user.image,
+              user,
             })
           }
           style={styles.container}

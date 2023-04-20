@@ -1,19 +1,20 @@
-import { API, Auth, graphqlOperation } from "aws-amplify";
-import { useEffect, useState } from "react";
-import { StyleSheet, FlatList } from "react-native";
+import { StyleSheet, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Text, View } from "../../components/Themed";
 import { Ionicons } from "@expo/vector-icons";
-import ChatListItem from "../../components/ChatListItem";
 import Colors from "../../constants/Colors";
-
-import { ActivityIndicator } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MessagesScreen from "../../screens/MessagesScreen";
 import Chat from "../../screens/Chat";
+import useColorScheme from "../../hooks/useColorScheme";
+import UserProfile from "../../screens/UserProfile";
+import FollowTabs from "../../screens/FollowTabs";
+import CommentsScreen from "../../screens/CommentsScreen";
+import MessagesSearchScreen from "../../screens/MessagesSearchScreen";
 
 export default function TabFourScreen() {
   const navigation = useNavigation();
+  const colorScheme = useColorScheme();
 
   const Stack = createNativeStackNavigator();
 
@@ -21,16 +22,18 @@ export default function TabFourScreen() {
     <>
       <Stack.Navigator
         initialRouteName="MessagesScreen"
-        screenOptions={{
-          headerShown: false,
-        }}
+        screenOptions={
+          {
+            // headerShown: false,
+          }
+        }
       >
         <Stack.Screen name="MessagesScreen" component={MessagesScreen} />
         <Stack.Screen name="Chat" component={Chat} />
-        {/* <Stack.Screen name="CommentsScreen" component={CommentsScreen} /> */}
-        {/* <Stack.Screen name="FollowTabs" component={FollowTabs} /> */}
-        {/* <Stack.Screen name="PlaceOrder" component={''} />
-    <Stack.Screen name="Cart" component={''} /> */}
+        <Stack.Screen name="UserProfile" component={UserProfile} />
+        <Stack.Screen name="CommentsScreen" component={CommentsScreen} />
+        <Stack.Screen name="FollowTabs" component={FollowTabs} />
+        {/* <Stack.Screen name="MessagesSearch" component={MessagesSearchScreen} /> */}
       </Stack.Navigator>
     </>
   );

@@ -27,7 +27,7 @@ const Feed = () => {
     posts,
   } = useSelector((state) => state.listFollowingsForTimeline);
 
-  const { chatRooms } = useSelector((state) => state.listUserChatRooms);
+  // const { chatRooms } = useSelector((state) => state.listUserChatRooms);
 
   const fetch = async () => {
     if (userInfo.id) {

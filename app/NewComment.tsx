@@ -112,11 +112,13 @@ const NewComment = () => {
         <Text style={{ color: "gray" }}>Replying to</Text> {`@${tweetUser}`}
       </Text>
       <View style={styles.input}>
-        <View style={{ marginRight: 10 }}>
+        <View style={{ marginRight: 10, paddingTop: 10 }}>
           <ProfilePicture image={userInfo?.image} size={50} />
         </View>
         <TextInput
-          style={{ color: Colors[colorScheme].text }}
+          // numberOfLines={10}
+          multiline={true}
+          style={{ color: Colors[colorScheme].text, flex: 1, paddingTop: 20 }}
           value={comment}
           onChangeText={(value) => setComment(value)}
           placeholder="Tweet your reply"

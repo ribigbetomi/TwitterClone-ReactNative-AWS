@@ -25,7 +25,8 @@ import { createTweet } from "../src/graphql/mutations";
 
 import { UserType } from "../types";
 import { getUser } from "../src/queries/getUserQuery";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { createNewTweet } from "../Redux/Actions/TweetCommentActions";
 
 interface MyObject {
   [key: string]: any;
@@ -40,6 +41,7 @@ export default function NewTweetScreen() {
   const { userInfo } = useSelector((state: any) => state.userDetails);
 
   const navigation = useNavigation();
+  const dispatch = useDispatch<any>();
   const colorScheme = useColorScheme();
 
   // const getPermissionAsync = async () => {
@@ -113,7 +115,8 @@ export default function NewTweetScreen() {
           userID: userInfo.id,
         };
 
-        await API.graphql(graphqlOperation(createTweet, { input: newTweet }));
+        // await API.graphql(graphqlOperation(createTweet, { input: newTweet }));
+        dispatch(createNewTweet(newTweet));
         navigation.goBack();
       } catch (e) {
         console.log(e);
@@ -222,6 +225,7 @@ const styles = StyleSheet.create({
     height: 100,
     maxHeight: 300,
     fontSize: 15,
+    // flex: 1,
   },
   pickImage: {
     fontSize: 18,

@@ -17,6 +17,7 @@ import { commentsByTweetIDAndCreatedAt } from "../../src/queries/tweetCommentsQu
 import {
   CREATE_LIKE,
   CREATE_RETWEET,
+  CREATE_TWEET_REQUEST,
   DELETE_LIKE,
   DELETE_RETWEET,
   LIST_FOLLOWINGS_FOR_TIMELINE_FAIL,
@@ -63,9 +64,28 @@ export const listFollowingsForTimeline = (userID) => async (dispatch) => {
       })
     );
 
+    const comments = await API.graphql(
+      graphqlOperation(commentsByUserID, { userID: userID })
+    );
+
+    const userComments = comments.data.commentsByUserID.items
+      .filter((item) => item.content !== "" && !item.image)
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    const res = await API.graphql(
+      graphqlOperation(tweetsByUserIDAndCreatedAt, {
+        userID,
+        //   sortDirection: "DESC",
+      })
+    );
+
+    let userTweets = res.data.tweetsByUserIDAndCreatedAt.items.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+
     dispatch({
       type: LIST_FOLLOWINGS_FOR_TIMELINE_SUCCESS,
-      payload: followingsPosts,
+      payload: { followingsPosts, userTweets, userComments },
     });
   } catch (error) {
     dispatch({
@@ -192,13 +212,15 @@ export const createNewComment = (commentToAdd) => async (dispatch) => {
 };
 
 export const createNewTweet = (newTweet) => async (dispatch) => {
+  dispatch({ type: CREATE_TWEET_REQUEST });
+
   const newnew = await API.graphql(
     graphqlOperation(createTweet, { input: newTweet })
   );
 
   dispatch({
     type: CREATE_TWEET,
-    payload: newnew,
+    payload: newnew.data.createTweet,
   });
 };
 

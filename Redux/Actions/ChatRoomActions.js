@@ -38,6 +38,34 @@ import {
   onUpdateChatRoom,
 } from "./../../src/graphql/subscriptions";
 
+// export const searchChatRooms = (searchWord) => async (dispatch) => {
+//   let result;
+
+//   if (searchWord.trim().length > 0) {
+//     const usersData = await API.graphql(
+//       graphqlOperation(listUserChatRooms, {
+//         filter: {
+//           or: [
+//             {
+//               username: { contains: searchWord.trim().toLowerCase() },
+//             },
+//             { name: { contains: searchWord.trim().toLowerCase() } },
+//           ],
+//         },
+//       })
+//     );
+
+//     result = usersData.data.listUsers.items;
+//   } else {
+//     result = [];
+//   }
+
+//   dispatch({
+//     type: LIST_USERS,
+//     payload: result,
+//   });
+// };
+
 export const getChatRoomm = (chatRoomID) => async (dispatch) => {
   // try {
   dispatch({ type: GET_CHATROOM_REQUEST });

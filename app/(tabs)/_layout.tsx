@@ -87,6 +87,7 @@ export default function TabLayout() {
         component={TabTwoScreen}
         options={{
           title: "Search",
+          headerShown: false,
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="search-outline" color={color} />
           ),
@@ -108,22 +109,23 @@ export default function TabLayout() {
         options={{
           title: "Messages",
           tabBarIcon: ({ color }) => <TabBarIcon name="mail" color={color} />,
-          headerTitle: "Messages",
-          headerTitleAlign: "center",
-          headerLeft: () => (
-            <View style={{ marginLeft: 15 }}>
-              <ProfilePicture image={userInfo?.image} size={30} />
-            </View>
-          ),
-          headerRight: () => (
-            <View style={{ marginRight: 15 }}>
-              <Ionicons name={"settings-outline"} size={25} color={"#E9E9E9"} />
-            </View>
-          ),
-          headerStyle: {
-            backgroundColor: Colors[colorScheme].background,
-            shadowOpacity: 0,
-          },
+          headerShown: false,
+          // headerTitle: "Messages",
+          // headerTitleAlign: "center",
+          // headerLeft: () => (
+          //   <View style={{ marginLeft: 15 }}>
+          //     <ProfilePicture image={userInfo?.image} size={30} />
+          //   </View>
+          // ),
+          // headerRight: () => (
+          //   <View style={{ marginRight: 15 }}>
+          //     <Ionicons name={"settings-outline"} size={25} color={"#E9E9E9"} />
+          //   </View>
+          // ),
+          // headerStyle: {
+          //   backgroundColor: Colors[colorScheme].background,
+          //   shadowOpacity: 0,
+          // },
         }}
       />
     </Tab.Navigator>

@@ -1,85 +1,71 @@
-import { useState, useEffect } from "react";
-import { API, Auth, graphqlOperation } from "aws-amplify";
-import { StyleSheet, TextInput, FlatList } from "react-native";
-import { GraphQLResult } from "@aws-amplify/api-graphql";
-import { Ionicons } from "@expo/vector-icons";
-import ProfilePicture from "../../components/ProfilePicture";
+import { StyleSheet, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { Text, View } from "../../components/Themed";
-import SearchList from "../../components/SearchList";
+import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../constants/Colors";
-import useColorScheme from "./../../hooks/useColorScheme";
-import { Pressable } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { listUserss } from "./../../Redux/Actions/UserActions";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import MessagesScreen from "../../screens/MessagesScreen";
+import Chat from "../../screens/Chat";
+import useColorScheme from "../../hooks/useColorScheme";
+import SearchScreen from "../../screens/SearchScreen";
+import UserProfile from "../../screens/UserProfile";
+import FollowTabs from "../../screens/FollowTabs";
+import CommentsScreen from "../../screens/CommentsScreen";
 
 export default function TabTwoScreen() {
-  const [searchWord, setSearchWord] = useState<string>("");
-  const dispatch = useDispatch<any>();
-  const { userInfo } = useSelector((state: any) => state.userDetails);
-  const { users } = useSelector((state: any) => state.listUsers);
-
-  // console.log(JSON.stringify(userInfo?.id, null, 2), "userInfoIdSearch");
-
+  const navigation = useNavigation();
   const colorScheme = useColorScheme();
 
-  const fetchUser = () => {
-    dispatch(listUserss(searchWord));
-  };
-
-  useEffect(() => {
-    if (userInfo?.id) {
-      fetchUser();
-    }
-  }, [searchWord, userInfo?.id]);
+  const Stack = createNativeStackNavigator();
 
   return (
-    <View style={styles.container}>
-      <View style={{ flexDirection: "row", padding: 15, alignItems: "center" }}>
-        {/* <ProfilePicture image={authUser?.image} size={35} /> */}
-        <View
-          style={{
-            flexDirection: "row",
-            flex: 1,
-            backgroundColor: Colors[colorScheme].transparent,
-            alignItems: "center",
-            borderRadius: 20,
-            paddingLeft: 10,
-          }}
-        >
-          <Ionicons name="search-outline" size={20} color="gray" />
-          <TextInput
-            value={searchWord}
-            keyboardType="default"
-            onChangeText={(value) => setSearchWord(value)}
-            placeholder="Search Twitter"
-            placeholderTextColor="gray"
-            style={{
-              justifyContent: "center",
-              color: Colors[colorScheme].text,
-              // marginLeft: 5,
-              padding: 10,
-              flex: 1,
-            }}
-          />
-        </View>
-        <Pressable onPress={() => setSearchWord("")} style={{ marginLeft: 20 }}>
-          <Text>Cancel</Text>
-        </Pressable>
-      </View>
-      <View>
-        <FlatList
-          data={searchWord && users}
-          renderItem={({ item }) => <SearchList user={item} />}
-          keyExtractor={(item) => item.id}
-          // refreshing={loading}
-        />
-      </View>
-    </View>
+    <>
+      <Stack.Navigator
+        initialRouteName="SearchScreen"
+        screenOptions={
+          {
+            // headerShown: false,
+            // headerTitle: "Mesaage",
+          }
+        }
+      >
+        <Stack.Screen name="SearchScreen" component={SearchScreen} />
+        <Stack.Screen name="Chat" component={Chat} />
+        <Stack.Screen name="UserProfile" component={UserProfile} />
+        <Stack.Screen name="FollowTabs" component={FollowTabs} />
+        <Stack.Screen name="CommentsScreen" component={CommentsScreen} />
+        {/* <Stack.Screen name="PlaceOrder" component={''} />
+    <Stack.Screen name="Cart" component={''} /> */}
+      </Stack.Navigator>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  container: {},
+  header: {
+    flexDirection: "row",
+    paddingVertical: 5,
+    backgroundColor: "transparent",
+  },
+  head: {
+    alignItems: "center",
+    paddingVertical: 5,
+    marginHorizontal: 20,
+    borderRadius: 30,
+  },
+  line: {
+    marginVertical: 10,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "#3E3E3E",
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  separator: {
+    marginVertical: 30,
+    height: 1,
+    width: "80%",
   },
 });
