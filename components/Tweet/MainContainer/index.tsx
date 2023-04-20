@@ -18,87 +18,101 @@ const MainContainer = ({ tweet, likey }: any) => {
   const [downloadedAttachments, setDownloadedAttachments] = useState<any>("");
 
   const [imageViewerVisible, setImageViewerVisible] = useState(false);
+  const [tweett, setTweett] = useState<any>({});
 
   const colorScheme = useColorScheme();
 
   useEffect(() => {
+    setTweett(tweet);
+  }, [tweet]);
+
+  useEffect(() => {
     const downloadAttachments = async () => {
-      if (tweet.image) {
-        const imageUrl = await Storage.get(tweet.image);
+      if (tweett.image) {
+        const imageUrl = await Storage.get(tweett.image);
 
         setDownloadedAttachments(imageUrl);
-      } else if (tweet.tweet?.image && tweet.tweet?.likes) {
-        const imageUrl = await Storage.get(tweet.tweet.image);
+      } else if (tweett.tweet?.image && likey) {
+        //for likesTab
+        const imageUrl = await Storage.get(tweett.tweet.image);
 
+        setDownloadedAttachments(imageUrl);
+      } else if (tweett.comment?.image && likey) {
+        const imageUrl = await Storage.get(tweett.tweet.image);
         setDownloadedAttachments(imageUrl);
       } else {
         setDownloadedAttachments(null);
       }
     };
     downloadAttachments();
-  }, [tweet]);
+  }, [tweett]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.tweetHeaderContainer}>
-        <View style={styles.tweetHeaderNames}>
-          <Text style={[styles.name, { color: Colors[colorScheme].text }]}>
-            {tweet.comment && likey
-              ? tweet.comment.user.name
-              : tweet.tweet && likey
-              ? tweet.tweet.user.name
-              : tweet.user?.name}
-          </Text>
-          <Text style={styles.username}>
-            @
-            {tweet.comment && likey
-              ? tweet.comment.user.username
-              : tweet.tweet && likey
-              ? tweet.tweet.user.username
-              : tweet.user?.username}
-          </Text>
-          <Text style={styles.createdAt}>
-            {moment(
-              tweet.comment && likey
-                ? tweet.comment.createdAt
-                : tweet.tweet && likey
-                ? tweet.tweet.createdAt
-                : tweet.createdAt
-            ).fromNow()}
-          </Text>
-        </View>
-        <Entypo name={"chevron-down"} size={16} color={"grey"} />
-      </View>
-      <View>
-        <Text style={[styles.content, { color: Colors[colorScheme].text }]}>
-          {tweet.content
-            ? tweet.content
-            : tweet.tweet
-            ? tweet.tweet.content
-            : tweet.comment.content}
-        </Text>
+    <>
+      {tweett && (
+        <View style={styles.container}>
+          <View style={styles.tweetHeaderContainer}>
+            <View style={styles.tweetHeaderNames}>
+              <Text style={[styles.name, { color: Colors[colorScheme].text }]}>
+                {tweett.comment && likey
+                  ? tweett.comment.user.name
+                  : tweett.tweet && likey
+                  ? tweett.tweet.user.name
+                  : tweett.user?.name}
+              </Text>
+              <Text style={styles.username}>
+                @
+                {tweett.comment && likey
+                  ? tweett.comment.user.username
+                  : tweett.tweet && likey
+                  ? tweett.tweet.user.username
+                  : tweett.user?.username}
+              </Text>
+              <Text style={styles.createdAt}>
+                {moment(
+                  tweett.comment && likey
+                    ? tweett.comment.createdAt
+                    : tweett.tweet && likey
+                    ? tweett.tweet.createdAt
+                    : tweett.createdAt
+                ).fromNow()}
+              </Text>
+            </View>
+            <Entypo name={"chevron-down"} size={16} color={"grey"} />
+          </View>
+          <View>
+            <Text style={[styles.content, { color: Colors[colorScheme].text }]}>
+              {tweett.content
+                ? tweett.content
+                : tweett.tweet
+                ? tweett.tweet?.content
+                : tweett.comment?.content}
+            </Text>
 
-        {downloadedAttachments && (
-          <Pressable
-            style={[styles.imageContainer]}
-            onPress={() => setImageViewerVisible(true)}
-          >
-            <Image
-              source={{ uri: downloadedAttachments }}
-              style={styles.image}
+            {downloadedAttachments && (
+              <Pressable
+                style={[styles.imageContainer]}
+                onPress={() => setImageViewerVisible(true)}
+              >
+                <Image
+                  source={{ uri: downloadedAttachments }}
+                  style={styles.image}
+                />
+              </Pressable>
+            )}
+            {/* {tweet.image && <S3Image style={styles.image} imgKey={tweet.image} />} */}
+            <ImageView
+              // images={attachments.map(({ uri }) => ({ uri }))}
+              images={[{ uri: downloadedAttachments }]}
+              imageIndex={0}
+              visible={imageViewerVisible}
+              onRequestClose={() => setImageViewerVisible(false)}
             />
-          </Pressable>
-        )}
-        {/* {tweet.image && <S3Image style={styles.image} imgKey={tweet.image} />} */}
-        <ImageView
-          images={[{ uri: downloadedAttachments }]}
-          imageIndex={0}
-          visible={imageViewerVisible}
-          onRequestClose={() => setImageViewerVisible(false)}
-        />
-      </View>
-      <Footer tweet={tweet} likey={likey} />
-    </View>
+          </View>
+          <Footer tweet={tweett} likey={likey} />
+        </View>
+      )}
+    </>
   );
 };
 

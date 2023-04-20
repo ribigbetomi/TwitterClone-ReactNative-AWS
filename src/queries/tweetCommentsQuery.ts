@@ -89,14 +89,7 @@ export const commentsByTweetIDAndCreatedAt = /* GraphQL */ `
         retweets {
           items {
             id
-            user {
-              id
-              name
-              username
-              image
-            }
             userID
-            tweetID
           }
         }
       }

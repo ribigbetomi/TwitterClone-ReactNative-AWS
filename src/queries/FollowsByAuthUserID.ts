@@ -125,6 +125,7 @@ export const listFollowings = /* GraphQL */ `
               }
               retweets {
                 items {
+                  id
                   userID
                 }
               }
@@ -163,6 +164,7 @@ export const listFollowings = /* GraphQL */ `
               }
               retweets {
                 items {
+                  id
                   userID
                 }
               }

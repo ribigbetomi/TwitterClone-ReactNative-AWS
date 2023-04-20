@@ -53,16 +53,6 @@ export const likesByUserID = /* GraphQL */ `
             items {
               id
               userID
-              user {
-                id
-                name
-                username
-                image
-              }
-              tweetID
-              commentID
-              createdAt
-              updatedAt
             }
             nextToken
           }
@@ -89,6 +79,7 @@ export const likesByUserID = /* GraphQL */ `
           }
           likes {
             items {
+              id
               userID
             }
           }
@@ -96,16 +87,6 @@ export const likesByUserID = /* GraphQL */ `
             items {
               id
               userID
-              user {
-                id
-                name
-                username
-                image
-              }
-              tweetID
-              commentID
-              createdAt
-              updatedAt
             }
             nextToken
           }

@@ -14,6 +14,13 @@ import {
 import { useLinkProps } from "@react-navigation/native";
 import { commentsByTweetIDAndCreatedAt } from "../../../src/graphql/queries";
 import { useNavigation } from "expo-router";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createNewLike,
+  createNewRetweet,
+  deleteALike,
+  deleteARetweet,
+} from "../../../Redux/Actions/TweetCommentActions";
 
 // export type FooterContainerProps = {
 //   tweet: TweetType;
@@ -21,49 +28,41 @@ import { useNavigation } from "expo-router";
 
 const Footer = ({ tweet, likey }: any) => {
   const navigation: any = useNavigation();
-  // console.log(JSON.stringify(tweet.likes.items, null, 2), "tweetLikes");
+  const dispatch = useDispatch<any>();
 
-  const [user, setUser] = useState<any>(null);
+  const { userInfo } = useSelector((state: any) => state.userDetails);
 
   const [myLike, setMyLike] = useState<any>(null);
 
   const [likesCount, setLikesCount] = useState<any>();
+
   const [retweetsCount, setRetweetsCount] = useState<any>();
   const [myRetweet, setMyRetweet] = useState<any>(null);
 
   const [tweetComments, setTweetComments] = useState<number>(0);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const currentUser = await Auth.currentAuthenticatedUser();
-
-      setUser(currentUser.attributes.sub);
-    };
-    fetchUser();
-  }, []);
-
-  useEffect(() => {
     setLikesCount(
       tweet.likes
         ? tweet.likes.items.length
         : tweet.comment
-        ? tweet.comment.likes.items.length
-        : tweet.tweet.likes.items.length || 0
+        ? tweet.comment?.likes?.items?.length
+        : tweet.tweet?.likes?.items?.length || 0
     );
     setRetweetsCount(
       tweet.retweets
-        ? tweet.retweets.items.length
+        ? tweet.retweets?.items.length
         : tweet.comment
-        ? tweet.comment.retweets.items.length
-        : tweet.tweet.retweets.items.length || 0
+        ? tweet.comment?.retweets?.items?.length
+        : tweet.tweet?.retweets?.items?.length || 0
     );
 
-    if (user) {
+    if (userInfo.id) {
       let searchedLike;
       if (tweet.likes) {
         //for normal tweet with likes
         searchedLike = tweet.likes.items.find(
-          (like: any) => like.userID === user
+          (like: any) => like.userID === userInfo.id
         );
 
         setMyLike(searchedLike);
@@ -71,14 +70,14 @@ const Footer = ({ tweet, likey }: any) => {
         if (tweet.comment && likey) {
           //for likesTab that like retrieved from likesByUserID is for a comment
           searchedLike = tweet.comment?.likes?.items.find(
-            (like: any) => like.userID === user
+            (like: any) => like.userID === userInfo.id
           );
 
           setMyLike(searchedLike);
         } else if (tweet.tweet && likey) {
           //for likesTab that like retrieved from likesByUserID is for a tweet
           searchedLike = tweet.tweet?.likes?.items.find(
-            (like: any) => like.userID === user
+            (like: any) => like.userID === userInfo.id
           );
           setMyLike(searchedLike);
         }
@@ -88,7 +87,7 @@ const Footer = ({ tweet, likey }: any) => {
       if (tweet.retweets) {
         //for normal tweet with retweets
         searchedRetweet = tweet.retweets.items.find(
-          (retweet: any) => retweet.userID === user
+          (retweet: any) => retweet.userID === userInfo.id
         );
 
         setMyRetweet(searchedRetweet);
@@ -96,20 +95,20 @@ const Footer = ({ tweet, likey }: any) => {
         if (tweet.comment && likey) {
           //for likesTab that likes retrieved from likesByUserID is for a comment
           searchedRetweet = tweet.comment?.retweets?.items.find(
-            (retweet: any) => retweet.userID === user
+            (retweet: any) => retweet.userID === userInfo.id
           );
 
           setMyRetweet(searchedRetweet);
         } else if (tweet.tweet && likey) {
           //for likesTab that likes retrieved from likesByUserID is for a tweet
           searchedRetweet = tweet.tweet?.retweets?.items.find(
-            (retweet: any) => retweet.userID === user
+            (retweet: any) => retweet.userID === userInfo.id
           );
           setMyRetweet(searchedRetweet);
         }
       }
     }
-  }, [tweet, user]);
+  }, [tweet, userInfo?.id]);
 
   useEffect(() => {
     if (tweet.comments) {
@@ -129,49 +128,68 @@ const Footer = ({ tweet, likey }: any) => {
 
   const submitLike = async () => {
     let like;
-    if (tweet.tweetID) {
+    if (tweet.tweet?.id && likey) {
       like = {
-        userID: user,
+        userID: userInfo.id,
+        tweetID: tweet.tweetID,
+      };
+    } else if (tweet.comment?.id && likey) {
+      like = {
+        userID: userInfo.id,
+        commentID: tweet.comment.id,
+      };
+    } else if (tweet.tweetID) {
+      like = {
+        userID: userInfo.id,
         commentID: tweet.id,
       };
     } else if (tweet.commentID) {
       like = {
-        userID: user,
+        userID: userInfo.id,
         commentID: tweet.id,
       };
-    } else {
+    } else if (
+      tweet.id &&
+      !tweet.commentID &&
+      !likey &&
+      !tweet.tweetID &&
+      !tweet.comment &&
+      !tweet.tweet
+    ) {
       like = {
-        userID: user,
+        userID: userInfo.id,
         tweetID: tweet.id,
       };
     }
 
-    try {
-      const res: GraphQLResult<any> = await API.graphql(
-        graphqlOperation(createLike, { input: like })
-      );
+    // try {
+    // const res: GraphQLResult<any> = await API.graphql(
+    //   graphqlOperation(createLike, { input: like })
+    // );
 
-      setMyLike(res.data.createLike);
-      setLikesCount(likesCount + 1);
-    } catch (e) {
-      console.log(e);
-    }
+    // setMyLike(res.data.createLike);
+    // setLikesCount(likesCount + 1);
+    dispatch(createNewLike(like));
+    // } catch (e) {
+    //   console.log(e);
+    // }
   };
 
   const removeLike = async () => {
-    try {
-      await API.graphql(
-        graphqlOperation(deleteLike, { input: { id: myLike.id } })
-      );
-      setLikesCount(likesCount - 1);
-      setMyLike(null);
-    } catch (e) {
-      console.log(e);
-    }
+    // try {
+    // await API.graphql(
+    //   graphqlOperation(deleteLike, { input: { id: myLike.id } })
+    // );
+    // setLikesCount(likesCount - 1);
+    // setMyLike(null);
+    dispatch(deleteALike(myLike.id));
+    // } catch (e) {
+    //   console.log(e);
+    // }
   };
 
   const onLike = async () => {
-    if (!user) {
+    if (!userInfo?.id) {
       return;
     }
 
@@ -194,48 +212,50 @@ const Footer = ({ tweet, likey }: any) => {
     let retweet;
     if (tweet.tweetID) {
       retweet = {
-        userID: user,
+        userID: userInfo.id,
         commentID: tweet.id,
       };
     } else if (tweet.commentID) {
       retweet = {
-        userID: user,
+        userID: userInfo.id,
         commentID: tweet.id,
       };
     } else {
       retweet = {
-        userID: user,
+        userID: userInfo.id,
         tweetID: tweet.id,
       };
     }
 
-    try {
-      const res: GraphQLResult<any> = await API.graphql(
-        graphqlOperation(createRetweet, { input: retweet })
-      );
+    // try {
+    // const res: GraphQLResult<any> = await API.graphql(
+    //   graphqlOperation(createRetweet, { input: retweet })
+    // );
 
-      setMyRetweet(res.data.createRetweet);
-      setRetweetsCount(retweetsCount + 1);
-    } catch (e) {
-      console.log(e);
-    }
+    // setMyRetweet(res.data.createRetweet);
+    // setRetweetsCount(retweetsCount + 1);
+    dispatch(createNewRetweet(retweet));
+    // } catch (e) {
+    //   console.log(e);
+    // }
   };
 
   const removeRetweet = async () => {
-    try {
-      const res = await API.graphql(
-        graphqlOperation(deleteRetweet, { input: { id: myRetweet.id } })
-      );
+    // try {
+    // const res = await API.graphql(
+    //   graphqlOperation(deleteRetweet, { input: { id: myRetweet.id } })
+    // );
 
-      setRetweetsCount(retweetsCount - 1);
-      setMyRetweet(null);
-    } catch (e) {
-      console.log(e);
-    }
+    // setRetweetsCount(retweetsCount - 1);
+    // setMyRetweet(null);
+    dispatch(deleteARetweet(myRetweet.id));
+    // } catch (e) {
+    //   console.log(e);
+    // }
   };
 
   const onRetweet = async () => {
-    if (!user) {
+    if (!userInfo.id) {
       return;
     }
 

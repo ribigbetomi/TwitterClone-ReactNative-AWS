@@ -2,12 +2,23 @@ import { API, graphqlOperation } from "aws-amplify";
 import { likesByUserID } from "../../components/LikesTab/query";
 import { commentsByUserID } from "../../components/RepliesTab/query";
 import { tweetsByUserIDAndCreatedAt } from "../../components/TweetsTab/queries";
-import { createComment } from "../../src/graphql/mutations";
+import {
+  createComment,
+  createLike,
+  createRetweet,
+  createTweet,
+  deleteLike,
+  deleteRetweet,
+} from "../../src/graphql/mutations";
 import { onCreateComment } from "../../src/graphql/subscriptions";
 import { listFollowings } from "../../src/queries/FollowsByAuthUserID";
 import { getComment } from "../../src/queries/getComment";
 import { commentsByTweetIDAndCreatedAt } from "../../src/queries/tweetCommentsQuery";
 import {
+  CREATE_LIKE,
+  CREATE_RETWEET,
+  DELETE_LIKE,
+  DELETE_RETWEET,
   LIST_FOLLOWINGS_FOR_TIMELINE_FAIL,
   LIST_FOLLOWINGS_FOR_TIMELINE_REQUEST,
   LIST_FOLLOWINGS_FOR_TIMELINE_SUCCESS,
@@ -67,48 +78,48 @@ export const listFollowingsForTimeline = (userID) => async (dispatch) => {
   }
 };
 
-export const getPost = (tweet) => async (dispatch, getState) => {
+export const getPost = (tweet) => async (dispatch) => {
   dispatch({
     type: GET_POST,
     payload: tweet,
   });
 };
 
-export const onCreateCommentPost = (commentID) => async (dispatch) => {
-  const subscription = API.graphql(
-    graphqlOperation(onCreateComment, {
-      filter: { commentID: { eq: commentID } },
-    })
-  ).subscribe({
-    next: ({ value }) => {
-      dispatch({
-        type: ON_CREATE_COMMENT_POST,
-        payload: value.data.onCreateComment,
-      });
-    },
-    error: (err) => console.warn(err),
-  });
+// export const onCreateCommentPost = (commentID) => async (dispatch) => {
+//   const subscription = API.graphql(
+//     graphqlOperation(onCreateComment, {
+//       filter: { commentID: { eq: commentID } },
+//     })
+//   ).subscribe({
+//     next: ({ value }) => {
+//       dispatch({
+//         type: ON_CREATE_COMMENT_POST,
+//         payload: value.data.onCreateComment,
+//       });
+//     },
+//     error: (err) => console.warn(err),
+//   });
 
-  return () => subscription.unsubscribe();
-};
+//   return () => subscription.unsubscribe();
+// };
 
-export const onCreateCommentFeed = (tweettID) => async (dispatch) => {
-  const subscription = API.graphql(
-    graphqlOperation(onCreateComment, {
-      filter: { tweetID: { eq: tweettID } },
-    })
-  ).subscribe({
-    next: ({ value }) => {
-      dispatch({
-        type: ON_CREATE_COMMENT_FEED,
-        payload: value.data.onCreateComment,
-      });
-    },
-    error: (err) => console.warn(err),
-  });
+// export const onCreateCommentFeed = (tweettID) => async (dispatch) => {
+//   const subscription = API.graphql(
+//     graphqlOperation(onCreateComment, {
+//       filter: { tweetID: { eq: tweettID } },
+//     })
+//   ).subscribe({
+//     next: ({ value }) => {
+//       dispatch({
+//         type: ON_CREATE_COMMENT_FEED,
+//         payload: value.data.onCreateComment,
+//       });
+//     },
+//     error: (err) => console.warn(err),
+//   });
 
-  return () => subscription.unsubscribe();
-};
+//   return () => subscription.unsubscribe();
+// };
 
 export const getCommentComments = (postID) => async (dispatch) => {
   try {
@@ -187,9 +198,7 @@ export const createNewTweet = (newTweet) => async (dispatch) => {
 
   dispatch({
     type: CREATE_TWEET,
-    payload: {
-      newnew,
-    },
+    payload: newnew,
   });
 };
 
@@ -294,15 +303,44 @@ export const getLikesByUserID = (userID) => async (dispatch) => {
   });
 };
 
-// export const createNewLike = (like) => async (dispatch) => {
-//   const res = await API.graphql(
-//     graphqlOperation(createLike, { input: like })
-//   );
+export const createNewLike = (like) => async (dispatch) => {
+  const res = await API.graphql(graphqlOperation(createLike, { input: like }));
 
-//   dispatch({
-//     type: CREATE_TWEET,
-//     payload: {
-//       newnew,
-//     },
-//   });
-// };
+  dispatch({
+    type: CREATE_LIKE,
+    payload: res.data.createLike,
+  });
+};
+
+export const deleteALike = (myLikeID) => async (dispatch) => {
+  const res = await API.graphql(
+    graphqlOperation(deleteLike, { input: { id: myLikeID } })
+  );
+
+  dispatch({
+    type: DELETE_LIKE,
+    payload: res.data.deleteLike,
+  });
+};
+
+export const createNewRetweet = (retweet) => async (dispatch) => {
+  const res = await API.graphql(
+    graphqlOperation(createRetweet, { input: retweet })
+  );
+
+  dispatch({
+    type: CREATE_RETWEET,
+    payload: res.data.createRetweet,
+  });
+};
+
+export const deleteARetweet = (myRetweetID) => async (dispatch) => {
+  const res = await API.graphql(
+    graphqlOperation(deleteRetweet, { input: { id: myRetweetID } })
+  );
+
+  dispatch({
+    type: DELETE_RETWEET,
+    payload: res.data.deleteRetweet,
+  });
+};

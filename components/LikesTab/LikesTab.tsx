@@ -19,6 +19,7 @@ const LikesTab = ({ user: { userID } }: any) => {
   useEffect(() => {
     dispatch(getLikesByUserID(userID));
   }, [userID]);
+  // console.log(userLikes, "userLikes");
   return (
     <View>
       {loadingUserLikes && <ActivityIndicator />}

@@ -109,16 +109,6 @@ export const tweetsByUserIDAndCreatedAt = /* GraphQL */ `
           items {
             id
             userID
-            user {
-              id
-              name
-              username
-              image
-            }
-            tweetID
-            commentID
-            createdAt
-            updatedAt
           }
           nextToken
         }

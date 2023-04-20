@@ -97,7 +97,7 @@ const CommentsScreen = () => {
 
       setLoading(false);
     } else if (tweet.tweetID && !likey) {
-      //for onPress of comment from first commentsScreen(with tweetID and
+      //for comment from first commentsScreen(with tweetID and
       // likey=false because likey is only true if it's from the likesTab ) to next
       setLoading(true);
       id = tweet.id;
