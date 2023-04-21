@@ -19,20 +19,31 @@ import { MEDIA_BY_USERID_RESET } from "../Redux/Constants/TweetCommentConstants"
 const MediaTab = ({ user: { userID } }: any) => {
   const [mediaTweets, setMediaTweets] = useState<any>([]);
   const dispatch = useDispatch<any>();
+  const [nowLoading, setNowLoading] = useState(true);
 
   const { loading, media } = useSelector((state: any) => state.mediaByUserID);
-  // console.log(JSON.stringify(media, null, 2), "media");
 
   useEffect(() => {
-    dispatch(mediaByUserID(userID));
-  }, [userID]);
+    setNowLoading(true);
+    // dispatch(mediaByUserID(userID));
+    setNowLoading(false);
+  }, []);
+
+  if (nowLoading) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+        <ActivityIndicator />
+      </View>
+    );
+  }
   return (
     <View>
-      {loading && <ActivityIndicator />}
+      {/* {nowLoading && <ActivityIndicator />} */}
       {media && (
         <FlatList
           data={media}
-          keyExtractor={(item: any) => item.id}
+          keyExtractor={(item: any) => `mediatab-${item.id}`}
           renderItem={({ item }) => <Tweet tweet={item} />}
         />
       )}

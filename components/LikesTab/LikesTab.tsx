@@ -16,9 +16,9 @@ const LikesTab = ({ user: { userID } }: any) => {
     (state: any) => state.likesByUserID
   );
 
-  useEffect(() => {
-    dispatch(getLikesByUserID(userID));
-  }, [userID]);
+  // useEffect(() => {
+  //   dispatch(getLikesByUserID(userID));
+  // }, [userID]);
   // console.log(userLikes, "userLikes");
   return (
     <View>
@@ -26,7 +26,7 @@ const LikesTab = ({ user: { userID } }: any) => {
       {userLikes && (
         <FlatList
           data={userLikes}
-          keyExtractor={(item: any) => item.id}
+          keyExtractor={(item: any) => `likestab-${item.id}`}
           renderItem={({ item }) => <Tweet tweet={item} likey={true} />}
           // refreshing={loading}
         />

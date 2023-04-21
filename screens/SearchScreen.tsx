@@ -77,7 +77,7 @@ export default function SearchScreen() {
         <FlatList
           data={searchWord && users}
           renderItem={({ item }) => <SearchList user={item} />}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => `searchscreen-${item.id}`}
           // refreshing={loading}
         />
       </View>

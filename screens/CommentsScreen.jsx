@@ -130,7 +130,7 @@ const CommentsScreen = () => {
           <FlatList
             data={postComments}
             renderItem={({ item }) => <Tweet tweet={item} />}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => `commentsscreen-${item.id}`}
             refreshing={loading}
             ListHeaderComponent={() => (
               <View style={styles.container}>

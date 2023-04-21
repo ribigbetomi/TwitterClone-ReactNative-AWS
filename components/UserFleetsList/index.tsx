@@ -49,7 +49,7 @@ const UserFleetsList = () => {
       <FlatList
         data={fleeters}
         renderItem={({ item }) => <UserFleetPreview user={item} />}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => `userfleetslist-${item.id}`}
         horizontal
         showsHorizontalScrollIndicator={false}
         ListHeaderComponent={() => renderAddButton()}

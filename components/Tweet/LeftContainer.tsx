@@ -19,7 +19,7 @@ const LeftContainer = ({ user }: LeftContainerProps) => {
   return (
     <TouchableOpacity style={{ height: 70 }} onPress={onPress}>
       {/* <Text>Good</Text> */}
-      <ProfilePicture image={user.image} size={75} />
+      <ProfilePicture image={user?.image} size={75} />
     </TouchableOpacity>
   );
 };

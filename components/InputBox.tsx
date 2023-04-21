@@ -177,7 +177,7 @@ const InputBox = ({ chatRoom }: any) => {
           <FlatList
             data={files}
             horizontal
-            keyExtractor={(item) => item.uri}
+            keyExtractor={(item) => `inputbox-${item.uri}`}
             renderItem={({ item }) => (
               <>
                 <Image

@@ -327,6 +327,7 @@ export const getLikesByUserID = (userID) => async (dispatch) => {
 
 export const createNewLike = (like) => async (dispatch) => {
   const res = await API.graphql(graphqlOperation(createLike, { input: like }));
+  // console.log(JSON.stringify(res.data.createLike, null, 2), "newLike");
 
   dispatch({
     type: CREATE_LIKE,

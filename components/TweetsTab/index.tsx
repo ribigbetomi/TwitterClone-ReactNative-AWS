@@ -23,9 +23,9 @@ const TweetTab = ({ userID }: any) => {
     dispatch(getTweetsByUserIDAndCreatedAt(userID.userID));
   };
 
-  useEffect(() => {
-    fetchTweets();
-  }, [userID?.userID]);
+  // useEffect(() => {
+  //   fetchTweets();
+  // }, [userID?.userID]);
 
   return (
     <View style={{ width: "100%" }}>
@@ -34,9 +34,9 @@ const TweetTab = ({ userID }: any) => {
         userTweets && (
           <FlatList
             data={userTweets}
+            keyExtractor={(item: any) => `tweetstab-${item.id}`}
             renderItem={({ item }) => <Tweet tweet={item} />}
             // style={{ backgroundColor: "blue" }}
-            keyExtractor={(item: TweetType) => item.id}
             // refreshing={loading}
             // onRefresh={fetchTweets}
           />

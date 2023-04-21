@@ -83,13 +83,16 @@ export default function MessagesScreen() {
         </View>
       </View>
       <View style={styles.line} />
+      {/* {chatRooms?.length !== 0 && ( */}
       <FlatList
         data={chatRooms}
+        keyExtractor={(item) => `messagescreen-${item.id}`}
         renderItem={({ item }) => <ChatListItem chat={item?.chatRoom} />}
         style={{ backgroundColor: Colors[colorScheme].background }}
         refreshing={loading}
         onRefresh={fetch}
       />
+      {/* )} */}
     </View>
   );
 }
@@ -102,6 +105,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   head: {
+    marginTop: 10,
     alignItems: "center",
     paddingVertical: 5,
     marginHorizontal: 20,

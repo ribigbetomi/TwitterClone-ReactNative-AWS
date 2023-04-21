@@ -99,8 +99,10 @@ export const listFollowingsForTimelineReducer = (
     case CREATE_COMMENT:
       const find = state.posts.find(
         (item) =>
-          item.id === (action.payload.tweetID && action.payload.tweetID) ||
-          item.id === (action.payload.commentID && action.payload.commentID)
+          (item.id &&
+            item.id === (action.payload.tweetID && action.payload.tweetID)) ||
+          (item.id &&
+            item.id === (action.payload.commentID && action.payload.commentID))
       );
 
       if (!find) {
@@ -125,8 +127,10 @@ export const listFollowingsForTimelineReducer = (
     case CREATE_LIKE:
       const findPostLike = state.posts.find(
         (item) =>
-          item.id === (action.payload.tweetID && action.payload.tweetID) ||
-          item.id === (action.payload.commentID && action.payload.commentID)
+          (item.id &&
+            item.id === (action.payload.tweetID && action.payload.tweetID)) ||
+          (item.id &&
+            item.id === (action.payload.commentID && action.payload.commentID))
       );
 
       if (!findPostLike) {
@@ -141,7 +145,7 @@ export const listFollowingsForTimelineReducer = (
       };
 
       const newPosts = state.posts.map((item) =>
-        item.id === find.id ? newPost : item
+        item.id === findPostLike.id ? newPost : item
       );
 
       return {
@@ -151,8 +155,12 @@ export const listFollowingsForTimelineReducer = (
     case DELETE_LIKE:
       const findPostLikeDelete = state.posts.find(
         (item) =>
-          item.id === (action.payload.tweetID && action.payload.tweetID) ||
-          item.id === (action.payload.commentID && action.payload.commentID)
+          (item.id &&
+            action.payload.tweetID &&
+            item.id === action.payload.tweetID) ||
+          (item.id &&
+            action.payload.commentID &&
+            item.id === action.payload.commentID)
       );
 
       if (!findPostLikeDelete) {
@@ -163,8 +171,13 @@ export const listFollowingsForTimelineReducer = (
         (item) => item.userID !== action.payload.userID
       );
 
+      let ok = {
+        ...findPostLikeDelete,
+        likes: { ...findPostLikeDelete.likes, items: newPostt },
+      };
+
       const newPostss = state.posts.map((item) =>
-        item.id === findPostLikeDelete.id ? newPostt : item
+        item.id === findPostLikeDelete.id ? ok : item
       );
 
       return {
@@ -174,8 +187,10 @@ export const listFollowingsForTimelineReducer = (
     case CREATE_RETWEET:
       const findPostRetweet = state.posts.find(
         (item) =>
-          item.id === (action.payload.tweetID && action.payload.tweetID) ||
-          item.id === (action.payload.commentID && action.payload.commentID)
+          (item.id &&
+            item.id === (action.payload.tweetID && action.payload.tweetID)) ||
+          (item.id &&
+            item.id === (action.payload.commentID && action.payload.commentID))
       );
 
       if (!findPostRetweet) {
@@ -200,8 +215,10 @@ export const listFollowingsForTimelineReducer = (
     case DELETE_RETWEET:
       const findPostRetweetDelete = state.posts.find(
         (item) =>
-          item.id === (action.payload.tweetID && action.payload.tweetID) ||
-          item.id === (action.payload.commentID && action.payload.commentID)
+          (item.id &&
+            item.id === (action.payload.tweetID && action.payload.tweetID)) ||
+          (item.id &&
+            item.id === (action.payload.commentID && action.payload.commentID))
       );
 
       if (!findPostRetweetDelete) {
@@ -212,8 +229,13 @@ export const listFollowingsForTimelineReducer = (
         (item) => item.userID !== action.payload.userID
       );
 
+      const okay = {
+        ...findPostRetweetDelete,
+        retweets: { ...findPostRetweetDelete.retweets, items: newPostRetweet },
+      };
+
       const newww = state.posts.map((item) =>
-        item.id === findPostRetweetDelete.id ? newPostRetweet : item
+        item.id === findPostRetweetDelete.id ? okay : item
       );
 
       return {
@@ -234,6 +256,7 @@ export const getPostReducer = (state = { post: {} }, action) => {
 
     case CREATE_COMMENT:
       const find =
+        state.post.id &&
         state.post.id ===
           (action.payload.commentID || action.payload.tweetID) &&
         action.payload;
@@ -252,9 +275,8 @@ export const getPostReducer = (state = { post: {} }, action) => {
       };
 
     case CREATE_LIKE:
-      const findPost =
-        state.post.id ===
-          (action.payload.commentID || action.payload.tweetID) &&
+      const findPost = state.post.id;
+      state.post.id === (action.payload.commentID || action.payload.tweetID) &&
         action.payload;
       if (!findPost) {
         return state;
@@ -272,8 +294,8 @@ export const getPostReducer = (state = { post: {} }, action) => {
 
     case DELETE_LIKE:
       const findPostDeleteLike =
-        state.post?.id === action.payload.commentID ||
-        state.post?.id === action.payload.tweetID;
+        (state.post.id && state.post.id === action.payload.commentID) ||
+        (state.post.id && state.post.id === action.payload.tweetID);
 
       if (!findPostDeleteLike) {
         return state;
@@ -293,9 +315,8 @@ export const getPostReducer = (state = { post: {} }, action) => {
 
     case CREATE_RETWEET:
       const findPostt =
-        state.post.id ===
-          (action.payload.commentID || action.payload.tweetID) &&
-        action.payload;
+        state.post.id &&
+        state.post.id === (action.payload.commentID || action.payload.tweetID);
       if (!findPostt) {
         return state;
       }
@@ -312,6 +333,7 @@ export const getPostReducer = (state = { post: {} }, action) => {
 
     case DELETE_RETWEET:
       const findPostDeleteRetweet =
+        state.post.id &&
         state.post.id ===
           (action.payload.commentID || action.payload.tweetID) &&
         action.payload;
@@ -442,7 +464,7 @@ export const getCommentReducer = (state = { postComments: [] }, action) => {
 
     case CREATE_LIKE:
       const finddPost = state.postComments.find(
-        (item) => item.id === action.payload.commentID
+        (item) => item.id && item.id === action.payload.commentID
       );
 
       if (!finddPost) {
@@ -469,7 +491,7 @@ export const getCommentReducer = (state = { postComments: [] }, action) => {
 
     case DELETE_LIKE:
       const finddPostDeleteLike = state.postComments.find(
-        (item) => item.id === action.payload.commentID
+        (item) => item.id && item.id === action.payload.commentID
       );
 
       if (!finddPostDeleteLike) {
@@ -497,7 +519,7 @@ export const getCommentReducer = (state = { postComments: [] }, action) => {
 
     case CREATE_RETWEET:
       const finddPostt = state.postComments.find(
-        (item) => item.id === action.payload.commentID
+        (item) => item.id && item.id === action.payload.commentID
       );
 
       if (!finddPostt) {
@@ -524,7 +546,7 @@ export const getCommentReducer = (state = { postComments: [] }, action) => {
 
     case DELETE_RETWEET:
       const finddPostDeleteRetweet = state.postComments.find(
-        (item) => item.id === action.payload.commentID
+        (item) => item.id && item.id === action.payload.commentID
       );
 
       if (!finddPostDeleteRetweet) {
@@ -591,7 +613,7 @@ export const commentsByUserIDReducer = (state = { replies: [] }, action) => {
 
     case CREATE_COMMENT:
       const find = state.replies.find(
-        (item) => item.id === action.payload.commentID
+        (item) => item.id && item.id === action.payload.commentID
       );
       if (!find) {
         return state;
@@ -614,8 +636,9 @@ export const commentsByUserIDReducer = (state = { replies: [] }, action) => {
 
     case CREATE_LIKE:
       const findPost = state.replies.find(
-        (item) => item.id === action.payload.commentID
+        (item) => item.id && item.id === action.payload.commentID
       );
+
       if (!findPost) {
         return state;
       }
@@ -637,7 +660,7 @@ export const commentsByUserIDReducer = (state = { replies: [] }, action) => {
 
     case DELETE_LIKE:
       const finddPostDeleteLike = state.replies.find(
-        (item) => item.id === action.payload.commentID
+        (item) => item.id && item.id === action.payload.commentID
       );
 
       if (!finddPostDeleteLike) {
@@ -665,7 +688,7 @@ export const commentsByUserIDReducer = (state = { replies: [] }, action) => {
 
     case CREATE_RETWEET:
       const findPostt = state.replies.find(
-        (item) => item.id === action.payload.commentID
+        (item) => item.id && item.id === action.payload.commentID
       );
       if (!findPostt) {
         return state;
@@ -688,7 +711,7 @@ export const commentsByUserIDReducer = (state = { replies: [] }, action) => {
 
     case DELETE_RETWEET:
       const finddPostDeleteRetweet = state.replies.find(
-        (item) => item.id === action.payload.commentID
+        (item) => item.id && item.id === action.payload.commentID
       );
 
       if (!finddPostDeleteRetweet) {
@@ -706,7 +729,7 @@ export const commentsByUserIDReducer = (state = { replies: [] }, action) => {
         };
 
         let okay = state.replies.map((item) =>
-          item.id === finddPostDeleteRetweet.id ? newPost : item
+          item.id && item.id === finddPostDeleteRetweet.id ? newPost : item
         );
 
         return {
@@ -736,7 +759,7 @@ export const mediaByUserIDReducer = (state = { media: [] }, action) => {
     case CREATE_COMMENT:
       const find = state.media.find(
         (item) =>
-          item.id === action.payload.tweetID ||
+          (item.id && item.id === action.payload.tweetID) ||
           item.id === action.payload.commentID
       );
       if (!find) {
@@ -761,7 +784,7 @@ export const mediaByUserIDReducer = (state = { media: [] }, action) => {
     case CREATE_LIKE:
       const findPost = state.media.find(
         (item) =>
-          item.id === action.payload.tweetID ||
+          (item.id && item.id === action.payload.tweetID) ||
           item.id === action.payload.commentID
       );
       if (!findPost) {
@@ -786,7 +809,7 @@ export const mediaByUserIDReducer = (state = { media: [] }, action) => {
     case DELETE_LIKE:
       const finddPostDeleteLike = state.media.find(
         (item) =>
-          item.id === action.payload.commentID ||
+          (item.id && item.id === action.payload.commentID) ||
           item.id === action.payload.tweetID
       );
 
@@ -816,7 +839,7 @@ export const mediaByUserIDReducer = (state = { media: [] }, action) => {
     case CREATE_RETWEET:
       const findPostt = state.media.find(
         (item) =>
-          item.id === action.payload.tweetID ||
+          (item.id && item.id === action.payload.tweetID) ||
           item.id === action.payload.commentID
       );
       if (!findPostt) {
@@ -841,7 +864,7 @@ export const mediaByUserIDReducer = (state = { media: [] }, action) => {
     case DELETE_RETWEET:
       const finddPostDeleteRetweet = state.media.find(
         (item) =>
-          item.id === action.payload.commentID ||
+          (item.id && item.id === action.payload.commentID) ||
           item.id === action.payload.tweetID
       );
 
@@ -889,7 +912,7 @@ export const tweetsByUserIDReducer = (state = { userTweets: [] }, action) => {
 
     case CREATE_COMMENT:
       const find = state.userTweets.find(
-        (item) => item.id === action.payload.tweetID
+        (item) => item.id && item.id === action.payload.tweetID
       );
       if (!find) {
         return state;
@@ -912,7 +935,7 @@ export const tweetsByUserIDReducer = (state = { userTweets: [] }, action) => {
 
     case CREATE_LIKE:
       const findPost = state.userTweets.find(
-        (item) => item.id === action.payload.tweetID
+        (item) => item.id && item.id === action.payload.tweetID
       );
       if (!findPost) {
         return state;
@@ -935,7 +958,7 @@ export const tweetsByUserIDReducer = (state = { userTweets: [] }, action) => {
 
     case DELETE_LIKE:
       const finddPostDeleteLike = state.userTweets.find(
-        (item) => item.id === action.payload.tweetID
+        (item) => item.id && item.id === action.payload.tweetID
       );
 
       if (!finddPostDeleteLike) {
@@ -963,7 +986,7 @@ export const tweetsByUserIDReducer = (state = { userTweets: [] }, action) => {
 
     case CREATE_RETWEET:
       const findPostt = state.userTweets.find(
-        (item) => item.id === action.payload.tweetID
+        (item) => item.id && item.id === action.payload.tweetID
       );
       if (!findPostt) {
         return state;
@@ -986,7 +1009,7 @@ export const tweetsByUserIDReducer = (state = { userTweets: [] }, action) => {
 
     case DELETE_RETWEET:
       const finddPostDeleteRetweet = state.userTweets.find(
-        (item) => item.id === action.payload.tweetID
+        (item) => item.id && item.id === action.payload.tweetID
       );
 
       if (!finddPostDeleteRetweet) {
@@ -1035,7 +1058,7 @@ export const likesByUserIDReducer = (state = { userLikes: [] }, action) => {
       const find = state.userLikes.find(
         (item) =>
           (item.tweetID && item.tweetID === action.payload.tweetID) ||
-          item.comment?.id === action.payload.commentID
+          (item.comment && item.comment.id === action.payload.commentID)
       );
 
       if (!find) {
@@ -1078,7 +1101,7 @@ export const likesByUserIDReducer = (state = { userLikes: [] }, action) => {
       const findPost = state.userLikes.find(
         (item) =>
           (item.tweetID && item.tweetID === action.payload.tweetID) ||
-          item.comment?.id === action.payload.commentID
+          (item.comment && item.comment.id === action.payload.commentID)
       );
 
       if (!findPost) {
@@ -1096,7 +1119,7 @@ export const likesByUserIDReducer = (state = { userLikes: [] }, action) => {
             },
           },
         };
-      } else if (find.comment.id) {
+      } else if (findPost.comment.id) {
         newwPost = {
           ...findPost,
           comment: {
@@ -1121,7 +1144,7 @@ export const likesByUserIDReducer = (state = { userLikes: [] }, action) => {
       const findPostt = state.userLikes.find(
         (item) =>
           (item.tweetID && item.tweetID === action.payload.tweetID) ||
-          item.comment?.id === action.payload.commentID
+          (item.comment && item.comment.id === action.payload.commentID)
       );
 
       if (!findPostt) {
@@ -1141,7 +1164,7 @@ export const likesByUserIDReducer = (state = { userLikes: [] }, action) => {
             likes: { ...findPostt.tweet.likes, items: filt },
           },
         };
-      } else if (findPostt.comment.id) {
+      } else if (findPostt.comment) {
         let filt = findPostt.comment.likes.items.filter(
           (item) => item.userID !== action.payload.userID
         );
@@ -1167,7 +1190,7 @@ export const likesByUserIDReducer = (state = { userLikes: [] }, action) => {
       const findPosttt = state.userLikes.find(
         (item) =>
           (item.tweetID && item.tweetID === action.payload.tweetID) ||
-          item.comment?.id === action.payload.commentID
+          (item.comment && item.comment.id === action.payload.commentID)
       );
 
       if (!findPosttt) {
@@ -1185,7 +1208,7 @@ export const likesByUserIDReducer = (state = { userLikes: [] }, action) => {
             },
           },
         };
-      } else if (findPosttt.comment.id) {
+      } else if (findPosttt.comment) {
         newwPosttt = {
           ...findPosttt,
           comment: {
@@ -1210,7 +1233,7 @@ export const likesByUserIDReducer = (state = { userLikes: [] }, action) => {
       const findPostDeleteRetweet = state.userLikes.find(
         (item) =>
           (item.tweetID && item.tweetID === action.payload.tweetID) ||
-          item.comment?.id === action.payload.commentID
+          (item.comment && item.comment.id === action.payload.commentID)
       );
 
       if (!findPostDeleteRetweet) {

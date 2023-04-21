@@ -26,6 +26,7 @@ const Feed = () => {
     error,
     posts,
   } = useSelector((state) => state.listFollowingsForTimeline);
+  // console.log(JSON.stringify(posts, null, 2), "posts");
 
   // const { chatRooms } = useSelector((state) => state.listUserChatRooms);
 
@@ -46,11 +47,11 @@ const Feed = () => {
   return (
     <View style={{ width: "100%" }}>
       {loadingPosts && <ActivityIndicator />}
-      {posts && (
+      {posts?.length !== 0 && (
         <FlatList
           data={posts}
+          keyExtractor={(item) => `my-Feed-${item.id}`}
           renderItem={({ item }) => <Tweet tweet={item} />}
-          keyExtractor={(item) => item.id}
           refreshing={loading}
           onRefresh={fetch}
           ListHeaderComponent={UserFleetsList}

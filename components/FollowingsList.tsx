@@ -22,8 +22,8 @@ const FollowingsList = (userFollowings: any) => {
     <View>
       <FlatList
         data={userFollowingss}
+        keyExtractor={(item: any) => `followingslist-${item.id}`}
         renderItem={({ item }) => <FollowList user={item} />}
-        keyExtractor={(item: any) => item.id}
         // refreshing={loading}
         // onRefresh={fetchTweetComments}
         // ListHeaderComponent={UserFleetsList}

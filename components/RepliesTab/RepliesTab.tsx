@@ -20,16 +20,16 @@ const RepliesTab = ({ user: { userID } }: any) => {
 
   // console.log(JSON.stringify(replies, null, 2), "replies");
 
-  useEffect(() => {
-    dispatch(getCommentsByUserID(userID));
-  }, [userID]);
+  // useEffect(() => {
+  //   dispatch(getCommentsByUserID(userID));
+  // }, [userID]);
   return (
     <View>
       {loadingReplies && <ActivityIndicator />}
       {replies && (
         <FlatList
           data={replies}
-          keyExtractor={(item: any) => item.id}
+          keyExtractor={(item: any) => `repliestab-${item.id}`}
           renderItem={({ item }) => <Tweet tweet={item} />}
           // refreshing={loading}
         />

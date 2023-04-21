@@ -62,6 +62,12 @@ import {
   listUserChatRoomss,
 } from "../Redux/Actions/ChatRoomActions";
 import { getUserr } from "../Redux/Actions/UserActions";
+import {
+  getCommentsByUserID,
+  getLikesByUserID,
+  getTweetsByUserIDAndCreatedAt,
+  mediaByUserID,
+} from "../Redux/Actions/TweetCommentActions";
 
 const UserProfile = () => {
   const route = useRoute();
@@ -97,6 +103,10 @@ const UserProfile = () => {
   useEffect(() => {
     dispatch(getFollowingsByAuthUserID(user.id));
     dispatch(getFollowersByAuthUserID(user.id));
+    dispatch(getCommentsByUserID(user.id));
+    dispatch(getTweetsByUserIDAndCreatedAt(user.id));
+    dispatch(getLikesByUserID(user.id));
+    dispatch(mediaByUserID(user.id));
   }, [user]);
 
   useLayoutEffect(() => {

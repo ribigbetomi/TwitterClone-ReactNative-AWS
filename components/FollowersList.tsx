@@ -11,7 +11,7 @@ const FollowersList = ({ userFollowers }: any) => {
       <FlatList
         data={userFollowers}
         renderItem={({ item }) => <FollowList user={item} />}
-        keyExtractor={(item: any) => item.id}
+        keyExtractor={(item: any) => `followerslist-${item.id}`}
       />
     </View>
   );

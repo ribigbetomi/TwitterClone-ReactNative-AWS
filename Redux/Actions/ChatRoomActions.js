@@ -265,7 +265,7 @@ export const listUserChatRoomss = (userID) => async (dispatch, getState) => {
     })
   );
 
-  const sortedRooms = response.data?.getUser?.chatRooms?.items?.sort(
+  const sortedRooms = response.data.getUser.chatRooms.items.sort(
     (r1, r2) =>
       new Date(r2.chatRoom.updatedAt) - new Date(r1.chatRoom.updatedAt)
   );

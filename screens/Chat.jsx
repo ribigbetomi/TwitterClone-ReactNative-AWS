@@ -111,7 +111,7 @@ const Chat = () => {
         <FlatList
           data={messagesByChatRoom}
           renderItem={({ item }) => <Message message={item} />}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => `chat-${item.id}`}
           style={styles.list}
           inverted
         />

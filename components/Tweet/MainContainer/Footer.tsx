@@ -40,6 +40,8 @@ const Footer = ({ tweet, likey }: any) => {
   const [myRetweet, setMyRetweet] = useState<any>(null);
 
   const [tweetComments, setTweetComments] = useState<number>(0);
+  const [pressed, setPressed] = useState(false);
+  const [unpressed, setUnpressed] = useState(false);
 
   useEffect(() => {
     setLikesCount(
@@ -194,9 +196,13 @@ const Footer = ({ tweet, likey }: any) => {
     }
 
     if (!myLike) {
+      setUnpressed(true);
       await submitLike();
+      setUnpressed(false);
     } else {
+      setUnpressed(true);
       await removeLike();
+      setUnpressed(false);
     }
   };
 
@@ -210,7 +216,17 @@ const Footer = ({ tweet, likey }: any) => {
 
   const submitRetweet = async () => {
     let retweet;
-    if (tweet.tweetID) {
+    if (tweet.tweet?.id && likey) {
+      retweet = {
+        userID: userInfo.id,
+        tweetID: tweet.tweetID,
+      };
+    } else if (tweet.comment?.id && likey) {
+      retweet = {
+        userID: userInfo.id,
+        commentID: tweet.comment.id,
+      };
+    } else if (tweet.tweetID) {
       retweet = {
         userID: userInfo.id,
         commentID: tweet.id,
@@ -260,9 +276,13 @@ const Footer = ({ tweet, likey }: any) => {
     }
 
     if (!myRetweet) {
+      setPressed(true);
       await submitRetweet();
+      setPressed(false);
     } else {
+      setPressed(true);
       await removeRetweet();
+      setPressed(false);
     }
   };
 
@@ -275,7 +295,7 @@ const Footer = ({ tweet, likey }: any) => {
         <Text style={styles.number}>{tweetComments ? tweetComments : ""}</Text>
       </View>
       <View style={styles.iconContainer}>
-        <TouchableOpacity onPress={onRetweet}>
+        <TouchableOpacity onPress={() => !pressed && onRetweet()}>
           <EvilIcons
             name={"retweet"}
             size={28}
@@ -285,7 +305,7 @@ const Footer = ({ tweet, likey }: any) => {
         <Text style={styles.number}>{retweetsCount ? retweetsCount : ""}</Text>
       </View>
       <View style={styles.iconContainer}>
-        <TouchableOpacity onPress={onLike}>
+        <TouchableOpacity onPress={() => !unpressed && onLike()}>
           <AntDesign
             name={!myLike ? "hearto" : "heart"}
             size={20}
