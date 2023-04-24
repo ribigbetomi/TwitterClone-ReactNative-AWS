@@ -23,6 +23,7 @@ import {
   LIKES_BY_USERID_SUCCESS,
   LIST_FOLLOWINGS_FOR_TIMELINE_FAIL,
   LIST_FOLLOWINGS_FOR_TIMELINE_REQUEST,
+  LIST_FOLLOWINGS_FOR_TIMELINE_RESET,
   LIST_FOLLOWINGS_FOR_TIMELINE_SUCCESS,
   MEDIA_BY_USERID_FAIL,
   MEDIA_BY_USERID_REQUEST,
@@ -88,6 +89,9 @@ export const listFollowingsForTimelineReducer = (
 
     case LIST_FOLLOWINGS_FOR_TIMELINE_FAIL:
       return { loading: false, error: action.payload };
+
+    case LIST_FOLLOWINGS_FOR_TIMELINE_RESET:
+      return { posts: [] };
 
     case CREATE_TWEET:
       return {
