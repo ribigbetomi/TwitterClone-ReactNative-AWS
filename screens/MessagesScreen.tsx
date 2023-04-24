@@ -86,8 +86,8 @@ export default function MessagesScreen() {
       {/* {chatRooms?.length !== 0 && ( */}
       <FlatList
         data={chatRooms}
-        keyExtractor={(item) => `messagescreen-${item.id}`}
-        renderItem={({ item }) => <ChatListItem chat={item?.chatRoom} />}
+        keyExtractor={(item) => `messagescreen-${item.chatRoom.id}`}
+        renderItem={({ item }) => <ChatListItem chat={item.chatRoom} />}
         style={{ backgroundColor: Colors[colorScheme].background }}
         refreshing={loading}
         onRefresh={fetch}

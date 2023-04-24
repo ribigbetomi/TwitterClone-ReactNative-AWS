@@ -218,7 +218,6 @@ export const listUserChatRoomsReducer = (state = { chatRooms: [] }, action) => {
       return { loading: true };
 
     case LIST_USER_CHATROOMS_SUCCESS:
-      console.log(JSON.stringify(action.payload, null, 2), "payLoad");
       return { loading: false, chatRooms: action.payload };
 
     case LIST_USER_CHATROOMS_FAIL:
