@@ -73,7 +73,7 @@ export default function SearchScreen() {
           <Text>Cancel</Text>
         </Pressable>
       </View>
-      <View>
+      <View style={{ flex: 1 }}>
         <FlatList
           data={searchWord && users}
           renderItem={({ item }) => <SearchList user={item} />}

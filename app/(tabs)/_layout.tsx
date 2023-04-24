@@ -43,39 +43,41 @@ export default function TabLayout() {
         name="index"
         component={TabOneScreen}
         options={{
-          // title: "index",
-          headerTitle: () => (
-            <Ionicons
-              name={"logo-twitter"}
-              size={30}
-              color={Colors.light.tint}
-            />
-          ),
-          headerStyle: { backgroundColor: Colors[colorScheme].background },
-          headerTitleAlign: "center",
+          headerShown: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
-          headerRight: () => (
-            <View style={{ marginRight: 15 }}>
-              <MaterialCommunityIcons
-                name={"star-four-points-outline"}
-                size={30}
-                color={Colors.light.tint}
-              />
-            </View>
-          ),
-          // headerRightContainerStyle: {
-          //   marginRight: 15,
-          // },
-          headerLeft: () => (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("UserProfile", { user: userInfo })
-              }
-              style={{ marginLeft: 15 }}
-            >
-              <ProfilePicture image={userInfo?.image} />
-            </TouchableOpacity>
-          ),
+          // title: "index",
+          // headerTitle: () => (
+          //   <Ionicons
+          //     name={"logo-twitter"}
+          //     size={30}
+          //     color={Colors.light.tint}
+          //   />
+          // ),
+          // headerStyle: { backgroundColor: Colors[colorScheme].background },
+          // headerTitleAlign: "center",
+          // tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          // headerRight: () => (
+          //   <View style={{ marginRight: 15 }}>
+          //     <MaterialCommunityIcons
+          //       name={"star-four-points-outline"}
+          //       size={30}
+          //       color={Colors.light.tint}
+          //     />
+          //   </View>
+          // ),
+          // // headerRightContainerStyle: {
+          // //   marginRight: 15,
+          // // },
+          // headerLeft: () => (
+          //   <TouchableOpacity
+          //     onPress={() =>
+          //       navigation.navigate("UserProfile", { user: userInfo })
+          //     }
+          //     style={{ marginLeft: 15 }}
+          //   >
+          //     <ProfilePicture image={userInfo?.image} />
+          //   </TouchableOpacity>
+          // ),
           // headerLeftContainerStyle: {
           //   marginLeft: 15,
           //   // marginRight: "28%",

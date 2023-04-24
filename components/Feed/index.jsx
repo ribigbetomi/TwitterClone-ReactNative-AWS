@@ -40,7 +40,7 @@ const Feed = () => {
   }, [userInfo.id]);
 
   return (
-    <View style={{ width: "100%" }}>
+    <View style={{ width: "100%", flex: 1 }}>
       {loadingPosts && <ActivityIndicator />}
       {posts?.length !== 0 && !loadingPosts && (
         <FlatList

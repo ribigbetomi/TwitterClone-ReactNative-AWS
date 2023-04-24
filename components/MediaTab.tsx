@@ -29,14 +29,14 @@ const MediaTab = ({ user: { userID } }: any) => {
     setNowLoading(false);
   }, []);
 
-  if (nowLoading) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-        <ActivityIndicator />
-      </View>
-    );
-  }
+  // if (nowLoading) {
+  //   return (
+  //     <View>
+  //       <Text>Loading...</Text>
+  //       <ActivityIndicator />
+  //     </View>
+  //   );
+  // }
   return (
     <View>
       {/* {nowLoading && <ActivityIndicator />} */}
@@ -45,6 +45,7 @@ const MediaTab = ({ user: { userID } }: any) => {
           data={media}
           keyExtractor={(item: any) => `mediatab-${item.id}`}
           renderItem={({ item }) => <Tweet tweet={item} />}
+          refreshing={loading}
         />
       )}
     </View>
