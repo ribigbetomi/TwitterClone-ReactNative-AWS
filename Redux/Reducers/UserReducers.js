@@ -3,6 +3,7 @@ import {
   GET_USER,
   LIST_USERS,
   LIST_USERS_RESET,
+  RESET_USER,
 } from "../Constants/UserConstants";
 
 export const userDetailsReducer = (state = { userInfo: {} }, action) => {
@@ -12,6 +13,9 @@ export const userDetailsReducer = (state = { userInfo: {} }, action) => {
 
     case CREATE_USER:
       return { loading: false, userInfo: action.payload };
+
+    case RESET_USER:
+      return { userInfo: {} };
     default:
       return state;
   }
@@ -20,7 +24,6 @@ export const userDetailsReducer = (state = { userInfo: {} }, action) => {
 export const listUsersReducer = (state = { users: [] }, action) => {
   switch (action.type) {
     case LIST_USERS:
-      // console.log(action.payload, "actionUsers");
       return { loading: false, users: action.payload };
 
     case LIST_USERS_RESET:

@@ -14,6 +14,7 @@ import { onCreateComment } from "../../src/graphql/subscriptions";
 import { listFollowings } from "../../src/queries/FollowsByAuthUserID";
 import { getComment } from "../../src/queries/getComment";
 import { commentsByTweetIDAndCreatedAt } from "../../src/queries/tweetCommentsQuery";
+import { LIST_MESSAGES_BY_CHATROOM_RESET } from "../Constants/ChatRoomConstants";
 import {
   CREATE_LIKE,
   CREATE_RETWEET,
@@ -23,6 +24,7 @@ import {
   LIST_FOLLOWINGS_FOR_TIMELINE_FAIL,
   LIST_FOLLOWINGS_FOR_TIMELINE_REQUEST,
   LIST_FOLLOWINGS_FOR_TIMELINE_SUCCESS,
+  LIST_FOLLOWINGS_FOR_TIMELINE_RESET,
   MEDIA_BY_USERID_REQUEST,
   MEDIA_BY_USERID_RESET,
   MEDIA_BY_USERID_SUCCESS,
@@ -96,6 +98,13 @@ export const listFollowingsForTimeline = (userID) => async (dispatch) => {
           : error.message,
     });
   }
+};
+
+export const clearFeed = () => async (dispatch) => {
+  dispatch({
+    type: LIST_FOLLOWINGS_FOR_TIMELINE_RESET,
+    payload: [],
+  });
 };
 
 export const getPost = (tweet) => async (dispatch) => {

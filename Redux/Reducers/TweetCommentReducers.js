@@ -91,7 +91,7 @@ export const listFollowingsForTimelineReducer = (
       return { loading: false, error: action.payload };
 
     case LIST_FOLLOWINGS_FOR_TIMELINE_RESET:
-      return { posts: [] };
+      return { posts: action.payload };
 
     case CREATE_TWEET:
       return {

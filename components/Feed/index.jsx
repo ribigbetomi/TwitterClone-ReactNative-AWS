@@ -19,35 +19,30 @@ const Feed = () => {
 
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.userDetails);
-  // console.log(JSON.stringify(userInfo?.id), "userInfoFEED");
 
   const {
     loading: loadingPosts,
     error,
     posts,
   } = useSelector((state) => state.listFollowingsForTimeline);
-  // console.log(JSON.stringify(posts, null, 2), "posts");
-
-  // const { chatRooms } = useSelector((state) => state.listUserChatRooms);
 
   const fetch = async () => {
-    if (userInfo.id) {
-      setLoading(true);
-      dispatch(listFollowingsForTimeline(userInfo.id));
-      setLoading(false);
-    }
+    setLoading(true);
+    dispatch(listFollowingsForTimeline(userInfo.id));
+
+    setLoading(false);
   };
 
   useEffect(() => {
-    if (userInfo?.id) {
+    if (userInfo.id) {
       fetch();
     }
-  }, [userInfo?.id]);
+  }, [userInfo.id]);
 
   return (
     <View style={{ width: "100%" }}>
       {loadingPosts && <ActivityIndicator />}
-      {posts?.length !== 0 && (
+      {posts?.length !== 0 && !loadingPosts && (
         <FlatList
           data={posts}
           keyExtractor={(item) => `my-Feed-${item.id}`}

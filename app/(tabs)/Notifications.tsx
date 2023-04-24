@@ -1,17 +1,18 @@
 import { Auth } from "aws-amplify";
 import { Button } from "react-native";
 import { StyleSheet } from "react-native";
-import { useDispatch } from "react-redux";
-
-import EditScreenInfo from "../../components/EditScreenInfo";
+import { useDispatch, useSelector } from "react-redux";
 import { Text, View } from "../../components/Themed";
-import { LIST_FOLLOWINGS_FOR_TIMELINE_RESET } from "../../Redux/Constants/TweetCommentConstants";
+import { clearFeed } from "../../Redux/Actions/TweetCommentActions";
+import { resetUser } from "../../Redux/Actions/UserActions";
 
 export default function TabThreeScreen() {
   const dispatch = useDispatch<any>();
 
   const onPress = () => {
-    dispatch({ type: LIST_FOLLOWINGS_FOR_TIMELINE_RESET });
+    dispatch(clearFeed());
+    dispatch(resetUser());
+
     Auth.signOut();
   };
   return (

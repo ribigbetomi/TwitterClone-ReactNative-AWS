@@ -3,6 +3,7 @@ import {
   CREATE_USER,
   GET_USER,
   LIST_USERS,
+  RESET_USER,
   SAVE_USER_TO_DB,
 } from "../Constants/UserConstants";
 import { getUser } from "./../../src/queries/getUserQuery";
@@ -23,6 +24,13 @@ export const createNewUser = (user) => async (dispatch) => {
   dispatch({
     type: CREATE_USER,
     payload: user,
+  });
+};
+
+export const resetUser = () => async (dispatch) => {
+  dispatch({
+    type: RESET_USER,
+    payload: {},
   });
 };
 
